@@ -1,5 +1,6 @@
 const htmlwebpackplugin = require('html-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const path = require('path');
 
 const src = path.resolve(__dirname, './src');
@@ -38,6 +39,7 @@ const config = {
         use: [
           miniCssExtractPlugin.loader,
           'css-loader',
+          // 'postcss-loader'
           'sass-loader'
         ]
       },
@@ -66,7 +68,8 @@ const config = {
     new miniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'
-    })
+    }),
+    new FaviconsWebpackPlugin(`${src}/assets/favicon-flying.png`)
   ],
   devServer: {
     contentBase: dist
