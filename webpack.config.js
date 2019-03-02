@@ -1,10 +1,12 @@
 const htmlwebpackplugin = require('html-webpack-plugin');
 const path = require('path');
 
-const data = require(
-  path.resolve(__dirname, './src/data.json')
-);
+const src = path.resolve(__dirname, './src');
+const build = path.resolve(__dirname, './build');
+const dataFile =  `${src}/data.json`;
+const data = require(dataFile);
 
+console.log(dataFile);
 
 // TODO Preffiry pug output if development mode?
 
@@ -40,9 +42,12 @@ const config = {
   plugins: [
     new htmlwebpackplugin({
       file: 'index.html',
-      template: './src/index.pug'
+      template: `${src}/index.pug`
     })
-  ]
+  ],
+  devServer: {
+    contentBase: build
+  }
 };
 
 module.exports = config;
