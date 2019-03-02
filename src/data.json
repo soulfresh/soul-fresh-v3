@@ -1,0 +1,173 @@
+{
+  "projects": [
+    {
+      "name": "Flash Development",
+      "tools": ["Actionscript", "HTML", "Javascript", "Fash"],
+      "year": 2003,
+      "company": "Xylem Interactive",
+      "positions": ["Designer and Web Developer"],
+      "clients": ["Chipotle", "McDonalds", "Jeppesen", "Red Robin"],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "Processing & OpenFrameworks",
+      "tools": ["Processing", "OpenFrameworks", "OpenGL"],
+      "year": 2008,
+      "company": "",
+      "positions": [],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "Beatport",
+      "tools": ["Actionscript", "PHP", "Python", "Talend ETL"],
+      "year": 2006,
+      "company": "",
+      "positions": ["Software Developer", "Director of Software Development", "Product Manager"],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "PowerPro",
+      "tools": ["Angular", "Javascript", "SCSS"],
+      "year": 2018,
+      "company": "PowerPro",
+      "positions": ["Software Developer"],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "BitMod",
+      "tools": ["C++", "Arduino", "ESP32", "NodeJS", "Javascript"],
+      "year": 2019,
+      "company": "",
+      "positions": [],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "ReadyTalk",
+      "tools": ["AngularJS", "Javascript", "SCSS"],
+      "year": 2016,
+      "company": "ReadyTalk",
+      "positions": ["Software Developer"],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "Ello",
+      "tools": ["Javascript", "LESS"],
+      "year": 2015,
+      "company": "Ello",
+      "positions": ["Software Developer"],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "ManiaTV!",
+      "tools": ["Javascript", "Photoshop", "Illustrator"],
+      "year": 2005,
+      "company": "ManiaTV!",
+      "positions": ["UI Developer", "Creative Director"],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "Art Work",
+      "tools": [],
+      "year": 2002,
+      "company": "",
+      "positions": [],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "slideshow",
+        "src": null
+      }
+    }, {
+      "name": "Shutterstock",
+      "tools": [],
+      "year": 2014,
+      "company": "Shutterstock",
+      "positions": ["Product Manager"],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "SF FreeFrame",
+      "tools": ["C++", "OpenFrameworks", "FreeFrame", "OpenGL"],
+      "year": 2011,
+      "company": "",
+      "positions": [],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "Echo Machine",
+      "tools": [],
+      "year": 2009,
+      "company": "",
+      "positions": [],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "video",
+        "src": null
+      }
+    }, {
+      "name": "Moongold",
+      "tools": [],
+      "year": 2011,
+      "company": "",
+      "positions": [],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "music",
+        "src": null
+      }
+    }, {
+      "name": "Move Shake Pause Repeat",
+      "tools": [],
+      "year": 2018,
+      "company": "",
+      "positions": [],
+      "clients": [],
+      "link": null,
+      "preview": {
+        "type": "music",
+        "src": null
+      }
+    }
+  ]
+}

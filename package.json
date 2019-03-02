@@ -1,0 +1,45 @@
+{
+  "name": "soul-fresh-v3",
+  "version": "0.0.1",
+  "description": "soul-fresh website",
+  "scripts": {
+    "test": "test",
+    "webpack-dev": "webpack --watch --mode development",
+    "webpack-prod": "webpack --mode production",
+    "develop": "sane 'npm run build' src",
+    "build": "npm run build-assets && npm run build-styles && npm run build-scripts && npm run build-html",
+    "build-html": "node ./scripts/build-html.js",
+    "build-assets": "copyfiles -u 2 src/assets/* build/assets",
+    "build-styles": "copyfiles -u 2 src/styles/* build/styles",
+    "build-scripts": "copyfiles -u 2 src/scripts/* build/scripts",
+    "serve": "reload -b -d build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soulfresh/soul-fresh-v3.git"
+  },
+  "author": "Marc Wren",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/soulfresh/soul-fresh-v3/issues"
+  },
+  "homepage": "https://github.com/soulfresh/soul-fresh-v3#readme",
+  "dependencies": {
+    "html-loader": "^0.5.5",
+    "pug-html-loader": "^1.1.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-loader": "^8.0.5",
+    "copyfiles": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "http-server": "^0.11.1",
+    "pug": "^2.0.3",
+    "pug-loader": "^2.4.0",
+    "reload": "^2.4.0",
+    "sane": "^4.0.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  }
+}

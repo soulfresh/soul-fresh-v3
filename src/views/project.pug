@@ -1,0 +1,41 @@
+.project
+  h2.project-name= project.name
+
+  //- YEAR
+  h3.project-year= project.year
+
+  //- COMPANY
+  if project.company
+    .project-company
+      h4= project.company
+      ul
+        each position in project.positions
+          li= position
+
+  //- TOOLS
+  if project.tools && project.tools.length > 0
+    .project-tools
+      ul
+        each tool in project.tools
+          li= tool
+
+  //- CLIENTS
+  if project.clients && project.clients.length > 0
+    .project-clients
+      ul
+        each client in project.clients
+          li= client
+
+  //- LINK
+  if project.link
+    .project-link
+      a(href=project.link) project.link
+
+  //- PREVIEW
+  case project.preview.type
+    when 'video'
+      .project-preview.video= 'Video'
+    when 'music'
+      .project-preview.music= 'Music'
+    when 'slideshow'
+      .project-preview.slideshow= 'Slideshow'

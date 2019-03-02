@@ -1,0 +1,8 @@
+extends views/layout
+
+block content
+  - projects.sort((a, b) => b.year - a.year)
+  #work
+    each project in projects
+      include views/project.pug
+
