@@ -1,19 +1,28 @@
 const htmlwebpackplugin = require('html-webpack-plugin');
+const miniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 const src = path.resolve(__dirname, './src');
-const build = path.resolve(__dirname, './build');
+const dist = path.resolve(__dirname, './dist');
 const dataFile =  `${src}/data.json`;
 const data = require(dataFile);
 
-console.log(dataFile);
-
-// TODO Preffiry pug output if development mode?
+const production = process.argv.join(' ').indexOf('production') > -1;
+console.log(
+  production
+    ? '--- PRODUCTION BUILD ---'
+    : '--- DEVELOPMENT BUILD ---'
+);
 
 const config = {
-  entry: './src/scripts/index.js',
+  entry: {
+    index: [
+      `${src}/index.js`,
+      `${src}/main.scss`
+    ]
+  },
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].js'
   },
   module: {
@@ -24,15 +33,25 @@ const config = {
         use: 'babel-loader'
       },
       {
-        test: /\.pug$/,
+        test: /\.s?css$/,
         exclude: /node_modules/,
+        use: [
+          miniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.pug$/,
+        exclude: [
+          /node_modules/
+        ],
         use: [
           'html-loader?attrs=false',
           {
             loader: 'pug-html-loader',
             options: {
-              data: data,
-              pretty: true
+              data: data
             }
           }
         ]
@@ -43,10 +62,14 @@ const config = {
     new htmlwebpackplugin({
       file: 'index.html',
       template: `${src}/index.pug`
+    }),
+    new miniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     })
   ],
   devServer: {
-    contentBase: build
+    contentBase: dist
   }
 };
 
