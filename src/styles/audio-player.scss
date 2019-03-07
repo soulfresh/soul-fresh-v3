@@ -1,0 +1,11 @@
+.album-image {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+
+  .bandcamp-album {
+    opacity: 0.96;
+  }
+}

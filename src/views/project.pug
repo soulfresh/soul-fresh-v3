@@ -1,41 +1,46 @@
-.project
-  h2.project-name= project.name
+.project(name="project")
+  h2.project-name(name="name")= project.name
 
   //- YEAR
-  h3.project-year= project.year
+  .project-year(name="year")
+    h3= project.year
 
-  //- COMPANY
-  if project.company
-    .project-company
-      h4= project.company
-      ul
-        each position in project.positions
-          li= position
+  .details
+    //- COMPANY
+    if project.company
+      .project-company(name="company")
+        h4= project.company
+        ul
+          each position in project.positions
+            li= position
 
-  //- TOOLS
-  if project.tools && project.tools.length > 0
-    .project-tools
-      ul
-        each tool in project.tools
-          li= tool
+    //- TOOLS
+    if project.tools && project.tools.length > 0
+      .project-tools(name="tools")
+        ul
+          each tool in project.tools
+            li= tool
 
-  //- CLIENTS
-  if project.clients && project.clients.length > 0
-    .project-clients
-      ul
-        each client in project.clients
-          li= client
+    //- CLIENTS
+    if project.clients && project.clients.length > 0
+      .project-clients(name="clients")
+        ul
+          each client in project.clients
+            li= client
 
-  //- LINK
-  if project.link
-    .project-link
-      a(href=project.link) project.link
+    //- LINK
+    if project.link
+      .project-link(name="link")
+        a(href=project.link.url)
+          = project.link.title
 
   //- PREVIEW
   case project.preview.type
     when 'video'
-      .project-preview.video= 'Video'
+      .project-preview.video(name="preview", data-type="video")
+        include video-player.pug
     when 'music'
-      .project-preview.music= 'Music'
+      .project-preview.music(name="preview" data-type="music")
+        include audio-player.pug
     when 'slideshow'
-      .project-preview.slideshow= 'Slideshow'
+      .project-preview.slideshow(name="preview", data-type="slideshow")= 'Slideshow'

@@ -4,7 +4,7 @@
   "description": "soul-fresh website",
   "scripts": {
     "test": "test",
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --open --devtool inline-source-map",
     "build": "webpack --mode production"
   },
   "repository": {
@@ -17,7 +17,11 @@
     "url": "https://github.com/soulfresh/soul-fresh-v3/issues"
   },
   "homepage": "https://github.com/soulfresh/soul-fresh-v3#readme",
-  "dependencies": {},
+  "dependencies": {
+    "eventemitter3": "^3.1.0",
+    "lodash": "^4.17.11",
+    "jquery": "^3.3.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",

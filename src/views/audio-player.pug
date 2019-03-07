@@ -1,0 +1,20 @@
+-
+  var src = "https://bandcamp.com/EmbeddedPlayer"
+  src += "/album=" + project.preview.meta.id
+  src += "/size=large"
+  src += "/bgcol=ffffff"
+  src += "/linkcol=000000"
+  src += "/artwork=none"
+  src += "/transparent=true/"
+.album-image(
+  style=`background-image: url(${project.preview.meta.img});`
+)
+  iframe.bandcamp-album(
+    style="border: 0; width: 400px; height: 406px;",
+    src=src,
+    seamless
+  )
+    a(
+      href=project.link.url
+    ) project.link.title
+

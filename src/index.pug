@@ -2,7 +2,11 @@ extends views/layout
 
 block content
   - projects.sort((a, b) => b.year - a.year)
-  #work
-    each project in projects
-      include views/project.pug
+  .header(name="header")
+    h1
+      <span class="soul">Soul</span><span class="fresh">Fresh</span>
+  .content(name="root")
+    #work.work
+      each project in projects
+        include views/project.pug
 

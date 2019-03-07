@@ -1,0 +1,8 @@
+.video-container(name="videoContainer")
+  .play-video(name="playVideo")
+    i.fas.fa-play-circle
+  video(loop, name="video", muted="true")
+    source(
+      src="assets/video/" + project.preview.src[0],
+      type="video/webm"
+    )

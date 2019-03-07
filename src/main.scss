@@ -1,4 +1,121 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:900|Quicksand:300);
+
+$f-fat: 'Raleway', serif;
+$f-thin: 'Quicksand', 'Helvetica', sans-serif;
+
+@mixin title-font {
+  font-family: $f-fat;
+  font-weight: 900;
+  font-size: 2em;
+}
+
 body {
   padding: 0;
   margin: 0;
+  font-family: 'Helvetica', sans-serif;
 }
+
+.header {
+  background-color: white;
+  padding: 50px;
+
+  h1 {
+    margin: 0;
+    font-size: 3em;
+  }
+
+  .soul {
+    font-family: $f-thin;
+  }
+  
+  .fresh {
+    font-family: $f-fat;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.work {
+  // flex-grow: 1;
+  flex-basis: 50%;
+  padding-left: 10%;
+  padding-right: 20px;
+  background-color: white;
+  box-shadow: 0px 0 150px 0px rgba(0, 0, 0, 0.28);
+}
+
+.years {
+  @include title-font;
+  position: fixed;
+  // left: 20px;
+  // transition: top ease-out 150ms;
+}
+
+.project {
+  position: relative;
+}
+
+.details {
+  position: absolute;
+  left: 100%;
+  padding-left: 25px;
+}
+
+.project-year {
+  h3 {
+    transform: translateY(50px) rotate(-90deg);
+    width: 50px;
+    margin: 0;
+  }
+}
+
+.project-name {
+  display: inline-block;
+  // @include title-font;
+  font-family: $f-thin;
+  font-size: 2em;
+  margin-top: 0;
+  margin-left: -10px;
+  padding: 5px 10px;
+  color: white;
+}
+
+.project-preview {
+  padding-bottom: 150px;
+}
+
+.colors {
+  width: 8px;
+  height: calc(100vh + 200px);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  
+  .color-box {
+    flex-grow: 1;
+  }
+}
+
+.description-boxes {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: fixed;
+  right: 0;
+  width: 50%;
+  z-index: -1;
+
+  .description-box {
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}
+
+@import './styles/video-player.scss';
+@import './styles/audio-player.scss';

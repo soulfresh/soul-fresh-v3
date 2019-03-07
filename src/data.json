@@ -10,7 +10,7 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": null
+        "src": ["Flash.webm"]
       }
     }, {
       "name": "Processing & OpenFrameworks",
@@ -22,7 +22,7 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": null
+        "src": ["OpenGL.webm"]
       }
     }, {
       "name": "Beatport",
@@ -34,7 +34,7 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": null
+        "src": ["Beatport.webm"]
       }
     }, {
       "name": "PowerPro",
@@ -46,7 +46,7 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": null
+        "src": ["Flash.webm"]
       }
     }, {
       "name": "BitMod",
@@ -58,7 +58,7 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": null
+        "src": ["Flash.webm"]
       }
     }, {
       "name": "ReadyTalk",
@@ -70,7 +70,7 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": null
+        "src": ["Foxden.webm"]
       }
     }, {
       "name": "Ello",
@@ -82,31 +82,7 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": null
-      }
-    }, {
-      "name": "ManiaTV!",
-      "tools": ["Javascript", "Photoshop", "Illustrator"],
-      "year": 2005,
-      "company": "ManiaTV!",
-      "positions": ["UI Developer", "Creative Director"],
-      "clients": [],
-      "link": null,
-      "preview": {
-        "type": "video",
-        "src": null
-      }
-    }, {
-      "name": "Art Work",
-      "tools": [],
-      "year": 2002,
-      "company": "",
-      "positions": [],
-      "clients": [],
-      "link": null,
-      "preview": {
-        "type": "slideshow",
-        "src": null
+        "src": ["Ello.webm"]
       }
     }, {
       "name": "Shutterstock",
@@ -118,19 +94,7 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": null
-      }
-    }, {
-      "name": "SF FreeFrame",
-      "tools": ["C++", "OpenFrameworks", "FreeFrame", "OpenGL"],
-      "year": 2011,
-      "company": "",
-      "positions": [],
-      "clients": [],
-      "link": null,
-      "preview": {
-        "type": "video",
-        "src": null
+        "src": ["Shutterstock.webm"]
       }
     }, {
       "name": "Echo Machine",
@@ -142,7 +106,7 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": null
+        "src": ["Flash.webm"]
       }
     }, {
       "name": "Moongold",
@@ -151,10 +115,17 @@
       "company": "",
       "positions": [],
       "clients": [],
-      "link": null,
+      "link": {
+        "title": "Bandcamp",
+        "url": "http://moongoldmusic.bandcamp.com" 
+      },
       "preview": {
         "type": "music",
-        "src": null
+        "src": [],
+        "meta": {
+          "id": 513497906,
+          "img": "https://f4.bcbits.com/img/a4204002963_16.jpg"
+        }
       }
     }, {
       "name": "Move Shake Pause Repeat",
@@ -163,10 +134,17 @@
       "company": "",
       "positions": [],
       "clients": [],
-      "link": null,
+      "link": {
+        "title": "Bandcamp",
+        "url": "http://moveshakepauserepeat.bandcamp.com/album/move-shake-pause-repeat" 
+      },
       "preview": {
         "type": "music",
-        "src": null
+        "src": [],
+        "meta": {
+          "id": 4267962352,
+          "img": "https://f4.bcbits.com/img/a1231200312_16.jpg"
+        }
       }
     }
   ]
