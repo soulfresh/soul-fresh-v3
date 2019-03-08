@@ -1,7 +1,12 @@
 import $ from 'jquery';
+import data from './data.json';
 import { throttle } from 'lodash';
 import { Players } from './scripts/video-player';
 import { Dimensions } from './scripts/dimensions';
+import { Projects } from './scripts/projects';
+
+
+const projectData = data.projects.sort((a, b) => b.year - a.year);
 
 const selectors = {
   root: '[name=root]',
@@ -23,10 +28,10 @@ function createBoxes(root, total, name, classes) {
   }
 }
 
-function colorize(elements, style) {
+function colorize(elements, style, saturation='50%', lightness='50%') {
   elements.each((i) => {
     const hue = (360 / elements.length) * i;
-    const color = `hsla(${hue}, 50%, 50%, 1)`;
+    const color = `hsla(${hue}, ${saturation}, ${lightness}, 1)`;
     elements.eq(i).css(style, color);
   });
 }
@@ -44,7 +49,7 @@ const colorBoxContainer = $('<div name="colorBoxes" class="colors"></div>');
 const descriptionBoxContainer = $('<div name="descriptionBoxes" class="description-boxes"></div>');
 const dimensions = new Dimensions();
 
-const yearsSizeRatio = 0.7;
+const yearsSizeRatio = 0.3;
 const descriptionBoxRatio = 1.5;
 
 // Move Year elements into their own container.
@@ -59,7 +64,7 @@ createBoxes(descriptionBoxContainer, years.length, 'descriptionBox', 'descriptio
 const descriptionBoxes = $(selectors.descriptionBox);
 
 colorize($(selectors.colorBox), 'background-color');
-colorize(descriptionBoxes, 'background-color');
+colorize(descriptionBoxes, 'background-color', '75%', '75%');
 colorize($(selectors.projectTitle), 'background-color');
 colorize(years, 'color');
 
@@ -100,6 +105,26 @@ const resizeDescriptionBoxes = () => {
 }
 resizeDescriptionBoxes();
 
+const projectsHelper = new Projects();
+projectsHelper.init(work);
+
+projectsHelper.on('focused', (i) => {
+  // TODO Remove this in favor of DOM attributes.
+  if (projectData[i].preview.type === 'video') {
+    const video = projects[i].querySelector('video');
+    players.play(video);
+  }
+  years.eq(i).addClass('focused');
+});
+
+projectsHelper.on('hidden', (i) => {
+  if (projectData[i].preview.type === 'video') {
+    const video = projects[i].querySelector('video');
+    players.pause(video);
+  }
+  years.eq(i).removeClass('focused');
+});
+
 // Setup video players.
 const players = new Players();
 players.init(work);
@@ -109,41 +134,48 @@ const parallax = () => {
   const yMove = (dimensions.scrollH * scrolled) * yearsSizeRatio;
   const dMove = (dimensions.scrollH * scrolled) * descriptionBoxRatio;
   const bMove = (boxesH - dimensions.viewportH) * scrolled;
-  // console.log(scrolled, html.scrollTop(), dimensions.scrollH, yMove);
 
   yearsContainer.css('transform', `translateY(-${yMove}px)`);
   descriptionBoxContainer.css('transform', `translateY(-${dMove}px)`);
   colorBoxContainer.css('transform', `translateY(-${bMove}px)`);
 };
 
-const focusPlayers = throttle(players.focus.bind(players), 500, {leading: false, trailing: true});
+const focusTracker = throttle(
+  projectsHelper.testFocus.bind(projectsHelper),
+  500,
+  {leading: false, trailing: true}
+);
 
 const onScroll = () => {
   parallax();
-  focusPlayers(dimensions.viewportH);
+  focusTracker(dimensions.viewportH);
+};
+
+const onResize = () => {
+  dimensions.update();
+  resizeBottomPadding();
+  resizeYears();
+  resizeDescriptionBoxes();
+
+  // Listen to scroll events on the body.
+  onScroll();
 };
 
 const ready = () => {
-  if (players.ready && documentReady) {
-    requestAnimationFrame(() => {
-      console.log('PAGE READY');
-      dimensions.update();
-      resizeBottomPadding();
-      resizeYears();
-      resizeDescriptionBoxes();
-
-      // Listen to scroll events on the body.
-      onScroll();
-      win.scroll(onScroll);
-    });
-  }
+  requestAnimationFrame(() => {
+    onResize();
+  });
 }
 
 players.once('ready', () => {
   ready();
 });
 
-$(document).ready(() => {
+win.on('load', () => {
   documentReady = true;
   ready();
 });
+
+win.on('resize', onResize);
+win.scroll(onScroll);
+

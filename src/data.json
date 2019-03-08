@@ -2,19 +2,31 @@
   "projects": [
     {
       "name": "Flash Development",
-      "tools": ["Actionscript", "HTML", "Javascript", "Fash"],
+      "tools": [
+        "Actionscript",
+        "Javascript",
+        "Flash",
+        "After Effects"
+      ],
       "year": 2003,
       "company": "Xylem Interactive",
-      "positions": ["Designer and Web Developer"],
+      "positions": ["Designer", "Web Developer", "Animator"],
       "clients": ["Chipotle", "McDonalds", "Jeppesen", "Red Robin"],
       "link": null,
       "preview": {
         "type": "video",
-        "src": ["Flash.webm"]
+        "src": ["Flash.webm", "Flash.mp4"]
       }
     }, {
       "name": "Processing & OpenFrameworks",
-      "tools": ["Processing", "OpenFrameworks", "OpenGL"],
+      "tools": [
+        "Processing",
+        "OpenFrameworks",
+        "OpenGL",
+        "FreeFrame",
+        "C++",
+        "Java"
+      ],
       "year": 2008,
       "company": "",
       "positions": [],
@@ -22,35 +34,55 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": ["OpenGL.webm"]
+        "src": ["OpenGL.webm", "OpenGL.mp4"]
       }
     }, {
       "name": "Beatport",
-      "tools": ["Actionscript", "PHP", "Python", "Talend ETL"],
+      "tools": [
+        "Actionscript",
+        "Javascript",
+        "PHP",
+        "MySQL"
+      ],
       "year": 2006,
-      "company": "",
-      "positions": ["Software Developer", "Director of Software Development", "Product Manager"],
+      "company": "Beatport",
+      "positions": [
+        "Product Manager",
+        "Director of Software Development",
+        "Software Developer"
+      ],
       "clients": [],
       "link": null,
       "preview": {
         "type": "video",
-        "src": ["Beatport.webm"]
+        "src": ["Beatport.webm", "Beatport.mp4"]
       }
     }, {
-      "name": "PowerPro",
-      "tools": ["Angular", "Javascript", "SCSS"],
+      "name": "PowerPro Reporting Dashboard",
+      "tools": [
+        "Angular",
+        "Javascript",
+        "SCSS"
+      ],
       "year": 2018,
-      "company": "PowerPro",
+      "company": "PowerPro Leasing",
       "positions": ["Software Developer"],
       "clients": [],
       "link": null,
       "preview": {
         "type": "video",
-        "src": ["Flash.webm"]
+        "src": ["Flash.webm", "Flash.mp4"]
       }
     }, {
       "name": "BitMod",
-      "tools": ["C++", "Arduino", "ESP32", "NodeJS", "Javascript"],
+      "tools": [
+        "C++",
+        "Arduino",
+        "ESP32",
+        "NodeJS",
+        "Javascript",
+        "Vue.js"
+      ],
       "year": 2019,
       "company": "",
       "positions": [],
@@ -58,11 +90,16 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": ["Flash.webm"]
+        "src": ["Flash.webm", "Flash.mp4"]
       }
     }, {
-      "name": "ReadyTalk",
-      "tools": ["AngularJS", "Javascript", "SCSS"],
+      "name": "FoxDen",
+      "tools": [
+        "AngularJS",
+        "Javascript",
+        "SCSS",
+        "NodeJS"
+      ],
       "year": 2016,
       "company": "ReadyTalk",
       "positions": ["Software Developer"],
@@ -70,11 +107,14 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": ["Foxden.webm"]
+        "src": ["Foxden.webm", "Foxden.mp4"]
       }
     }, {
-      "name": "Ello",
-      "tools": ["Javascript", "LESS"],
+      "name": "Ello Social Network",
+      "tools": [
+        "Javascript",
+        "LESS"
+      ],
       "year": 2015,
       "company": "Ello",
       "positions": ["Software Developer"],
@@ -82,10 +122,10 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": ["Ello.webm"]
+        "src": ["Ello.webm", "Ello.mp4"]
       }
     }, {
-      "name": "Shutterstock",
+      "name": "Shutterstock Music",
       "tools": [],
       "year": 2014,
       "company": "Shutterstock",
@@ -94,7 +134,7 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": ["Shutterstock.webm"]
+        "src": ["Shutterstock.webm", "Shutterstock.mp4"]
       }
     }, {
       "name": "Echo Machine",
@@ -106,11 +146,12 @@
       "link": null,
       "preview": {
         "type": "video",
-        "src": ["Flash.webm"]
+        "src": ["Flash.webm", "Flash.mp4"]
       }
     }, {
       "name": "Moongold",
-      "tools": [],
+      "tools": [
+      ],
       "year": 2011,
       "company": "",
       "positions": [],
@@ -129,7 +170,8 @@
       }
     }, {
       "name": "Move Shake Pause Repeat",
-      "tools": [],
+      "tools": [
+      ],
       "year": 2018,
       "company": "",
       "positions": [],

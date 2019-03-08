@@ -4,11 +4,11 @@ export class Dimensions {
   constructor() {
     this.html = $('html');
     this.update();
-    $(window).on('resize', () => this.update());
   }
 
   scrollPercent() {
-    return this.html.scrollTop() / this.scrollH;
+    // return this.html.scrollTop() / this.scrollH;
+    return window.pageYOffset / this.scrollH;
   }
 
   update() {

@@ -2,7 +2,12 @@
   .play-video(name="playVideo")
     i.fas.fa-play-circle
   video(loop, name="video", muted="true")
-    source(
-      src="assets/video/" + project.preview.src[0],
-      type="video/webm"
-    )
+    each source in project.preview.src
+      -
+        var parts = source.split('.');
+        var type = parts[parts.length - 1];
+
+      source(
+        src="assets/video/" + source,
+        type="video/" + type
+      )

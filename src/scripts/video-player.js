@@ -25,34 +25,46 @@ export class Players extends EventEmitter {
     this.root = root;
     this.containers = $(this.root).find(selectors.container);
     this.videos = this.containers.find(selectors.video);
-    this.playersReady();
+    this.waitForPlayersReady();
     this.initPlayButtons();
   }
 
-  playersReady() {
+  testIfPlayersAreReady() {
+    if (this.playersLoaded = this.videos.length) {
+      this.ready = true;
+      this.emit('ready');
+    }
+  }
+
+  waitForPlayersReady() {
     this.videos.each((i, v) => {
-      v.addEventListener('loadedmetadata', () => {
+      if (v.readyState > 0) {
         this.playersLoaded++;
-        if (this.playersLoaded = this.videos.length) {
-          this.ready = true;
-          this.emit('ready');
-        }
-      });
+      } else {
+        v.addEventListener('loadedmetadata', (event) => {
+          this.playersLoaded++;
+          this.testIfPlayersAreReady();
+        });
+      }
     });
+
+    // If all of the players were already loaded, fire the ready event.
+    this.testIfPlayersAreReady();
   }
 
   initPlayButtons() {
-    let me = this;
-    this.videos.on('click', function(event) {
-      // this = video element
-      if (this.paused) {
-        me.play(this);
+    this.containers.on('click', (event) => {
+      const video = event.currentTarget.querySelector(selectors.video);
+      if (video.paused) {
+        this.play(video);
       } else {
-        me.pause(this);
+        this.pause(video);
       }
     });
   }
 
+  // TODO This logic could be moved elsewhere to be project specific
+  // and could then call play/pause.
   focus(bottom) {
     let found = false;
     for (let i = 0; i < this.videos.length; i++) {
@@ -60,26 +72,32 @@ export class Players extends EventEmitter {
       let bounds = video.getBoundingClientRect();
       let videoBottom = bounds.top + bounds.height;
       if (bounds.top < 0) {
-        this.playerHidden(video);
+        this.playerHidden(video, i);
       } else if (videoBottom < bottom && !found) {
-        this.playerShown(video);
+        this.playerShown(video, i);
         found = true;
       } else if (video.classList.contains('visible')) {
-        this.playerHidden(video);
+        this.playerHidden(video, i);
       } else {
         return;
       }
     }
   }
 
-  playerShown(video) {
-    video.classList.add('visible');
-    this.play(video);
+  playerShown(video, index) {
+    if (!video.__focused) {
+      video.__focused = true;
+      video.classList.add('visible');
+      this.play(video);
+    }
   }
 
-  playerHidden(video) {
-    video.classList.remove('visible');
-    this.pause(video);
+  playerHidden(video, index) {
+    if (video.__focused) {
+      video.__focused = false;
+      video.classList.remove('visible');
+      this.pause(video);
+    }
   }
 
   play(video) {

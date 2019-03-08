@@ -1,5 +1,6 @@
 .project(name="project")
-  h2.project-name(name="name")= project.name
+  .project-name(name="name")
+    h2.text= project.name
 
   //- YEAR
   .project-year(name="year")
@@ -9,30 +10,26 @@
     //- COMPANY
     if project.company
       .project-company(name="company")
-        h4= project.company
-        ul
-          each position in project.positions
-            li= position
+        span.animated-text= project.company
+      .position(name="position")
+        span.animated-text
+          each position, index in project.positions
+            = position + (index < project.positions.length - 1 ? ', ' : '')
 
     //- TOOLS
     if project.tools && project.tools.length > 0
       .project-tools(name="tools")
-        ul
-          each tool in project.tools
-            li= tool
+        span.animated-text
+          each tool, index in project.tools
+            = tool + (index < project.tools.length - 1 ? ', ' : '')
 
     //- CLIENTS
     if project.clients && project.clients.length > 0
       .project-clients(name="clients")
-        ul
-          each client in project.clients
-            li= client
-
-    //- LINK
-    if project.link
-      .project-link(name="link")
-        a(href=project.link.url)
-          = project.link.title
+        span.animated-text
+          b= "Clients: "
+          each client, index in project.clients
+            = client + (index < project.clients.length - 1 ? ', ' : '')
 
   //- PREVIEW
   case project.preview.type
