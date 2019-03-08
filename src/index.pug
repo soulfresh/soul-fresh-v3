@@ -4,7 +4,10 @@ block content
   - projects.sort((a, b) => b.year - a.year)
   .header(name="header")
     h1
-      <span class="soul">Soul</span><span class="fresh">Fresh</span>
+      span.container.soul-container
+        span.soul= 'Soul'
+      span.container.fresh-container
+        span.fresh= 'Fresh'
   .content(name="root")
     #work.work
       each project in projects
