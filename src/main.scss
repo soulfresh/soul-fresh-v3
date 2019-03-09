@@ -6,6 +6,39 @@ $f-thin: 'Quicksand', 'Helvetica', sans-serif;
 // $ease-out: cubic-bezier(0, 0, 0, 0.98);
 $ease-out: cubic-bezier(0.12, 0.45, 0, 0.94);
 $t-mid: 600ms;
+$left-colors-width: 8px;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+// Minimum breakpoint width. Null for the smallest (first) breakpoint.
+//
+//    >> breakpoint-min(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px))
+//    576px
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+  $min: map-get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
+// Makes the @content apply to the given breakpoint and wider.
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  @debug($name);
+  @debug($breakpoints);
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
 
 @mixin title-font {
   font-family: $f-fat;
@@ -71,10 +104,10 @@ body {
 
   @keyframes slidein {
     from {
-      transform: translateX(-100%); 
+      transform: translateY(100%); 
     }
     to {
-      transform: translateX(0%); 
+      transform: translateY(0%); 
     }
   }
 }
@@ -86,12 +119,16 @@ body {
 }
 
 .work {
-  // flex-grow: 1;
-  flex-basis: 50%;
-  padding-left: 10%;
-  padding-right: 20px;
+  flex-basis: 100%;
   background-color: white;
   box-shadow: 0px 0 150px 0px rgba(0, 0, 0, 0.28);
+  padding-left: $left-colors-width;
+
+  @include media-breakpoint-up(md) {
+    flex-basis: 50%;
+    padding-left: 10%;
+    padding-right: 20px;
+  }
 }
 
 .years {
@@ -121,7 +158,7 @@ body {
 }
 
 .colors {
-  width: 8px;
+  width: $left-colors-width;
   height: calc(100vh + 200px);
   display: flex;
   flex-direction: column;
@@ -135,13 +172,17 @@ body {
 }
 
 .description-boxes {
-  display: flex;
+  display: none;
   flex-direction: column;
   flex-grow: 1;
   position: fixed;
   right: 0;
   width: 50%;
   z-index: -1;
+
+  @include media-breakpoint-up(md) {
+    display: flex;
+  }
 
   .description-box {
     flex-grow: 1;

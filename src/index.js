@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import data from './data.json';
+import data from './data.js';
 import { throttle } from 'lodash';
 import { Players } from './scripts/video-player';
 import { Dimensions } from './scripts/dimensions';
@@ -30,6 +30,7 @@ function createBoxes(root, total, name, classes) {
 
 function colorize(elements, style, saturation='50%', lightness='50%') {
   elements.each((i) => {
+    // const color = projectData[i].color;
     const hue = (360 / elements.length) * i;
     const color = `hsla(${hue}, ${saturation}, ${lightness}, 1)`;
     elements.eq(i).css(style, color);
@@ -131,6 +132,8 @@ players.init(work);
 
 const parallax = () => {
   const scrolled = dimensions.scrollPercent();
+  // TODO These should be separate components that do
+  // the calculation.
   const yMove = (dimensions.scrollH * scrolled) * yearsSizeRatio;
   const dMove = (dimensions.scrollH * scrolled) * descriptionBoxRatio;
   const bMove = (boxesH - dimensions.viewportH) * scrolled;

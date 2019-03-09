@@ -5,7 +5,7 @@ const path = require('path');
 
 const src = path.resolve(__dirname, './src');
 const dist = path.resolve(__dirname, './dist');
-const dataFile =  `${src}/data.json`;
+const dataFile =  `${src}/data.js`;
 const data = require(dataFile);
 
 const production = process.argv.join(' ').indexOf('production') > -1;

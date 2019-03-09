@@ -2,6 +2,14 @@ import $ from 'jquery';
 import EventEmitter from 'eventemitter3';
 import { SizeAnimation } from './size-animation';
 
+const widths = {
+  xs: 0,
+  sm: 576,
+  md: 768,
+  lg: 992,
+  xl: 1200
+}
+
 const selectors = {
   project: '[name=project]',
   title: '[name=name]', // TODO change selector to "title"
@@ -63,13 +71,17 @@ export class Projects extends EventEmitter {
     const project = this.projects[index];
     const title = project.querySelector(selectors.title);
     project.classList.add('focused');
-    SizeAnimation.unroll($(title));
+    if ($(window).width() >= widths.md) {
+      SizeAnimation.unroll($(title));
+    }
   }
 
   hide(index) {
     const project = this.projects[index];
     const title = project.querySelector(selectors.title);
     project.classList.remove('focused');
-    SizeAnimation.roll($(title));
+    if ($(window).width() >= widths.md) {
+      SizeAnimation.roll($(title));
+    }
   }
 }

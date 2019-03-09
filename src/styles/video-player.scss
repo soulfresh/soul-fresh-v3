@@ -2,6 +2,9 @@
 .video-container {
   position: relative;
   cursor: pointer;
+  // There's a 4px margin that I can't find
+  // above and below the video.
+  margin: -4px 0;
 
   .play-video {
     position: absolute;
