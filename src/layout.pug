@@ -1,5 +1,19 @@
 doctype html
 html(lang='en')
+  -
+    projects.sort((a, b) => b.year - a.year)
+    if (!projects.find((p) => p.preview.type === "experience")) {
+      projects.push({
+        id : "experience",
+        name : "Experience",
+        year : "About",
+        preview : {
+          type : "experience",
+          meta : about
+        }
+      })
+    }
+
   head
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
@@ -12,7 +26,7 @@ html(lang='en')
       crossorigin="anonymous"
     )
     title SoulFresh
-    include components/colors.pug
+    block colors
 
   body
     block content

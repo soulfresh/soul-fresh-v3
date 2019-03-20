@@ -1,20 +1,6 @@
 extends layout
 
 block content
-  -
-    projects.sort((a, b) => b.year - a.year)
-    if (!projects.find((p) => p.preview.type === "experience")) {
-      projects.push({
-        id : "experience",
-        name : "Experience",
-        year : "About",
-        preview : {
-          type : "experience",
-          meta : about
-        }
-      })
-    }
-
   .header(name="header")
     h1
       span.container.soul-container
@@ -32,4 +18,7 @@ block content
     #work.work
       each project in projects
         include components/projects/project.pug
+
+block colors
+  include components/colors.pug
 
