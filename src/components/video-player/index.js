@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import EventEmitter from 'eventemitter3';
+import { selectors } from '../selectors';
 
 // function inViewport($el) {
 //   var elH = $el.outerHeight(),
@@ -7,12 +8,6 @@ import EventEmitter from 'eventemitter3';
 //     r   = $el[0].getBoundingClientRect(), t=r.top, b=r.bottom;
 //   return Math.max(0, t>0? Math.min(elH, H-t) : Math.min(b, H));
 // }
-
-const selectors = {
-  container: '[name=videoContainer]',
-  video: '[name=video]',
-  play: '[name=playVideo]'
-};
 
 export class Players extends EventEmitter {
   constructor() {

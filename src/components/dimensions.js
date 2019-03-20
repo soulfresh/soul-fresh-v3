@@ -15,7 +15,7 @@ export class Dimensions {
     this.pageH = this.html[0].scrollHeight;
     this.viewportH = $(window).height();
     this.scrollH = this.pageH - this.viewportH;
-    console.log(`dimensions: page = ${this.pageH} viewport = ${this.viewportH} scrollable height = ${this.scrollH}`);
+    // console.log(`dimensions: page = ${this.pageH} viewport = ${this.viewportH} scrollable height = ${this.scrollH}`);
   }
 }
 

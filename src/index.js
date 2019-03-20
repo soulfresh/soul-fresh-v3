@@ -3,21 +3,7 @@ import { throttle } from 'lodash';
 import { Players } from './components/video-player';
 import { Dimensions } from './components/dimensions';
 import { Projects } from './components/projects';
-
-const selectors = {
-  root: '[name=root]',
-  header: '[name=header]',
-  work: '#work',
-  project: '[name=project]',
-  years: '[name=years]',
-  year: '[name=year]',
-  colorBoxes: '[name=colorBoxes]',
-  colorBox: '[name=colorBox]',
-  descriptionBoxes: '[name=descriptionBoxes]',
-  descriptionBox: '[name=descriptionBox]',
-  projectTitle: '[name=name]',
-  preview: '[name=preview]'
-};
+import { selectors } from './components/selectors';
 
 function createBoxes(root, total, name, classes) {
   for (let i = 0; i < total; i++) {
