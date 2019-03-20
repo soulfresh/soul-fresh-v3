@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import EventEmitter from 'eventemitter3';
-import { SizeAnimation } from './size-animation';
+import { SizeAnimation } from '../size-animation';
 
 const widths = {
   xs: 0,
@@ -71,17 +71,13 @@ export class Projects extends EventEmitter {
     const project = this.projects[index];
     const title = project.querySelector(selectors.title);
     project.classList.add('focused');
-    if ($(window).width() >= widths.md) {
-      SizeAnimation.unroll($(title));
-    }
+    SizeAnimation.unroll($(title));
   }
 
   hide(index) {
     const project = this.projects[index];
     const title = project.querySelector(selectors.title);
     project.classList.remove('focused');
-    if ($(window).width() >= widths.md) {
-      SizeAnimation.roll($(title));
-    }
+    SizeAnimation.roll($(title));
   }
 }

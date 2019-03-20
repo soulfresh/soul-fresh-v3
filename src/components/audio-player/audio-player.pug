@@ -6,6 +6,12 @@
   src += "/linkcol=000000"
   src += "/artwork=none"
   src += "/transparent=true/"
+
+  var bandcampIndex = project.links.findIndex(function(d) {
+    return d.url.indexOf('bandcamp') > -1
+  })
+  var bandcamp = project.links[bandcampIndex]
+
 .album-image(
   style=`background-image: url(${project.preview.meta.img});`
 )
@@ -14,7 +20,8 @@
     src=src,
     seamless
   )
-    a(
-      href=project.link.url
-    ) project.link.title
+    if bandcampIndex > -1
+      a(
+        href=bandcamp.url
+      ) bandcamp.name
 

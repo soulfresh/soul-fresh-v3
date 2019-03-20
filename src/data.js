@@ -1,5 +1,15 @@
 module.exports = {
   "about": {
+    "practices": [
+      "Agile",
+      "TDD",
+      "UI/UX",
+      "REST",
+      "SOA",
+      "Product Management",
+      "User Testing",
+      "Team Management"
+    ],
     "technologies": [
       "ESP32",
       "OpenGL",
@@ -15,7 +25,10 @@ module.exports = {
       "Processing",
       "OpenFrameworks",
       "FreeFrame",
-      "Arduino"
+      "Arduino",
+      "Jasmine",
+      "Mocha",
+      "Google Test"
     ],
     "software": [
       "After Effects",
@@ -36,11 +49,13 @@ module.exports = {
       "CSS",
       "SASS",
       "LESS",
+      "Pug",
       "Actionscript",
       "PHP",
       "MySQL"
     ],
-    "linkedin": 'https://www.linkedin.com/in/marcwren/'
+    "linkedin": 'https://www.linkedin.com/in/marcwren/',
+    "github": "https://github.com/soulfresh"
   },
   "projects": [
     {
@@ -61,13 +76,16 @@ module.exports = {
         Design, animation and web development for Xylem Interactive,
         a Flash focused digital web adgency.
       `,
-      "link": null,
+      "links": null,
       "preview": {
         "type": "video",
-        "src": ["Flash.webm", "Flash.mp4"]
+        "src": {
+          "HD": ["Flash 960 x 720 HD.webm", "Flash 960 x 720.mp4"],
+          "SD": ["Flash 640 x 480 SD.webm", "Flash 640 x 480.mp4"]
+        }
       }
     }, {
-      "name": "Processing & OpenFrameworks",
+      "name": "OpenGL",
       "tools": [
         "Processing",
         "OpenFrameworks",
@@ -85,10 +103,13 @@ module.exports = {
         3d video plugins for video and VJ software
         using the FreeFrame plugin architecture.
       `,
-      "link": null,
+      "links": null,
       "preview": {
         "type": "video",
-        "src": ["OpenGL.webm", "OpenGL.mp4"]
+        "src": {
+          "HD": ["OpenGL 960 x 720 HD.webm", "OpenGL 960 x 720.mp4"],
+          "SD": ["OpenGL 640 x 480 SD.webm", "OpenGL 640 x 480.mp4"]
+        }
       }
     }, {
       "name": "Beatport",
@@ -98,7 +119,7 @@ module.exports = {
         "PHP",
         "MySQL"
       ],
-      "year": 2006,
+      "year": 2007,
       "color": "#99cf00",
       "company": "Beatport",
       "positions": [
@@ -115,10 +136,13 @@ module.exports = {
         a day. Product Manager for Beatport and Beatport Sounds.
         Director of Software Development.
       `,
-      "link": null,
+      "links": null,
       "preview": {
         "type": "video",
-        "src": ["Beatport.webm", "Beatport.mp4"]
+        "src": {
+          "HD": ["Beatport 960 x 720 HD.webm", "Beatport 960 x 720.mp4"],
+          "SD": ["Beatport 640 x 480 SD.webm", "Beatport 640 x 480.mp4"]
+        }
       }
     }, {
       "name": "PowerPro",
@@ -127,7 +151,8 @@ module.exports = {
         "D3",
         "Typescript",
         "Javascript",
-        "SASS"
+        "SASS",
+        "Jasmine"
       ],
       "year": 2018,
       "color": "#5fa3ec",
@@ -135,14 +160,17 @@ module.exports = {
       "positions": ["Software Developer"],
       "team": 3,
       "clients": [],
-      "link": null,
+      "links": null,
       "description": `
         Reporting dashboard for PowerPro Leasing software.
         PDF and CSV generation for email reporting.
       `,
       "preview": {
         "type": "video",
-        "src": ["Flash.webm", "Flash.mp4"]
+        "src": {
+          "HD": ["PowerPro 960 x 720 HD.webm", "PowerPro 960 x 720.mp4"],
+          "SD": ["PowerPro 640 x 480 SD.webm", "PowerPro 640 x 480.mp4"]
+        }
       }
     }, {
       "name": "BitMod",
@@ -152,14 +180,16 @@ module.exports = {
         "ESP32",
         "NodeJS",
         "Javascript",
-        "Vue.js"
+        "Vue.js",
+        "Jasmine",
+        "Google Test"
       ],
       "year": 2019,
       "color": "#d5df7e",
       "company": "",
       "positions": [],
       "clients": [],
-      "link": null,
+      "links": null,
       "description": `
         Software and hardware for intuitive control of
         lighting, video and sound. Microcontroller development using
@@ -167,7 +197,10 @@ module.exports = {
       `,
       "preview": {
         "type": "video",
-        "src": ["Flash.webm", "Flash.mp4"]
+        "src": {
+          "HD": ["BitMod 960 x 540 HD.webm", "BitMod 960 x 540.mp4"],
+          "SD": ["BitMod 640 x 360 SD.webm", "BitMod 640 x 360.mp4"]
+        }
       }
     }, {
       "name": "FoxDen",
@@ -179,7 +212,8 @@ module.exports = {
         "NodeJS",
         "WebRTC",
         "Bluetooth",
-        "Jitsi Meet"
+        "Jitsi Meet",
+        "Mocha/Chai"
       ],
       "year": 2016,
       "color": "#5695ab",
@@ -187,7 +221,7 @@ module.exports = {
       "positions": ["Software Developer"],
       "team": 10,
       "clients": [],
-      "link": null,
+      "links": null,
       "description": `
         WebRTC based video conferencing web application.
         Custom hardware with Bluetooth discovery of nearby
@@ -196,13 +230,17 @@ module.exports = {
       `,
       "preview": {
         "type": "video",
-        "src": ["Foxden.webm", "Foxden.mp4"]
+        "src": {
+          "HD": ["Foxden 960 x 720 HD.webm", "Foxden 960 x 720.mp4"],
+          "SD": ["Foxden 640 x 480 SD.webm", "Foxden 640 x 480.mp4"]
+        }
       }
     }, {
       "name": "Ello",
       "tools": [
         "Javascript",
-        "LESS"
+        "LESS",
+        "Mocha"
       ],
       "year": 2015,
       "color": "#000000",
@@ -214,10 +252,13 @@ module.exports = {
         Privacy focused social networking site with a large community
         of designers, artists and musicians.
       `,
-      "link": null,
+      "links": null,
       "preview": {
         "type": "video",
-        "src": ["Ello.webm", "Ello.mp4"]
+        "src": {
+          "HD": ["Ello 960 x 720 HD.webm", "Ello 960 x 720.mp4"],
+          "SD": ["Ello 640 x 480 SD.webm", "Ello 640 x 480.mp4"]
+        }
       }
     }, {
       "name": "Shutterstock Music",
@@ -228,7 +269,7 @@ module.exports = {
       "positions": ["Product Manager"],
       "team": 5,
       "clients": [],
-      "link": null,
+      "links": null,
       "description": `
         Sync music licensing website expands the content licensing
         offering for Shutterstock.com. Managed development team,
@@ -236,20 +277,26 @@ module.exports = {
       `,
       "preview": {
         "type": "video",
-        "src": ["Shutterstock.webm", "Shutterstock.mp4"]
+        "src": {
+          "HD": ["Shutterstock 960 x 720 HD.webm", "Shutterstock 960 x 720.mp4"],
+          "SD": ["Shutterstock 640 x 480 SD.webm", "Shutterstock 640 x 480.mp4"]
+        }
       }
     }, {
       "name": "Echo Machine",
       "tools": [],
-      "year": 2009,
+      "year": 2005,
       "color": "#000000",
       "company": "",
       "positions": [],
       "clients": [],
-      "link": null,
+      "links": null,
       "preview": {
         "type": "video",
-        "src": ["Flash.webm", "Flash.mp4"]
+        "src": {
+          "HD": ["Echo Machine 960 x 720 HD.webm", "Echo Machine 960 x 720.mp4"],
+          "SD": ["Echo Machine 640 x 480 SD.webm", "Echo Machine 640 x 480.mp4"]
+        }
       }
     }, {
       "name": "Moongold",
@@ -260,10 +307,28 @@ module.exports = {
       "company": "",
       "positions": [],
       "clients": [],
-      "link": {
-        "title": "Bandcamp",
-        "url": "http://moongoldmusic.bandcamp.com" 
-      },
+      "links": [{
+          name: "Bandcamp",
+          icon: "fab fa-bandcamp",
+          url: "https://moveshakepauserepeat.bandcamp.com/album/move-shake-pause-repeat"
+        },{
+          name: "Spotify",
+          icon: "fab fa-spotify",
+          url: "https://open.spotify.com/album/2USwvMh5tK2PAGxl7fcrQA"
+        },{
+          name: "iTunes",
+          icon: "fab fa-itunes",
+          url: "https://itunes.apple.com/us/album/move-shake-pause-repeat/1449436404?uo=4&app=music&at=1001lry3&ct=dashboard&app=itunes&at=1001lry3&ct=dashboard"
+        },{
+          name: "Google Play",
+          icon: "fab fa-google-play",
+          url: "https://play.google.com/store/music/album/Move_Shake_Pause_Repeat_Move_Shake_Pause_Repeat?id=B7iagss6ejaj7pt3zpwx253huky"
+        },{
+          name: "Amazon Music",
+          icon: "fab fa-amazon",
+          url: "http://www.amazon.com/gp/product/B07M83DHYL/?tag=distrokid06-20"
+        }
+      ],
       "preview": {
         "type": "music",
         "src": [],
@@ -281,10 +346,32 @@ module.exports = {
       "company": "",
       "positions": [],
       "clients": [],
-      "link": {
-        "title": "Bandcamp",
-        "url": "http://moveshakepauserepeat.bandcamp.com/album/move-shake-pause-repeat" 
-      },
+      "links": [{
+          name: "Bandcamp",
+          icon: "fab fa-bandcamp",
+          url: "https://moongoldmusic.bandcamp.com/album/moongold"
+        },{
+          name: "Spotify",
+          icon: "fab fa-spotify",
+          url: "https://open.spotify.com/album/23hqlkxBej7XjFUlMpkXKH"
+        },{
+          name: "iTunes",
+          icon: "fab fa-itunes",
+          url: "https://itunes.apple.com/us/album/friday-saturday-sunday-ep/id1091490097?uo=4&app=itunes&at=1001lry3&ct=dashboard"
+        },{
+          name: "Google Play",
+          icon: "fab fa-google-play",
+          url: "https://play.google.com/store/music/album/Moongold_Friday_Saturday_Sunday?id=Buop2bc3yhau2nszun4tw47fvfq"
+        },{
+          name: "Amazon Music",
+          icon: "fab fa-amazon",
+          url: "http://www.amazon.com/gp/product/B01CQW8PTC/?tag=distrokid06-20"
+        },{
+          name: "More Stores",
+          icon: "fas fa-plus",
+          url: "https://distrokid.com/hyperfollow/moongold/HpR"
+        }
+      ],
       "preview": {
         "type": "music",
         "src": [],

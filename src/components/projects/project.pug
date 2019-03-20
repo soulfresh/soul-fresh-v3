@@ -1,6 +1,8 @@
-.project(name="project")
+.project(name="project", data-type=project.preview.type)
 
-  .project-name(name="name")
+  - className = project.name.toLowerCase().replace(/[^a-z]+/g, '-')
+
+  div(name="name", class="project-name " + className)
     h2.text= project.name
 
   //- YEAR
@@ -11,12 +13,15 @@
   case project.preview.type
     when 'video'
       .project-preview.video(name="preview", data-type="video")
-        include video-player.pug
+        include ../video-player/video-player.pug
     when 'music'
       .project-preview.music(name="preview" data-type="music")
-        include audio-player.pug
+        include ../audio-player/audio-player.pug
     when 'slideshow'
       .project-preview.slideshow(name="preview", data-type="slideshow")= 'Slideshow'
+    when 'experience'
+      .project-preview.experience(name="preview", data-type="experience")
+        include ../experience/experience.pug
 
   .details
     //- COMPANY
@@ -50,3 +55,14 @@
     if project.description
       .description
         span.animated-text= project.description
+
+    //- LINKS
+    if project.links
+      .project-links
+        each link in project.links
+          a.project-link(href=link.url, title=link.name)
+            if link.icon
+              i(class=link.icon)
+            else
+              = link.name
+

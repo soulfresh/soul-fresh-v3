@@ -1,15 +1,30 @@
-extends views/layout
+extends layout
 
 block content
-  - projects.sort((a, b) => b.year - a.year)
+  -
+    projects.sort((a, b) => b.year - a.year)
+    if (!projects.find((p) => p.preview.type === 'experience')) {
+      projects.push({
+        name : "Experience",
+        year : "About",
+        preview : {
+          type : "experience",
+          meta : about
+        }
+      })
+    }
+
   .header(name="header")
     h1
       span.container.soul-container
         span.soul= 'Soul'
       span.container.fresh-container
         span.fresh= 'Fresh'
+    .social
+      a.linked-in(href=about.linkedin, target="blank")
+        i.fab.fa-linkedin
   .content(name="root")
     #work.work
       each project in projects
-        include views/project.pug
+        include components/projects/project.pug
 

@@ -12,10 +12,21 @@ $t-mid: 600ms;
     background-color: transparent;
   }
 
+  .details {
+    padding-left: 30px;
+    margin-top: 10px;
+  }
+
+  @include media-breakpoint-up(md) {
+    .details {
+      padding-left: 0;
+    }
+  }
+
   @include media-breakpoint-up(lg) {
     .details {
       position: absolute;
-      top: 20%;
+      top: 15%;
       left: 100%;
       padding-left: 20px;
       width: 60%;
@@ -31,25 +42,30 @@ $t-mid: 600ms;
     font-family: $f-thin;
     color: white;
     overflow: hidden;
-
-    @include media-breakpoint-up(md) {
-      margin-left: -10px;
-      margin-bottom: 40px;
-      white-space: nowrap;
-      width: 0;
-      transition: width $ease-out $t-mid;
-
-      .text {
-        transform: translateX(-100%);
-        transition: transform $ease-out $t-mid 100ms;
-      }
-    }
+    margin-left: -10px;
+    white-space: nowrap;
+    width: 0;
+    transition: width $ease-out $t-mid;
+    margin-bottom: 10px;
 
     .text {
+      transform: translateX(-100%);
+      transition: transform $ease-out $t-mid 100ms;
       display: inline-block;
       margin: 0;
       padding: 5px 10px;
       font-size: 2em;
+      max-width: 94vw;
+    }
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: 40px;
+    }
+  }
+
+  .move-shake-pause-repeat {
+    .text {
+      font-size: 1.5em;
     }
   }
 
@@ -71,6 +87,14 @@ $t-mid: 600ms;
     }
   }
 
+  .project-links {
+    font-size: 2em;
+
+    .project-link {
+      margin: 10px;
+    }
+  }
+
   .position,
   .team,
   .description,
@@ -80,7 +104,7 @@ $t-mid: 600ms;
 
   .project-tools,
   .project-clients,
-  .project-link,
+  .project-links,
   .team {
     margin-bottom: 15px;
   }

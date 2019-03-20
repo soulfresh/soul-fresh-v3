@@ -19,7 +19,7 @@ const config = {
   entry: {
     index: [
       `${src}/index.js`,
-      `${src}/main.scss`
+      `${src}/index.scss`
     ]
   },
   output: {

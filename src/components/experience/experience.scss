@@ -1,0 +1,16 @@
+.project-preview.experience {
+  font-size: 0.9em;
+  font-style: italic;
+  // margin-left: $left-colors-width;
+  padding: 10px 10px 50px;
+  margin-left: 25px;
+
+  div {
+    margin-bottom: 20px;
+  }
+
+  // @include media-breakpoint-up(md) {
+  //   margin-left: 20px;
+  // }
+}
+

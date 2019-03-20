@@ -1,12 +1,8 @@
 import $ from 'jquery';
-import data from './data.js';
 import { throttle } from 'lodash';
-import { Players } from './scripts/video-player';
-import { Dimensions } from './scripts/dimensions';
-import { Projects } from './scripts/projects';
-
-
-const projectData = data.projects.sort((a, b) => b.year - a.year);
+import { Players } from './components/video-player';
+import { Dimensions } from './components/dimensions';
+import { Projects } from './components/projects';
 
 const selectors = {
   root: '[name=root]',
@@ -19,7 +15,8 @@ const selectors = {
   colorBox: '[name=colorBox]',
   descriptionBoxes: '[name=descriptionBoxes]',
   descriptionBox: '[name=descriptionBox]',
-  projectTitle: '[name=name]'
+  projectTitle: '[name=name]',
+  preview: '[name=preview]'
 };
 
 function createBoxes(root, total, name, classes) {
@@ -30,7 +27,6 @@ function createBoxes(root, total, name, classes) {
 
 function colorize(elements, style, saturation='50%', lightness='50%') {
   elements.each((i) => {
-    // const color = projectData[i].color;
     const hue = (360 / elements.length) * i;
     const color = `hsla(${hue}, ${saturation}, ${lightness}, 1)`;
     elements.eq(i).css(style, color);
@@ -50,7 +46,7 @@ const colorBoxContainer = $('<div name="colorBoxes" class="colors"></div>');
 const descriptionBoxContainer = $('<div name="descriptionBoxes" class="description-boxes"></div>');
 const dimensions = new Dimensions();
 
-const yearsSizeRatio = 0.3;
+const yearsSizeRatio = 0.25;
 const descriptionBoxRatio = 1.5;
 
 // Move Year elements into their own container.
@@ -110,17 +106,20 @@ const projectsHelper = new Projects();
 projectsHelper.init(work);
 
 projectsHelper.on('focused', (i) => {
-  // TODO Remove this in favor of DOM attributes.
-  if (projectData[i].preview.type === 'video') {
-    const video = projects[i].querySelector('video');
+  const project = projects.eq(i);
+  const type = project.attr('data-type');
+  if (type === 'video') {
+    const video = project[0].querySelector('video');
     players.play(video);
   }
   years.eq(i).addClass('focused');
 });
 
 projectsHelper.on('hidden', (i) => {
-  if (projectData[i].preview.type === 'video') {
-    const video = projects[i].querySelector('video');
+  const project = projects.eq(i);
+  const type = project.attr('data-type');
+  if (type === 'video') {
+    const video = project[0].querySelector('video');
     players.pause(video);
   }
   years.eq(i).removeClass('focused');

@@ -1,0 +1,22 @@
+.languages
+  each language, i in project.preview.meta.languages
+    = language + (i < project.preview.meta.languages.length - 1 ? ', ' : '')
+.frameworks
+  each framework, i in project.preview.meta.frameworks
+    = framework + (i < project.preview.meta.frameworks.length - 1 ? ', ' : '')
+.practices
+  each practice, i in project.preview.meta.practices
+    = practice + (i < project.preview.meta.practices.length - 1 ? ', ' : '')
+.technologies
+  each technology, i in project.preview.meta.technologies
+    = technology + (i < project.preview.meta.technologies.length - 1 ? ', ' : '')
+.software
+  each software, i in project.preview.meta.software
+    = software + (i < project.preview.meta.software.length - 1 ? ', ' : '')
+.social
+  a.linked-in(href=about.linkedin, target="blank", aria-label="LinkedIn")
+    i.fab.fa-linkedin
+  a.github(href=about.github, target="blank", aria-label="GitHub")
+    i.fab.fa-github-square
+
+

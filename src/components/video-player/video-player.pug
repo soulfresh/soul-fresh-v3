@@ -1,8 +1,8 @@
 .video-container(name="videoContainer")
   .play-video(name="playVideo")
     i.fas.fa-play-circle
-  video(loop, name="video", muted="true")
-    each source in project.preview.src
+  video(loop, name="video")
+    each source in project.preview.src.HD
       -
         var parts = source.split('.');
         var type = parts[parts.length - 1];
