@@ -1,4 +1,4 @@
-module.exports = {
+{
   "about": {
     "practices": [
       "Agile",
@@ -54,11 +54,12 @@ module.exports = {
       "PHP",
       "MySQL"
     ],
-    "linkedin": 'https://www.linkedin.com/in/marcwren/',
+    "linkedin": "https://www.linkedin.com/in/marcwren/",
     "github": "https://github.com/soulfresh"
   },
   "projects": [
     {
+      "id": "flash",
       "name": "Flash Development",
       "tools": [
         "Actionscript",
@@ -72,11 +73,8 @@ module.exports = {
       "positions": ["Designer", "Web Developer", "Animator"],
       "team": 4,
       "clients": ["Chipotle", "McDonalds", "Jeppesen", "Red Robin"],
-      "description": `
-        Design, animation and web development for Xylem Interactive,
-        a Flash focused digital web adgency.
-      `,
-      "links": null,
+      "description": "Design, animation and web development for Xylem Interactive, a Flash focused digital web adgency.",
+      "links": [],
       "preview": {
         "type": "video",
         "src": {
@@ -85,6 +83,7 @@ module.exports = {
         }
       }
     }, {
+      "id": "opengl",
       "name": "OpenGL",
       "tools": [
         "Processing",
@@ -99,11 +98,8 @@ module.exports = {
       "company": "",
       "positions": [],
       "clients": [],
-      "description": `
-        3d video plugins for video and VJ software
-        using the FreeFrame plugin architecture.
-      `,
-      "links": null,
+      "description": "3d video plugins for video and VJ software using the FreeFrame plugin architecture.",
+      "links": [],
       "preview": {
         "type": "video",
         "src": {
@@ -112,6 +108,7 @@ module.exports = {
         }
       }
     }, {
+      "id": "beatport",
       "name": "Beatport",
       "tools": [
         "Actionscript",
@@ -129,14 +126,8 @@ module.exports = {
       ],
       "team": 30,
       "clients": [],
-      "description": `
-        Flash and HTML based eCommerce applications built for
-        DJs. Scalable REST based SOA that processed
-        thousands of transactions and tens of thousands of audio streams
-        a day. Product Manager for Beatport and Beatport Sounds.
-        Director of Software Development.
-      `,
-      "links": null,
+      "description": "Flash and HTML based eCommerce applications built for DJs. Scalable REST based SOA that processed thousands of transactions and tens of thousands of audio streams a day. Product Manager for Beatport and Beatport Sounds. Director of Software Development.",
+      "links": [],
       "preview": {
         "type": "video",
         "src": {
@@ -145,6 +136,7 @@ module.exports = {
         }
       }
     }, {
+      "id": "powerpro",
       "name": "PowerPro",
       "tools": [
         "Angular",
@@ -160,11 +152,8 @@ module.exports = {
       "positions": ["Software Developer"],
       "team": 3,
       "clients": [],
-      "links": null,
-      "description": `
-        Reporting dashboard for PowerPro Leasing software.
-        PDF and CSV generation for email reporting.
-      `,
+      "links": [],
+      "description": "Reporting dashboard for PowerPro Leasing software. PDF and CSV generation for email reporting.",
       "preview": {
         "type": "video",
         "src": {
@@ -173,6 +162,7 @@ module.exports = {
         }
       }
     }, {
+      "id": "bitmod",
       "name": "BitMod",
       "tools": [
         "C++",
@@ -189,12 +179,8 @@ module.exports = {
       "company": "",
       "positions": [],
       "clients": [],
-      "links": null,
-      "description": `
-        Software and hardware for intuitive control of
-        lighting, video and sound. Microcontroller development using
-        ESP32 and Arduino. Product design and fabrication.
-      `,
+      "links": [],
+      "description": "Software and hardware for intuitive control of lighting, video and sound. Microcontroller development using ESP32 and Arduino. Product design and fabrication.",
       "preview": {
         "type": "video",
         "src": {
@@ -203,6 +189,7 @@ module.exports = {
         }
       }
     }, {
+      "id": "foxden",
       "name": "FoxDen",
       "tools": [
         "AngularJS",
@@ -221,13 +208,8 @@ module.exports = {
       "positions": ["Software Developer"],
       "team": 10,
       "clients": [],
-      "links": null,
-      "description": `
-        WebRTC based video conferencing web application.
-        Custom hardware with Bluetooth discovery of nearby
-        meeting rooms. Android and iOS apps for remote control
-        of video conferencing hardware and mobile meetings.
-      `,
+      "links": [],
+      "description": "WebRTC based video conferencing web application. Custom hardware with Bluetooth discovery of nearby meeting rooms. Android and iOS apps for remote control of video conferencing hardware and mobile meetings.",
       "preview": {
         "type": "video",
         "src": {
@@ -236,6 +218,7 @@ module.exports = {
         }
       }
     }, {
+      "id": "ello",
       "name": "Ello",
       "tools": [
         "Javascript",
@@ -248,11 +231,8 @@ module.exports = {
       "positions": ["Software Developer"],
       "team": 8,
       "clients": [],
-      "description": `
-        Privacy focused social networking site with a large community
-        of designers, artists and musicians.
-      `,
-      "links": null,
+      "description": "Privacy focused social networking site with a large community of designers, artists and musicians.",
+      "links": [],
       "preview": {
         "type": "video",
         "src": {
@@ -261,6 +241,7 @@ module.exports = {
         }
       }
     }, {
+      "id": "shutterstock",
       "name": "Shutterstock Music",
       "tools": [],
       "year": 2014,
@@ -269,12 +250,8 @@ module.exports = {
       "positions": ["Product Manager"],
       "team": 5,
       "clients": [],
-      "links": null,
-      "description": `
-        Sync music licensing website expands the content licensing
-        offering for Shutterstock.com. Managed development team,
-        business relationships, product vision and user experience.
-      `,
+      "links": [],
+      "description": "Sync music licensing website expands the content licensing offering for Shutterstock.com. Managed development team, business relationships, product vision and user experience.",
       "preview": {
         "type": "video",
         "src": {
@@ -283,6 +260,7 @@ module.exports = {
         }
       }
     }, {
+      "id": "echo-machine",
       "name": "Echo Machine",
       "tools": [],
       "year": 2005,
@@ -290,7 +268,7 @@ module.exports = {
       "company": "",
       "positions": [],
       "clients": [],
-      "links": null,
+      "links": [],
       "preview": {
         "type": "video",
         "src": {
@@ -299,6 +277,7 @@ module.exports = {
         }
       }
     }, {
+      "id": "moongold",
       "name": "Moongold",
       "tools": [
       ],
@@ -308,25 +287,25 @@ module.exports = {
       "positions": [],
       "clients": [],
       "links": [{
-          name: "Bandcamp",
-          icon: "fab fa-bandcamp",
-          url: "https://moveshakepauserepeat.bandcamp.com/album/move-shake-pause-repeat"
+          "name": "Bandcamp",
+          "icon": "fab fa-bandcamp",
+          "url": "https://moveshakepauserepeat.bandcamp.com/album/move-shake-pause-repeat"
         },{
-          name: "Spotify",
-          icon: "fab fa-spotify",
-          url: "https://open.spotify.com/album/2USwvMh5tK2PAGxl7fcrQA"
+          "name": "Spotify",
+          "icon": "fab fa-spotify",
+          "url": "https://open.spotify.com/album/2USwvMh5tK2PAGxl7fcrQA"
         },{
-          name: "iTunes",
-          icon: "fab fa-itunes",
-          url: "https://itunes.apple.com/us/album/move-shake-pause-repeat/1449436404?uo=4&app=music&at=1001lry3&ct=dashboard&app=itunes&at=1001lry3&ct=dashboard"
+          "name": "iTunes",
+          "icon": "fab fa-itunes",
+          "url": "https://itunes.apple.com/us/album/move-shake-pause-repeat/1449436404?uo=4&app=music&at=1001lry3&ct=dashboard&app=itunes&at=1001lry3&ct=dashboard"
         },{
-          name: "Google Play",
-          icon: "fab fa-google-play",
-          url: "https://play.google.com/store/music/album/Move_Shake_Pause_Repeat_Move_Shake_Pause_Repeat?id=B7iagss6ejaj7pt3zpwx253huky"
+          "name": "Google Play",
+          "icon": "fab fa-google-play",
+          "url": "https://play.google.com/store/music/album/Move_Shake_Pause_Repeat_Move_Shake_Pause_Repeat?id=B7iagss6ejaj7pt3zpwx253huky"
         },{
-          name: "Amazon Music",
-          icon: "fab fa-amazon",
-          url: "http://www.amazon.com/gp/product/B07M83DHYL/?tag=distrokid06-20"
+          "name": "Amazon Music",
+          "icon": "fab fa-amazon",
+          "url": "http://www.amazon.com/gp/product/B07M83DHYL/?tag=distrokid06-20"
         }
       ],
       "preview": {
@@ -338,6 +317,7 @@ module.exports = {
         }
       }
     }, {
+      "id": "move-shake-pause-repeat",
       "name": "Move Shake Pause Repeat",
       "tools": [
       ],
@@ -347,29 +327,29 @@ module.exports = {
       "positions": [],
       "clients": [],
       "links": [{
-          name: "Bandcamp",
-          icon: "fab fa-bandcamp",
-          url: "https://moongoldmusic.bandcamp.com/album/moongold"
+          "name": "Bandcamp",
+          "icon": "fab fa-bandcamp",
+          "url": "https://moongoldmusic.bandcamp.com/album/moongold"
         },{
-          name: "Spotify",
-          icon: "fab fa-spotify",
-          url: "https://open.spotify.com/album/23hqlkxBej7XjFUlMpkXKH"
+          "name": "Spotify",
+          "icon": "fab fa-spotify",
+          "url": "https://open.spotify.com/album/23hqlkxBej7XjFUlMpkXKH"
         },{
-          name: "iTunes",
-          icon: "fab fa-itunes",
-          url: "https://itunes.apple.com/us/album/friday-saturday-sunday-ep/id1091490097?uo=4&app=itunes&at=1001lry3&ct=dashboard"
+          "name": "iTunes",
+          "icon": "fab fa-itunes",
+          "url": "https://itunes.apple.com/us/album/friday-saturday-sunday-ep/id1091490097?uo=4&app=itunes&at=1001lry3&ct=dashboard"
         },{
-          name: "Google Play",
-          icon: "fab fa-google-play",
-          url: "https://play.google.com/store/music/album/Moongold_Friday_Saturday_Sunday?id=Buop2bc3yhau2nszun4tw47fvfq"
+          "name": "Google Play",
+          "icon": "fab fa-google-play",
+          "url": "https://play.google.com/store/music/album/Moongold_Friday_Saturday_Sunday?id=Buop2bc3yhau2nszun4tw47fvfq"
         },{
-          name: "Amazon Music",
-          icon: "fab fa-amazon",
-          url: "http://www.amazon.com/gp/product/B01CQW8PTC/?tag=distrokid06-20"
+          "name": "Amazon Music",
+          "icon": "fab fa-amazon",
+          "url": "http://www.amazon.com/gp/product/B01CQW8PTC/?tag=distrokid06-20"
         },{
-          name: "More Stores",
-          icon: "fas fa-plus",
-          url: "https://distrokid.com/hyperfollow/moongold/HpR"
+          "name": "More Stores",
+          "icon": "fas fa-plus",
+          "url": "https://distrokid.com/hyperfollow/moongold/HpR"
         }
       ],
       "preview": {
@@ -382,4 +362,4 @@ module.exports = {
       }
     }
   ]
-};
+}

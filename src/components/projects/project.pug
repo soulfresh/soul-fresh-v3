@@ -1,12 +1,15 @@
-.project(name="project", data-type=project.preview.type)
+.project(
+  name="project",
+  class=project.id
+  data-type=project.preview.type,
+  id=project.id
+)
 
-  - className = project.name.toLowerCase().replace(/[^a-z]+/g, '-')
-
-  div(name="name", class="project-name " + className)
+  .project-name(name="name", class="color-background")
     h2.text= project.name
 
   //- YEAR
-  .project-year(name="year")
+  .project-year(name="year", class=project.id, class="color-text")
     h3= project.year
 
   //- PREVIEW
@@ -57,10 +60,14 @@
         span.animated-text= project.description
 
     //- LINKS
-    if project.links
-      .project-links
+    if project.links && project.links.length > 0
+      .project-links.animated-text
         each link in project.links
-          a.project-link(href=link.url, title=link.name)
+          a.project-link(
+            href=link.url,
+            title=link.name,
+            class="color-text"
+          )
             if link.icon
               i(class=link.icon)
             else

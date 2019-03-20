@@ -3,8 +3,9 @@ extends layout
 block content
   -
     projects.sort((a, b) => b.year - a.year)
-    if (!projects.find((p) => p.preview.type === 'experience')) {
+    if (!projects.find((p) => p.preview.type === "experience")) {
       projects.push({
+        id : "experience",
         name : "Experience",
         year : "About",
         preview : {
@@ -17,11 +18,15 @@ block content
   .header(name="header")
     h1
       span.container.soul-container
-        span.soul= 'Soul'
+        span.soul= "Soul"
       span.container.fresh-container
-        span.fresh= 'Fresh'
+        span.fresh= "Fresh"
     .social
-      a.linked-in(href=about.linkedin, target="blank")
+      a.linked-in.color-text(
+        href=about.linkedin,
+        target="blank",
+        class=projects[0].id
+      )
         i.fab.fa-linkedin
   .content(name="root")
     #work.work

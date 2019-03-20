@@ -1,81 +1,30 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:900|Quicksand:300);
-
-// TODO Consolidate variables into a file.
-$f-fat: 'Raleway', serif;
-$f-thin: 'Quicksand', 'Helvetica', sans-serif;
-// $ease-out: cubic-bezier(0, 0, 0, 0.98);
-$ease-out: cubic-bezier(0.12, 0.45, 0, 0.94);
-$t-mid: 600ms;
-$left-colors-width: 8px;
-
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px
-);
-
-// Minimum breakpoint width. Null for the smallest (first) breakpoint.
-//
-//    >> breakpoint-min(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px))
-//    576px
-@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
-  $min: map-get($breakpoints, $name);
-  @return if($min != 0, $min, null);
-}
-
-// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
-// Makes the @content apply to the given breakpoint and wider.
-@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
-  @debug($name);
-  @debug($breakpoints);
-  $min: breakpoint-min($name, $breakpoints);
-  @if $min {
-    @media (min-width: $min) {
-      @content;
-    }
-  } @else {
-    @content;
-  }
-}
-
-@mixin title-font {
-  font-family: $f-fat;
-  font-weight: 900;
-  font-size: 2em;
-}
+@import './_variables';
+@import './_utils';
 
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Helvetica', sans-serif;
+  font-family: "Helvetica", sans-serif;
+  font-size: $f-m;
 }
 
 .social {
   display: flex;
   align-items: center;
-  font-size: 3em;
-
-  a {
-    opacity: 0.3;
-    transition: opacity linear 200ms;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
+  font-size: $f-xxxl;
 
   a:not(:last-child) {
-    margin-right: 10px;
+    margin-right: px($s-m);
   }
+}
 
-  .linked-in {
-    color: #cf323a;
-  }
+a {
+  opacity: 0.5;
+  transition: opacity linear $t-s;
 
-  .github {
-    color: #cf323a;
+  &:hover {
+    opacity: 1;
   }
 }
 
@@ -83,10 +32,10 @@ body {
   display: flex;
   justify-content: space-between;
   background-color: white;
-  padding: 50px 18px;
+  padding: px($s-xl) px(18);
 
   @include media-breakpoint-up(md) {
-    padding: 50px;
+    padding: px($s-xl);
   }
 
   h1 {
@@ -94,8 +43,7 @@ body {
     flex-direction: row;
     align-items: baseline;
     margin: 0;
-    font-size: 3em;
-    font-size: 48px;
+    font-size: $f-xxxl;
   }
 
   .container {
@@ -105,7 +53,7 @@ body {
   }
 
   .soul-container {
-    animation-duration: $t-mid * 2;
+    animation-duration: $t-m * 2;
     animation-name: grow;
   }
 
@@ -119,7 +67,7 @@ body {
 
   .fresh {
     font-family: $f-fat;
-    animation-duration: $t-mid;
+    animation-duration: $t-m;
     animation-name: slidein;
   }
 
@@ -131,7 +79,7 @@ body {
       width: 0;
     }
     100% {
-      width: 92px;
+      width: 96px;
     }
   }
 
@@ -155,29 +103,29 @@ body {
   flex-basis: 100%;
   background-color: white;
   box-shadow: 0px 0 150px 0px rgba(0, 0, 0, 0.28);
-  padding-left: $left-colors-width;
+  padding-left: px($left-colors-width);
 
   @include media-breakpoint-up(md) {
     flex-basis: 50%;
     padding-left: 10%;
-    padding-right: 20px;
+    padding-right: px($s-l);
   }
 }
 
 .years {
   font-family: $f-fat;
-  font-weight: 900;
+  font-weight: $f-bold;
   position: fixed;
   // transition: top ease-out 150ms;
 
   .project-year {
     opacity: 0.3;
-    transition: opacity 900ms, font-size 200ms ease-out;
-    font-size: 1.6em;
+    transition: opacity $t-l, font-size $t-s ease-out;
+    font-size: $f-xl;
 
     &.focused {
       opacity: 1;
-      font-size: 2.2em;
+      font-size: $f-xxl;
     }
   }
 }
@@ -185,13 +133,13 @@ body {
 .project-year {
   h3 {
     transform: translateY(50px) rotate(-90deg);
-    width: 50px;
+    width: px($s-xl);
     margin: 0;
   }
 }
 
 .colors {
-  width: $left-colors-width;
+  width: px($left-colors-width);
   height: calc(100vh + 200px);
   display: flex;
   flex-direction: column;
@@ -212,6 +160,7 @@ body {
   right: 0;
   width: 50%;
   z-index: -1;
+  opacity: 0.5;
 
   @include media-breakpoint-up(md) {
     display: flex;
@@ -223,7 +172,7 @@ body {
   }
 }
 
-@import './components/video-player/video-player.scss';
-@import './components/audio-player/audio-player.scss';
-@import './components/projects/project.scss';
-@import './components/experience/experience.scss';
+@import "./components/video-player/video-player.scss";
+@import "./components/audio-player/audio-player.scss";
+@import "./components/projects/project.scss";
+@import "./components/experience/experience.scss";

@@ -1,18 +1,19 @@
-const htmlwebpackplugin = require('html-webpack-plugin');
-const miniCssExtractPlugin = require('mini-css-extract-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const path = require('path');
+const htmlwebpackplugin = require("html-webpack-plugin");
+const miniCssExtractPlugin = require("mini-css-extract-plugin");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
+const path = require("path");
+const jsonImporter = require("node-sass-json-importer");
 
-const src = path.resolve(__dirname, './src');
-const dist = path.resolve(__dirname, './dist');
-const dataFile =  `${src}/data.js`;
+const src = path.resolve(__dirname, "./src");
+const dist = path.resolve(__dirname, "./dist");
+const dataFile =  `${src}/data.json`;
 const data = require(dataFile);
 
-const production = process.argv.join(' ').indexOf('production') > -1;
+const production = process.argv.join(" ").indexOf("production") > -1;
 console.log(
   production
-    ? '--- PRODUCTION BUILD ---'
-    : '--- DEVELOPMENT BUILD ---'
+    ? "--- PRODUCTION BUILD ---"
+    : "--- DEVELOPMENT BUILD ---"
 );
 
 const config = {
@@ -23,24 +24,30 @@ const config = {
     ]
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].js"
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: 'babel-loader'
+        use: "babel-loader"
       },
       {
         test: /\.s?css$/,
         exclude: /node_modules/,
         use: [
           miniCssExtractPlugin.loader,
-          'css-loader',
-          // 'postcss-loader'
-          'sass-loader'
+          "css-loader",
+          // "postcss-loader"
+          {
+            loader: "sass-loader",
+            // Apply the JSON importer via sass-loader"s options.
+            options: {
+              importer: jsonImporter(),
+            }
+          }
         ]
       },
       {
@@ -49,9 +56,9 @@ const config = {
           /node_modules/
         ],
         use: [
-          'html-loader?attrs=false',
+          "html-loader?attrs=false",
           {
-            loader: 'pug-html-loader',
+            loader: "pug-html-loader",
             options: {
               data: data
             }
@@ -62,12 +69,12 @@ const config = {
   },
   plugins: [
     new htmlwebpackplugin({
-      file: 'index.html',
+      file: "index.html",
       template: `${src}/index.pug`
     }),
     new miniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
+      filename: "[name].css",
+      chunkFilename: "[id].css"
     }),
     new FaviconsWebpackPlugin(`${src}/assets/favicon-flying.png`)
   ],

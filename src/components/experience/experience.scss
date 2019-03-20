@@ -1,12 +1,11 @@
 .project-preview.experience {
   font-size: 0.9em;
   font-style: italic;
-  // margin-left: $left-colors-width;
-  padding: 10px 10px 50px;
-  margin-left: 25px;
+  padding: px($s-m) px($s-m) px($s-xl);
+  margin-left: px(25);
 
   div {
-    margin-bottom: 20px;
+    margin-bottom: px($s-l);
   }
 
   // @include media-breakpoint-up(md) {

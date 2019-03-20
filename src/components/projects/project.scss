@@ -1,20 +1,18 @@
-// $ease-out: cubic-bezier(0, 0, 0, 0.98);
-$ease-out: cubic-bezier(0.12, 0.45, 0, 0.94);
-$t-mid: 600ms;
+@import '../../theme';
 
 .project {
   position: relative;
-  padding-bottom: 100px;
+  padding-bottom: px($s-xxl);
   background-color: rgba(#ffffff, 0.6);
 
   @include media-breakpoint-up(md) {
-    padding-bottom: 200px;
+    padding-bottom: px($s-xxl * 2);
     background-color: transparent;
   }
 
   .details {
-    padding-left: 30px;
-    margin-top: 10px;
+    padding-left: px($left-colors-years-width);
+    margin-top: px($s-m);
   }
 
   @include media-breakpoint-up(md) {
@@ -28,7 +26,7 @@ $t-mid: 600ms;
       position: absolute;
       top: 15%;
       left: 100%;
-      padding-left: 20px;
+      padding-left: px($s-l);
       width: 60%;
     }
   }
@@ -42,36 +40,40 @@ $t-mid: 600ms;
     font-family: $f-thin;
     color: white;
     overflow: hidden;
-    margin-left: -10px;
+    margin-left: px($s-m * -1);
     white-space: nowrap;
     width: 0;
-    transition: width $ease-out $t-mid;
-    margin-bottom: 10px;
+    transition: width $ease-out $t-m;
+    margin-bottom: px($s-m);
 
     .text {
       transform: translateX(-100%);
-      transition: transform $ease-out $t-mid 100ms;
+      transition: transform $ease-out $t-m $t-xs;
       display: inline-block;
       margin: 0;
-      padding: 5px 10px;
-      font-size: 2em;
+      padding: px($s-s) px($s-m);
+      font-size: $f-xl;
       max-width: 94vw;
     }
 
     @include media-breakpoint-up(md) {
-      margin-bottom: 40px;
+      margin-bottom: px($s-l * 2);
     }
   }
 
-  .move-shake-pause-repeat {
-    .text {
-      font-size: 1.5em;
+  &.move-shake-pause-repeat {
+    .project-name .text {
+      font-size: $f-xl * 0.75;
+
+      @include media-breakpoint-up(md) {
+        font-size: $f-xl;
+      }
     }
   }
 
   .project-company {
-    font-size: 1.3em;
-    font-weight: 600;
+    font-size: $f-l;
+    font-weight: $f-bold;
   }
 
   .project-tools {
@@ -82,16 +84,16 @@ $t-mid: 600ms;
     color: rgba(#000000, 0.6);
 
     span {
-      padding-top: 15px;
-      padding-bottom: 15px;
+      padding-top: px($s-m);
+      padding-bottom: px($s-m);
     }
   }
 
   .project-links {
-    font-size: 2em;
+    font-size: $f-xl;
 
     .project-link {
-      margin: 10px;
+      margin: px($s-m);
     }
   }
 
@@ -106,13 +108,13 @@ $t-mid: 600ms;
   .project-clients,
   .project-links,
   .team {
-    margin-bottom: 15px;
+    margin-bottom: px($s-m);
   }
 
   .animated-text {
     background-color: white;
     display: inline-block;
-    padding: 5px 10px 5px 5px;
+    padding: px($s-s) px($s-m) px($s-s) px($s-s);
   }
 }
 

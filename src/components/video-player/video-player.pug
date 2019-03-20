@@ -4,10 +4,11 @@
   video(loop, name="video")
     each source in project.preview.src.HD
       -
+        var root = "https://storage.googleapis.com/soul-fresh-com-videos";
         var parts = source.split('.');
         var type = parts[parts.length - 1];
 
       source(
-        src="assets/video/" + source,
+        src=`${root}/${source}`
         type="video/" + type
       )

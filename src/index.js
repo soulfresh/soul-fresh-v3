@@ -5,17 +5,11 @@ import { Dimensions } from './components/dimensions';
 import { Projects } from './components/projects';
 import { selectors } from './components/selectors';
 
-function createBoxes(root, total, name, classes) {
-  for (let i = 0; i < total; i++) {
-    root.append(`<div name="${name}" class="${classes}"></div>`);
-  }
-}
-
-function colorize(elements, style, saturation='50%', lightness='50%') {
-  elements.each((i) => {
-    const hue = (360 / elements.length) * i;
-    const color = `hsla(${hue}, ${saturation}, ${lightness}, 1)`;
-    elements.eq(i).css(style, color);
+function createBoxes(root, ids, name, classes) {
+  ids.forEach((id) => {
+    root.append(
+      `<div name="${name}" class="${id} ${classes}"></div>`
+    );
   });
 }
 
@@ -32,6 +26,12 @@ const colorBoxContainer = $('<div name="colorBoxes" class="colors"></div>');
 const descriptionBoxContainer = $('<div name="descriptionBoxes" class="description-boxes"></div>');
 const dimensions = new Dimensions();
 
+// Get the ids of all our projects.
+const projectIds = [];
+projects.each((i, p) => {
+  projectIds.push(p.getAttribute('id'));
+});
+
 const yearsSizeRatio = 0.25;
 const descriptionBoxRatio = 1.5;
 
@@ -41,15 +41,10 @@ root.prepend(yearsContainer);
 root.prepend(colorBoxContainer);
 root.append(descriptionBoxContainer);
 
-createBoxes(colorBoxContainer, years.length, 'colorBox', 'color-box');
-createBoxes(descriptionBoxContainer, years.length, 'descriptionBox', 'description-box');
+createBoxes(colorBoxContainer, projectIds, 'colorBox', 'color-box color-background');
+createBoxes(descriptionBoxContainer, projectIds, 'descriptionBox', 'description-box color-background');
 
 const descriptionBoxes = $(selectors.descriptionBox);
-
-colorize($(selectors.colorBox), 'background-color');
-colorize(descriptionBoxes, 'background-color', '75%', '75%');
-colorize($(selectors.projectTitle), 'background-color');
-colorize(years, 'color');
 
 var bottomPadding = 0;
 const resizeBottomPadding = () => {
