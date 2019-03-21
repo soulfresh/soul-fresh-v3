@@ -1,0 +1,20 @@
+@import '../../_theme';
+
+.years {
+  font-family: $f-fat;
+  font-weight: $f-bold;
+  position: fixed;
+  // transition: top ease-out 150ms;
+
+  .project-year {
+    opacity: 0.3;
+    transition: opacity $t-l, font-size $t-s ease-out;
+    font-size: $f-xl;
+
+    &.focused {
+      opacity: 1;
+      font-size: $f-xxl;
+    }
+  }
+}
+

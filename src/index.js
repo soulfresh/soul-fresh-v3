@@ -5,24 +5,14 @@ import { Dimensions } from './components/dimensions';
 import { Projects } from './components/projects';
 import { selectors } from './components/selectors';
 import { Years } from './components/years';
-
-function createBoxes(root, ids, name, classes) {
-  ids.forEach((id) => {
-    root.append(
-      `<div name="${name}" class="${id} ${classes}"></div>`
-    );
-  });
-}
+import { LeftColors, RightColors } from './components/left-colors';
 
 var documentReady = false;
 const win = $(window);
-const html = $('html');
 const header = $(selectors.header);
 const root = $(selectors.root);
 const work = $(selectors.work);
 const projects = $(selectors.project);
-const colorBoxContainer = $('<div name="colorBoxes" class="colors"></div>');
-const descriptionBoxContainer = $('<div name="descriptionBoxes" class="description-boxes"></div>');
 const dimensions = new Dimensions();
 
 // Get the ids of all our projects.
@@ -31,45 +21,24 @@ projects.each((i, p) => {
   projectIds.push(p.getAttribute('id'));
 });
 
-const descriptionBoxRatio = 1.5;
+const colorsL = new LeftColors(root, projectIds);
+colorsL.init();
+
+const colorsR = new RightColors(root, projectIds);
+colorsR.init();
 
 const years = new Years(root);
 years.init();
 
-// Move Year elements into their own container.
-root.prepend(colorBoxContainer);
-root.append(descriptionBoxContainer);
-
-createBoxes(colorBoxContainer, projectIds, 'colorBox', 'color-box color-background');
-createBoxes(descriptionBoxContainer, projectIds, 'descriptionBox', 'description-box color-background');
-
-const descriptionBoxes = $(selectors.descriptionBox);
-
-var bottomPadding = 0;
 const resizeBottomPadding = () => {
   // Calculate bottom padding so last item aligns to top of page.
-  bottomPadding = win.height() - projects.last().outerHeight() - header.outerHeight();
-  work.css('padding-bottom', bottomPadding);
+  work.css('padding-bottom', dimensions.bottomPadding);
 };
 // Get this close. We'll recalculate once the videos are loaded.
 resizeBottomPadding();
 
-// These should be calculated after DOM modifications.
-const headerH = header.outerHeight();
-
-const boxesH = colorBoxContainer.outerHeight();
-
-const resizeDescriptionBoxes = () => {
-  projects.each((i) => {
-    let h = projects.eq(i).outerHeight() * descriptionBoxRatio;
-    if (i === projects.length - 1) {
-      // Add the bottom padding.
-      h += bottomPadding;
-    }
-    descriptionBoxes.eq(i).height(h);
-  });
-}
-resizeDescriptionBoxes();
+colorsL.resize();
+colorsR.resize();
 
 const projectsHelper = new Projects();
 projectsHelper.init(work);
@@ -100,14 +69,10 @@ players.init(work);
 
 const parallax = () => {
   const scrolled = dimensions.scrollPercent();
-  // TODO These should be separate components that do
-  // the calculation.
-  const dMove = (dimensions.scrollH * scrolled) * descriptionBoxRatio;
-  const bMove = (boxesH - dimensions.viewportH) * scrolled;
 
   years.scroll(scrolled, dimensions.scrollH);
-  descriptionBoxContainer.css('transform', `translateY(-${dMove}px)`);
-  colorBoxContainer.css('transform', `translateY(-${bMove}px)`);
+  colorsR.scroll(scrolled, dimensions.scrollH);
+  colorsL.scroll(scrolled, dimensions.scrollH);
 };
 
 const focusTracker = throttle(
@@ -125,21 +90,17 @@ const onResize = () => {
   dimensions.update();
   resizeBottomPadding();
   years.resize();
-  resizeDescriptionBoxes();
+  colorsR.resize();
 
-  // Listen to scroll events on the body.
+  // Update the positions of everything.
   onScroll();
 };
 
 const ready = () => {
-  requestAnimationFrame(() => {
-    onResize();
-  });
+  requestAnimationFrame(() => onResize());
 }
 
-players.once('ready', () => {
-  ready();
-});
+players.once('ready', () => ready());
 
 win.on('load', () => {
   documentReady = true;

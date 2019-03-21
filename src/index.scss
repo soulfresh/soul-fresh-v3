@@ -112,24 +112,6 @@ a {
   }
 }
 
-.years {
-  font-family: $f-fat;
-  font-weight: $f-bold;
-  position: fixed;
-  // transition: top ease-out 150ms;
-
-  .project-year {
-    opacity: 0.3;
-    transition: opacity $t-l, font-size $t-s ease-out;
-    font-size: $f-xl;
-
-    &.focused {
-      opacity: 1;
-      font-size: $f-xxl;
-    }
-  }
-}
-
 .project-year {
   h3 {
     transform: translateY(50px) rotate(-90deg);
@@ -174,5 +156,6 @@ a {
 
 @import "./components/video-player/video-player.scss";
 @import "./components/audio-player/audio-player.scss";
+@import "./components/years/years";
 @import "./components/projects/project.scss";
 @import "./components/experience/experience.scss";
