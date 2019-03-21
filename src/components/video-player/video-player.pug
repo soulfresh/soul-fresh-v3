@@ -1,14 +1,48 @@
 .video-container(name="videoContainer")
   .play-video(name="playVideo")
-    i.fas.fa-play-circle
-  video(loop, name="video")
-    each source in project.preview.src.HD
-      -
-        var root = "https://storage.googleapis.com/soul-fresh-com-videos";
-        var parts = source.split('.');
-        var type = parts[parts.length - 1];
+    .icon-wrapper
+      i.fas.fa-play-circle
 
-      source(
-        src=`${root}/${source}`
-        type="video/" + type
-      )
+  -
+    //- var root = "assets/video";
+    var root = "https://storage.googleapis.com/soul-fresh-com-videos";
+    var image = encodeURIComponent(project.preview.meta.img);
+    var poster = `assets/poster-frames/${image}`;
+    var sources = project.preview.src;
+    var large = sources.largeHD[0];
+    var parts = large.split(' x ');
+    var partsL = parts[0].trim().split(' ');
+    var partsR = parts[1].trim().split(' ');
+    var width = parseInt(partsL[partsL.length - 1], 10);
+    var height = parseInt(partsR[0], 10);
+    var ratio = (height / width) * 100;
+
+    var style = `background-image: url(${poster});`;
+    style    += `padding-top: ${ratio}%;`;
+    style    += "background-size: cover;"
+
+  .video-poster(
+    style=style,
+    data-width=width,
+    data-height=height,
+    data-poster=poster,
+    data-large-hd=sources.largeHD,
+    data-large-sd=sources.largeSD,
+    data-small-hd=sources.smallHD,
+    data-small-sd=sources.smallSD
+  )
+  //- video(
+  //-   loop,
+  //-   name="video",
+  //-   playsinlne="true",
+  //-   poster=poster
+  //- )
+  //-   each source in project.preview.src.smallHD
+  //-     -
+  //-       var parts = source.split('.');
+  //-       var type = parts[parts.length - 1];
+  //-
+  //-     source(
+  //-       src=`${root}/${source}`
+  //-       type="video/" + type
+  //-     )

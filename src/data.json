@@ -77,9 +77,14 @@
       "links": [],
       "preview": {
         "type": "video",
+        "meta": {
+          "img": "Flash.jpg"
+        },
         "src": {
-          "HD": ["Flash 960 x 720 HD.webm", "Flash 960 x 720.mp4"],
-          "SD": ["Flash 640 x 480 SD.webm", "Flash 640 x 480.mp4"]
+          "largeHD": ["Flash 960 x 720 HD.webm", "Flash 960 x 720 HD.mp4"],
+          "largeSD": ["Flash 960 x 720 SD.webm", "Flash 960 x 720 SD.mp4"],
+          "smallHD": ["Flash 640 x 480 HD.webm", "Flash 640 x 480 HD.mp4"],
+          "smallSD": ["Flash 640 x 480 SD.webm", "Flash 640 x 480 SD.mp4"]
         }
       }
     }, {
@@ -102,9 +107,14 @@
       "links": [],
       "preview": {
         "type": "video",
+        "meta": {
+          "img": "OpenGL.jpg"
+        },
         "src": {
-          "HD": ["OpenGL 960 x 720 HD.webm", "OpenGL 960 x 720.mp4"],
-          "SD": ["OpenGL 640 x 480 SD.webm", "OpenGL 640 x 480.mp4"]
+          "largeHD": ["OpenGL 960 x 720 HD.webm", "OpenGL 960 x 720 HD.mp4"],
+          "largeSD": ["OpenGL 960 x 720 SD.webm", "OpenGL 960 x 720 SD.mp4"],
+          "smallHD": ["OpenGL 640 x 480 HD.webm", "OpenGL 640 x 480 HD.mp4"],
+          "smallSD": ["OpenGL 640 x 480 SD.webm", "OpenGL 640 x 480 SD.mp4"]
         }
       }
     }, {
@@ -130,9 +140,14 @@
       "links": [],
       "preview": {
         "type": "video",
+        "meta": {
+          "img": "Beatport.jpg"
+        },
         "src": {
-          "HD": ["Beatport 960 x 720 HD.webm", "Beatport 960 x 720.mp4"],
-          "SD": ["Beatport 640 x 480 SD.webm", "Beatport 640 x 480.mp4"]
+          "largeHD": ["Beatport 960 x 720 HD.webm", "Beatport 960 x 720 HD.mp4"],
+          "largeSD": ["Beatport 960 x 720 SD.webm", "Beatport 960 x 720 SD.mp4"],
+          "smallHD": ["Beatport 640 x 480 HD.webm", "Beatport 640 x 480 HD.mp4"],
+          "smallSD": ["Beatport 640 x 480 SD.webm", "Beatport 640 x 480 SD.mp4"]
         }
       }
     }, {
@@ -156,9 +171,14 @@
       "description": "Reporting dashboard for PowerPro Leasing software. PDF and CSV generation for email reporting.",
       "preview": {
         "type": "video",
+        "meta": {
+          "img": "PowerPro.jpg"
+        },
         "src": {
-          "HD": ["PowerPro 960 x 720 HD.webm", "PowerPro 960 x 720.mp4"],
-          "SD": ["PowerPro 640 x 480 SD.webm", "PowerPro 640 x 480.mp4"]
+          "largeHD": ["PowerPro 960 x 720 HD.webm", "PowerPro 960 x 720 HD.mp4"],
+          "largeSD": ["PowerPro 960 x 720 SD.webm", "PowerPro 960 x 720 SD.mp4"],
+          "smallHD": ["PowerPro 640 x 480 HD.webm", "PowerPro 640 x 480 HD.mp4"],
+          "smallSD": ["PowerPro 640 x 480 SD.webm", "PowerPro 640 x 480 SD.mp4"]
         }
       }
     }, {
@@ -183,9 +203,14 @@
       "description": "Software and hardware for intuitive control of lighting, video and sound. Microcontroller development using ESP32 and Arduino. Product design and fabrication.",
       "preview": {
         "type": "video",
+        "meta": {
+          "img": "BitMod.jpg"
+        },
         "src": {
-          "HD": ["BitMod 960 x 540 HD.webm", "BitMod 960 x 540.mp4"],
-          "SD": ["BitMod 640 x 360 SD.webm", "BitMod 640 x 360.mp4"]
+          "largeHD": ["BitMod 960 x 540 HD.webm", "BitMod 960 x 540 HD.mp4"],
+          "largeSD": ["BitMod 960 x 540 SD.webm", "BitMod 960 x 540 SD.mp4"],
+          "smallHD": ["BitMod 640 x 360 HD.webm", "BitMod 640 x 360 HD.mp4"],
+          "smallSD": ["BitMod 640 x 360 SD.webm", "BitMod 640 x 360 SD.mp4"]
         }
       }
     }, {
@@ -212,9 +237,14 @@
       "description": "WebRTC based video conferencing web application. Custom hardware with Bluetooth discovery of nearby meeting rooms. Android and iOS apps for remote control of video conferencing hardware and mobile meetings.",
       "preview": {
         "type": "video",
+        "meta": {
+          "img": "Foxden.jpg"
+        },
         "src": {
-          "HD": ["Foxden 960 x 720 HD.webm", "Foxden 960 x 720.mp4"],
-          "SD": ["Foxden 640 x 480 SD.webm", "Foxden 640 x 480.mp4"]
+          "largeHD": ["Foxden 960 x 720 HD.webm", "Foxden 960 x 720 HD.mp4"],
+          "largeSD": ["Foxden 960 x 720 SD.webm", "Foxden 960 x 720 SD.mp4"],
+          "smallHD": ["Foxden 640 x 480 HD.webm", "Foxden 640 x 480 HD.mp4"],
+          "smallSD": ["Foxden 640 x 480 SD.webm", "Foxden 640 x 480 SD.mp4"]
         }
       }
     }, {
@@ -235,9 +265,14 @@
       "links": [],
       "preview": {
         "type": "video",
+        "meta": {
+          "img": "Ello.jpg"
+        },
         "src": {
-          "HD": ["Ello 960 x 720 HD.webm", "Ello 960 x 720.mp4"],
-          "SD": ["Ello 640 x 480 SD.webm", "Ello 640 x 480.mp4"]
+          "largeHD": ["Ello 960 x 720 HD.webm", "Ello 960 x 720 HD.mp4"],
+          "largeSD": ["Ello 960 x 720 SD.webm", "Ello 960 x 720 SD.mp4"],
+          "smallHD": ["Ello 640 x 480 HD.webm", "Ello 640 x 480 HD.mp4"],
+          "smallSD": ["Ello 640 x 480 SD.webm", "Ello 640 x 480 SD.mp4"]
         }
       }
     }, {
@@ -254,9 +289,14 @@
       "description": "Sync music licensing website expands the content licensing offering for Shutterstock.com. Managed development team, business relationships, product vision and user experience.",
       "preview": {
         "type": "video",
+        "meta": {
+          "img": "Shutterstock.jpg"
+        },
         "src": {
-          "HD": ["Shutterstock 960 x 720 HD.webm", "Shutterstock 960 x 720.mp4"],
-          "SD": ["Shutterstock 640 x 480 SD.webm", "Shutterstock 640 x 480.mp4"]
+          "largeHD": ["Shutterstock 960 x 720 HD.webm", "Shutterstock 960 x 720 HD.mp4"],
+          "largeSD": ["Shutterstock 960 x 720 SD.webm", "Shutterstock 960 x 720 SD.mp4"],
+          "smallHD": ["Shutterstock 640 x 480 HD.webm", "Shutterstock 640 x 480 HD.mp4"],
+          "smallSD": ["Shutterstock 640 x 480 SD.webm", "Shutterstock 640 x 480 SD.mp4"]
         }
       }
     }, {
@@ -271,9 +311,14 @@
       "links": [],
       "preview": {
         "type": "video",
+        "meta": {
+          "img": "Echo Machine.jpg"
+        },
         "src": {
-          "HD": ["Echo Machine 960 x 720 HD.webm", "Echo Machine 960 x 720.mp4"],
-          "SD": ["Echo Machine 640 x 480 SD.webm", "Echo Machine 640 x 480.mp4"]
+          "largeHD": ["Echo Machine 960 x 720 HD.webm", "Echo Machine 960 x 720 HD.mp4"],
+          "largeSD": ["Echo Machine 960 x 720 SD.webm", "Echo Machine 960 x 720 SD.mp4"],
+          "smallHD": ["Echo Machine 640 x 480 HD.webm", "Echo Machine 640 x 480 HD.mp4"],
+          "smallSD": ["Echo Machine 640 x 480 SD.webm", "Echo Machine 640 x 480 SD.mp4"]
         }
       }
     }, {

@@ -14,6 +14,7 @@ export class Players extends EventEmitter {
     super();
     this.ready = false;
     this.playersLoaded = 0;
+    this.paused = false;
   }
 
   init(root) {
@@ -51,54 +52,41 @@ export class Players extends EventEmitter {
     this.containers.on('click', (event) => {
       const video = event.currentTarget.querySelector(selectors.video);
       if (video.paused) {
+        this.paused = false;
         this.play(video);
       } else {
+        this.paused = true;
         this.pause(video);
       }
     });
   }
 
-  // TODO This logic could be moved elsewhere to be project specific
-  // and could then call play/pause.
-  focus(bottom) {
-    let found = false;
-    for (let i = 0; i < this.videos.length; i++) {
-      let video = this.videos[i];
-      let bounds = video.getBoundingClientRect();
-      let videoBottom = bounds.top + bounds.height;
-      if (bounds.top < 0) {
-        this.playerHidden(video, i);
-      } else if (videoBottom < bottom && !found) {
-        this.playerShown(video, i);
-        found = true;
-      } else if (video.classList.contains('visible')) {
-        this.playerHidden(video, i);
-      } else {
-        return;
-      }
-    }
-  }
-
-  playerShown(video, index) {
-    if (!video.__focused) {
-      video.__focused = true;
-      video.classList.add('visible');
-      this.play(video);
-    }
-  }
-
-  playerHidden(video, index) {
-    if (video.__focused) {
-      video.__focused = false;
-      video.classList.remove('visible');
-      this.pause(video);
-    }
+  muteAll() {
+    this.videos.each((i, v) => v.muted = true);
   }
 
   play(video) {
-    if (video.paused) {
-      video.play();
-      $(video).closest(selectors.container).addClass('playing');
+    if (video.paused && !this.paused) {
+      const result = video.play();
+      if (result && result.catch) {
+        result
+          .then(() => {
+            $(video).closest(selectors.container).addClass('playing');
+          })
+          .catch((e) => {
+            this.muteAll();
+
+            video.play()
+              .then(() => {
+                $(video).closest(selectors.container).addClass('playing');
+              })
+              .catch((e) => console.error('Could not play video', e))
+            ;
+          })
+        ;
+      } else {
+        $(video).closest(selectors.container).addClass('playing');
+      }
     }
   }
 

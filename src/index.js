@@ -4,6 +4,7 @@ import { Players } from './components/video-player';
 import { Dimensions } from './components/dimensions';
 import { Projects } from './components/projects';
 import { selectors } from './components/selectors';
+import { Years } from './components/years';
 
 function createBoxes(root, ids, name, classes) {
   ids.forEach((id) => {
@@ -20,8 +21,6 @@ const header = $(selectors.header);
 const root = $(selectors.root);
 const work = $(selectors.work);
 const projects = $(selectors.project);
-const yearsContainer = $('<div name="years" class="years"></div>');
-const years = $(selectors.year);
 const colorBoxContainer = $('<div name="colorBoxes" class="colors"></div>');
 const descriptionBoxContainer = $('<div name="descriptionBoxes" class="description-boxes"></div>');
 const dimensions = new Dimensions();
@@ -32,12 +31,12 @@ projects.each((i, p) => {
   projectIds.push(p.getAttribute('id'));
 });
 
-const yearsSizeRatio = 0.25;
 const descriptionBoxRatio = 1.5;
 
+const years = new Years(root);
+years.init();
+
 // Move Year elements into their own container.
-years.appendTo(yearsContainer);
-root.prepend(yearsContainer);
 root.prepend(colorBoxContainer);
 root.append(descriptionBoxContainer);
 
@@ -58,18 +57,7 @@ resizeBottomPadding();
 // These should be calculated after DOM modifications.
 const headerH = header.outerHeight();
 
-const yearsH = yearsContainer.outerHeight();
-const visibleH = years.last().outerHeight();
 const boxesH = colorBoxContainer.outerHeight();
-
-const resizeYears = () => {
-  // Resize years to be a factor of their project height.
-  projects.each((i) => {
-    years.eq(i).height(projects.eq(i).outerHeight() * yearsSizeRatio);
-  });
-};
-// Get these close. We'll recalculate once the videos are ready.
-resizeYears();
 
 const resizeDescriptionBoxes = () => {
   projects.each((i) => {
@@ -91,9 +79,9 @@ projectsHelper.on('focused', (i) => {
   const type = project.attr('data-type');
   if (type === 'video') {
     const video = project[0].querySelector('video');
-    players.play(video);
+    // players.play(video);
   }
-  years.eq(i).addClass('focused');
+  years.focus(i);
 });
 
 projectsHelper.on('hidden', (i) => {
@@ -101,9 +89,9 @@ projectsHelper.on('hidden', (i) => {
   const type = project.attr('data-type');
   if (type === 'video') {
     const video = project[0].querySelector('video');
-    players.pause(video);
+    // players.pause(video);
   }
-  years.eq(i).removeClass('focused');
+  years.unfocus(i);
 });
 
 // Setup video players.
@@ -114,11 +102,10 @@ const parallax = () => {
   const scrolled = dimensions.scrollPercent();
   // TODO These should be separate components that do
   // the calculation.
-  const yMove = (dimensions.scrollH * scrolled) * yearsSizeRatio;
   const dMove = (dimensions.scrollH * scrolled) * descriptionBoxRatio;
   const bMove = (boxesH - dimensions.viewportH) * scrolled;
 
-  yearsContainer.css('transform', `translateY(-${yMove}px)`);
+  years.scroll(scrolled, dimensions.scrollH);
   descriptionBoxContainer.css('transform', `translateY(-${dMove}px)`);
   colorBoxContainer.css('transform', `translateY(-${bMove}px)`);
 };
@@ -137,7 +124,7 @@ const onScroll = () => {
 const onResize = () => {
   dimensions.update();
   resizeBottomPadding();
-  resizeYears();
+  years.resize();
   resizeDescriptionBoxes();
 
   // Listen to scroll events on the body.

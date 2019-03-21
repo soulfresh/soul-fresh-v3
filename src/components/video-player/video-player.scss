@@ -16,10 +16,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
     font-size: px(80);
     opacity: 0;
     transition: opacity $t-s linear;
+    color: white;
+
+    .icon-wrapper {
+      display: flex;
+      overflow: hidden;
+      border: px($s-m) solid rgba(#000, 0.5);
+      border-radius: 100%;
+    }
+
+    .fas {
+      background-color: rgba(#000, 0.7);
+    }
   }
 
   &.playing {
@@ -30,7 +41,7 @@
 
   &:hover {
     .play-video {
-      opacity: 0.7;
+      opacity: 0.85;
     }
   }
 
