@@ -16,7 +16,7 @@ block content
         i.fab.fa-linkedin
   .content(name="root")
     #work.work
-      each project in projects
+      each project, projectIndex in projects
         include components/projects/project.pug
 
 block colors

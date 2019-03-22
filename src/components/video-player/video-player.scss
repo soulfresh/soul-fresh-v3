@@ -29,6 +29,24 @@
     }
   }
 
+  @keyframes spin {
+    from {transform:rotate(0deg) scale(0.75);}
+    to {transform:rotate(360deg) scale(0.75);}
+  }
+
+  &.loading {
+    .play-video {
+      opacity: 0.85;
+    }
+
+    i::before {
+      content: "\f110";
+      display: inline-block;
+      transform: scale(0.75);
+      animation: spin 1s infinite linear;
+    }
+  }
+
   &.playing {
     i::before {
       content: "\f28b";

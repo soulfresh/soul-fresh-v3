@@ -1,7 +1,7 @@
 .video-container(name="videoContainer")
-  //- .play-video(name="playVideo")
-  //-   .icon-wrapper
-  //-     i.fas.fa-play-circle.color-background
+  .play-video(name="playVideo")
+    .icon-wrapper
+      i.fas.fa-play-circle.color-background
 
   -
     //- var root = "assets/video";
@@ -21,30 +21,31 @@
     style    += `padding-top: ${ratio}%;`;
     style    += "background-size: cover;"
 
-  .video-poster(
-    name="poster"
-    style=style,
-    data-width=width,
-    data-height=height,
-    data-poster=poster,
-    data-root=root,
-    data-large-hd=sources.largeHD.join('||'),
-    data-large-sd=sources.largeSD.join('||'),
-    data-small-hd=sources.smallHD.join('||'),
-    data-small-sd=sources.smallSD.join('||')
-  )
-  //- video(
-  //-   loop,
-  //-   name="video",
-  //-   playsinlne="true",
-  //-   poster=poster
+  //- .video-poster(
+  //-   name="poster"
+  //-   style=style,
+  //-   data-width=width,
+  //-   data-height=height,
+  //-   data-poster=poster,
+  //-   data-root=root,
+  //-   data-large-hd=sources.largeHD.join('||'),
+  //-   data-large-sd=sources.largeSD.join('||'),
+  //-   data-small-hd=sources.smallHD.join('||'),
+  //-   data-small-sd=sources.smallSD.join('||')
   //- )
-  //-   each source in project.preview.src.smallHD
-  //-     -
-  //-       var parts = source.split('.');
-  //-       var type = parts[parts.length - 1];
-  //-
-  //-     source(
-  //-       src=`${root}/${source}`
-  //-       type="video/" + type
-  //-     )
+
+  video(
+    loop,
+    name="video",
+    poster=poster,
+    preload= projectIndex == 0 ? "auto" : "none"
+  )
+    each source in project.preview.src.smallHD
+      -
+        var parts = source.split('.');
+        var type = parts[parts.length - 1];
+
+      source(
+        src=`${root}/${source}`
+        type="video/" + type
+      )

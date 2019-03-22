@@ -45,20 +45,11 @@ projectsHelper.init(work);
 
 projectsHelper.on('focused', (i) => {
   const project = projects.eq(i);
-  const type = project.attr('data-type');
-  if (type === 'video') {
-    players.show(project);
-    players.play(project);
-  }
+  players.focus(project);
   years.focus(i);
 });
 
 projectsHelper.on('hidden', (i) => {
-  const project = projects.eq(i);
-  const type = project.attr('data-type');
-  if (type === 'video') {
-    players.pause(project);
-  }
   years.unfocus(i);
 });
 
@@ -99,7 +90,7 @@ const ready = () => {
   requestAnimationFrame(() => onResize());
 }
 
-players.once('ready', () => ready());
+players.on('ready', () => ready());
 
 win.on('load', () => {
   documentReady = true;
