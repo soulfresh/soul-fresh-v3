@@ -7,10 +7,19 @@ export class Players extends EventEmitter {
     super();
     this.ready = false;
     this.paused = false;
+    this.muted = false;
+    this.nativeControls = false;
     this.errors = false;
     this.progressSpeed = 1000;
     // The PROJECT element that is focused.
     this.focused = null;
+    this.debug = true;
+  }
+
+  log() {
+    if (this.debug) {
+      console.log(...arguments);
+    }
   }
 
   init(root) {
@@ -39,15 +48,14 @@ export class Players extends EventEmitter {
       const now = Date.now();
 
       if (now >= this.lastProgressEvent + this.progressSpeed) {
-        console.log('no progress in a while');
+        this.log(`slow progress: ${now} >= ${this.lastProgressEvent + this.progressSpeed} = true`);
         this.loadingState(v);
       }
       else {
+        this.log(`normal progress: ${now} >= ${this.lastProgressEvent + this.progressSpeed} = false`);
         if (!v.paused) {
-          console.log('setting playing state');
           this.playingState(v);
         } else {
-          console.log('setting paused state.');
           this.pausedState(v);
         }
       }
@@ -91,26 +99,33 @@ export class Players extends EventEmitter {
   }
 
   initPlayButtons() {
-    this.containers.on('click', (event) => {
-      const target = event.currentTarget;
-      const video = event.currentTarget.querySelector(selectors.video);
-      const project = $(target).closest(selectors.project);
-      if (video.paused) {
-        this.paused = false;
-        this.play(project);
-      } else {
-        this.paused = true;
-        this.pause(project);
-      }
-    });
+    if (!this.nativeControls) {
+      this.containers.on('click', (event) => {
+        const target = event.currentTarget;
+        const video = target.querySelector(selectors.video);
+        const project = $(target).closest(selectors.project);
+        if (video.paused) {
+          this.paused = false;
+          this.play(project);
+          $(document.body).removeClass('videos-paused');
+        } else {
+          this.paused = true;
+          this.pause(project);
+          $(document.body).addClass('videos-paused');
+        }
+      });
+    }
   }
 
   muteAll() {
     this.videos.each((i, v) => v.muted = true);
+    this.muted = true;
   }
 
   showAllControls() {
     this.videos.each((i, v) => v.controls = true);
+    this.nativeControls = true;
+    document.body.classList.add('show-native-video-controls');
   }
 
   playingState(video) {
@@ -168,22 +183,18 @@ export class Players extends EventEmitter {
       const result = video.play();
       if (result && result.catch) {
         result
-          .then(() => {
-            console.log('playback starting');
-          })
+          .then(() => this.log('Playback started the first time.'))
           .catch((e) => {
-            console.warn('could not play...trying again');
+            this.log('1. Could not play...trying again', e.name, e.message);
             this.errors = true;
             this.muteAll();
 
             video.play()
-              .then(() => {
-                console.log('playback started the second time.');
-                // this.playingState(video);
-              })
+              .then(() => this.log('Playback started the second time.'))
               .catch((e) => {
+                this.log('2. Could not play video', e.name, e.message);
+                this.showAllControls();
                 this.removeStateChanges(video);
-                console.error('Could not play video', e);
               })
             ;
           })

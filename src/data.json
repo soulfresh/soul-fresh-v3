@@ -391,10 +391,6 @@
           "name": "Amazon Music",
           "icon": "fab fa-amazon",
           "url": "http://www.amazon.com/gp/product/B01CQW8PTC/?tag=distrokid06-20"
-        },{
-          "name": "More Stores",
-          "icon": "fas fa-plus",
-          "url": "https://distrokid.com/hyperfollow/moongold/HpR"
         }
       ],
       "preview": {

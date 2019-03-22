@@ -1,5 +1,58 @@
 @import '../../theme';
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg) scale(0.75);
+  }
+  80% {
+    transform: rotate(360deg) scale(0.75);
+  }
+  100% {
+    transform: rotate(360deg) scale(0.75);
+  }
+}
+
+@keyframes downloading {
+  0% {
+    transform: translateY(-100%) scale(0.75);
+  }
+  40% {
+    transform: translateY(0) scale(0.75);
+  }
+  60% {
+    transform: translateY(0) scale(0.75);
+  }
+  100% {
+    transform: translateY(100%) scale(0.75);
+  }
+}
+
+body {
+  // Hide custom controls by default.
+  .play-video {
+    display: none;
+  }
+
+  // Use custom controls if we haven't explicity turned them off.
+  &:not(.show-native-video-controls) {
+    .play-video {
+      display: flex;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    // If videos are globally paused.
+    &.videos-paused {
+      .play-video {
+        opacity: $hover-state-opacity;
+      }
+    }
+  }
+}
+
 .video-container {
   position: relative;
   cursor: pointer;
@@ -8,12 +61,6 @@
   margin: -4px 0;
 
   .play-video {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
     justify-content: center;
     align-items: center;
     font-size: px(80);
@@ -26,24 +73,35 @@
       overflow: hidden;
       border: px($s-m) solid rgba(#000, 0.5);
       border-radius: 100%;
-    }
-  }
 
-  @keyframes spin {
-    from {transform:rotate(0deg) scale(0.75);}
-    to {transform:rotate(360deg) scale(0.75);}
+      // Fix circular masking with animation in Safari.
+      transform: translate3d(0, 0, 0);
+
+      i {
+        border-radius: 100%;
+
+        &::before {
+          border-radius: 100%;
+          display: inline-block;
+          // animation: loading 600ms infinite ease-in-out;
+          // transform: translateY(50%) scale(0.75);
+        }
+      }
+    }
   }
 
   &.loading {
     .play-video {
-      opacity: 0.85;
+      opacity: $hover-state-opacity;
     }
 
     i::before {
-      content: "\f110";
-      display: inline-block;
-      transform: scale(0.75);
-      animation: spin 1s infinite linear;
+      // content: "\f063"; // down arrow
+      // content: "\f0ab"; // down arrow circle
+      // content: "\f059"; // question mark
+      content: "\f1ce"; // circle notch
+      // content: "\f110"; // dot spinner
+      animation: spin 1s infinite ease-in-out;
     }
   }
 
@@ -55,7 +113,7 @@
 
   &:hover {
     .play-video {
-      opacity: 0.85;
+      opacity: $hover-state-opacity;
     }
   }
 
