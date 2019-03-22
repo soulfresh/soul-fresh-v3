@@ -47,8 +47,8 @@ projectsHelper.on('focused', (i) => {
   const project = projects.eq(i);
   const type = project.attr('data-type');
   if (type === 'video') {
-    const video = project[0].querySelector('video');
-    // players.play(video);
+    players.show(project);
+    players.play(project);
   }
   years.focus(i);
 });
@@ -57,8 +57,7 @@ projectsHelper.on('hidden', (i) => {
   const project = projects.eq(i);
   const type = project.attr('data-type');
   if (type === 'video') {
-    const video = project[0].querySelector('video');
-    // players.pause(video);
+    players.pause(project);
   }
   years.unfocus(i);
 });
