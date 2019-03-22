@@ -65,10 +65,10 @@ export class Players extends EventEmitter {
   }
 
   show(project) {
-    const image = project.find(selectors.poster);
+    const video = project.find(selectors.video);
 
-    if (image.length > 0) {
-      console.log('showing', project);
+    if (video.length < 1) {
+      const image = project.find(selectors.poster);
       const container = project.find(selectors.container);
       const poster = image.attr('data-poster');
       const sources = image.attr('data-small-sd').split('||');
@@ -118,7 +118,6 @@ export class Players extends EventEmitter {
             console.warn('could not play...trying again');
             this.errors = true;
             this.muteAll();
-            // this.showAllControls();
 
             video.play()
               .then(() => {
