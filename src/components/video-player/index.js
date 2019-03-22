@@ -31,6 +31,23 @@ export class Players extends EventEmitter {
     this.lastProgressEvent = Date.now();
 
     this.onVideoProgress = this.updateVideoProgress.bind(this);
+
+    if (this.debug) {
+      this.onAbort          = () => this.log('abort', ...arguments);
+      this.onEmptied        = () => this.log('emptied', ...arguments);
+      this.onError          = () => this.log('error', ...arguments);
+      this.onCanPlay        = () => this.log('canplay', ...arguments);
+      this.onCanPlayThrough = () => this.log('canplaythrough', ...arguments);
+      this.onLoadedData     = () => this.log('loadeddata', ...arguments);
+      this.onLoadedMetadata = () => this.log('loadedmetadata', ...arguments);
+      this.onLoadStart      = () => this.log('loadstart', ...arguments);
+      this.onSuspend        = () => this.log('suspend', ...arguments);
+      this.onStalled        = () => this.log('stalled', ...arguments);
+      this.onWaiting        = () => this.log('waiting', ...arguments);
+      this.onPlaying        = () => this.log('playing', ...arguments);
+      this.onPlay           = () => this.log('play', ...arguments);
+      this.onPause          = () => this.log('pause', ...arguments);
+    }
   }
 
   updateVideoProgress() {
@@ -71,6 +88,23 @@ export class Players extends EventEmitter {
     // TODO Do this in a request animation frame so it will pause when backgrounded.
     this.interval = setInterval(this.checkProgress.bind(this), this.progressSpeed);
     v.addEventListener('timeupdate', this.onVideoProgress);
+
+    if (this.debug) {
+      v.addEventListener('abort'          , this.onAbort);
+      v.addEventListener('emptied'        , this.onEmptied);
+      v.addEventListener('error'          , this.onError);
+      v.addEventListener('canplay'        , this.onCanPlay);
+      v.addEventListener('canplaythrough' , this.onCanPlayThrough);
+      v.addEventListener('loadedata'      , this.onLoadedData);
+      v.addEventListener('loadedmetadata' , this.onLoadedMetadata);
+      v.addEventListener('loadstart'      , this.onLoadStart);
+      v.addEventListener('suspend'        , this.onSuspend);
+      v.addEventListener('stalled'        , this.onStalled);
+      v.addEventListener('waiting'        , this.onWaiting);
+      v.addEventListener('playing'        , this.onPlaying);
+      v.addEventListener('play'           , this.onPlay);
+      v.addEventListener('pause'          , this.onPause);
+    }
   }
 
   removeStateChanges(v) {
@@ -79,6 +113,23 @@ export class Players extends EventEmitter {
       this.interval = null;
     }
     v.removeEventListener('timeupdate', this.onVideoProgress);
+
+    if (this.debug) {
+      v.removeEventListener('abort'          , this.onAbort);
+      v.removeEventListener('emptied'        , this.onEmptied);
+      v.removeEventListener('error'          , this.onError);
+      v.removeEventListener('canplay'        , this.onCanPlay);
+      v.removeEventListener('canplaythrough' , this.onCanPlayThrough);
+      v.removeEventListener('loadedata'      , this.onLoadedData);
+      v.removeEventListener('loadedmetadata' , this.onLoadedMetadata);
+      v.removeEventListener('loadstart'      , this.onLoadStart);
+      v.removeEventListener('suspend'        , this.onSuspend);
+      v.removeEventListener('stalled'        , this.onStalled);
+      v.removeEventListener('waiting'        , this.onWaiting);
+      v.removeEventListener('playing'        , this.onPlaying);
+      v.removeEventListener('play'           , this.onPlay);
+      v.removeEventListener('pause'          , this.onPause);
+    }
   }
 
   notifyWhenReady() {
