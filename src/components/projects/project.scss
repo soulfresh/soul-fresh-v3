@@ -61,7 +61,9 @@
     }
   }
 
-  &.move-shake-pause-repeat {
+  &.move-shake-pause-repeat,
+  &.flash,
+  &.shutterstock {
     .project-name .text {
       font-size: $f-xl * 0.75;
 
@@ -90,10 +92,13 @@
   }
 
   .project-links {
-    font-size: $f-xl;
-
     .project-link {
-      margin: px($s-m);
+      text-decoration: none;
+
+      i {
+        font-size: $f-xl;
+        margin: px($s-m);
+      }
     }
   }
 
@@ -107,6 +112,7 @@
   .project-tools,
   .project-clients,
   .project-links,
+  .description,
   .team {
     margin-bottom: px($s-m);
   }

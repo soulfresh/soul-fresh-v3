@@ -137,7 +137,10 @@
       "team": 30,
       "clients": [],
       "description": "Flash and HTML based eCommerce applications built for DJs. Scalable REST based SOA that processed thousands of transactions and tens of thousands of audio streams a day. Product Manager for Beatport and Beatport Sounds. Director of Software Development.",
-      "links": [],
+      "links": [{
+        "name": "Beatport",
+        "url": "https://www.beatport.com/"
+      }],
       "preview": {
         "type": "video",
         "meta": {
@@ -167,7 +170,10 @@
       "positions": ["Software Developer"],
       "team": 3,
       "clients": [],
-      "links": [],
+      "links": [{
+        "name": "PowerPro Leasing",
+        "url": "http://www.powerproleasing.com/"
+      }],
       "description": "Reporting dashboard for PowerPro Leasing software. PDF and CSV generation for email reporting.",
       "preview": {
         "type": "video",
@@ -233,7 +239,10 @@
       "positions": ["Software Developer"],
       "team": 10,
       "clients": [],
-      "links": [],
+      "links": [{
+        "name": "Foxden",
+        "url": "https://my.foxden.io"
+      }],
       "description": "WebRTC based video conferencing web application. Custom hardware with Bluetooth discovery of nearby meeting rooms. Android and iOS apps for remote control of video conferencing hardware and mobile meetings.",
       "preview": {
         "type": "video",
@@ -262,7 +271,10 @@
       "team": 8,
       "clients": [],
       "description": "Privacy focused social networking site with a large community of designers, artists and musicians.",
-      "links": [],
+      "links": [{
+        "name": "Ello",
+        "url": "https://ello.co/"
+      }],
       "preview": {
         "type": "video",
         "meta": {
@@ -285,7 +297,10 @@
       "positions": ["Product Manager"],
       "team": 5,
       "clients": [],
-      "links": [],
+      "links": [{
+        "name": "Shutterstock Music",
+        "url": "https://www.shutterstock.com/music/"
+      }],
       "description": "Sync music licensing website expands the content licensing offering for Shutterstock.com. Managed development team, business relationships, product vision and user experience.",
       "preview": {
         "type": "video",

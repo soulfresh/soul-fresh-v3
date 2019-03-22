@@ -13,7 +13,7 @@ export class Players extends EventEmitter {
     this.progressSpeed = 1000;
     // The PROJECT element that is focused.
     this.focused = null;
-    this.debug = true;
+    this.debug = false;
   }
 
   log() {
@@ -158,25 +158,43 @@ export class Players extends EventEmitter {
         if (video.paused) {
           this.paused = false;
           this.play(project);
-          $(document.body).removeClass('videos-paused');
+          $(document.body).removeClass('media-paused');
         } else {
           this.paused = true;
           this.pause(project);
-          $(document.body).addClass('videos-paused');
+          $(document.body).addClass('media-paused');
         }
       });
     }
   }
 
+  disableCustomPlayButtons() {
+    this.containers.off('click');
+  }
+
   muteAll() {
-    this.videos.each((i, v) => v.muted = true);
-    this.muted = true;
+    this.changeAllMuteStates(true);
+  }
+
+  unmuteAll() {
+    this.changeAllMuteStates(false);
+  }
+
+  changeAllMuteStates(muted = true) {
+    this.videos.each((i, v) => v.muted = muted);
+    this.muted = muted;
+    if (muted) {
+      document.body.classList.add('media-muted');
+    } else {
+      document.body.classList.remove('media-muted');
+    }
   }
 
   showAllControls() {
+    this.disableCustomPlayButtons();
     this.videos.each((i, v) => v.controls = true);
     this.nativeControls = true;
-    document.body.classList.add('show-native-video-controls');
+    document.body.classList.add('show-native-media-controls');
   }
 
   playingState(video) {
@@ -228,28 +246,33 @@ export class Players extends EventEmitter {
   }
 
   play(project) {
-    const video = project[0].querySelector('video');
-    if (video.paused && !this.paused) {
-      this.listenToStateChanges(video);
-      const result = video.play();
-      if (result && result.catch) {
-        result
-          .then(() => this.log('Playback started the first time.'))
-          .catch((e) => {
-            this.log('1. Could not play...trying again', e.name, e.message);
-            this.errors = true;
-            this.muteAll();
+    // Do the auto play functionality if we're using the custom
+    // controls and we haven't globally paused video playback.
+    if (!this.nativeControls && !this.paused) {
+      const video = project[0].querySelector('video');
+      if (video.paused) {
+        this.listenToStateChanges(video);
+        const result = video.play();
+        if (result && result.catch) {
+          result
+            .then(() => this.log('Playback started the first time.'))
+            .catch((e) => {
+              this.log('1. Could not play...trying again', e.name, e.message);
+              this.errors = true;
+              this.muteAll();
 
-            video.play()
-              .then(() => this.log('Playback started the second time.'))
-              .catch((e) => {
-                this.log('2. Could not play video', e.name, e.message);
-                this.showAllControls();
-                this.removeStateChanges(video);
-              })
-            ;
-          })
-        ;
+              video.play()
+                .then(() => this.log('Playback started the second time.'))
+                .catch((e) => {
+                  this.log('2. Could not play video', e.name, e.message);
+                  this.unmuteAll();
+                  this.showAllControls();
+                  this.removeStateChanges(video);
+                })
+              ;
+            })
+          ;
+        }
       }
     }
   }

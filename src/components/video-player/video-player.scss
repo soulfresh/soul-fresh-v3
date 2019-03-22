@@ -34,7 +34,7 @@ body {
   }
 
   // Use custom controls if we haven't explicity turned them off.
-  &:not(.show-native-video-controls) {
+  &:not(.show-native-media-controls) {
     .play-video {
       display: flex;
       position: absolute;
@@ -45,7 +45,7 @@ body {
     }
 
     // If videos are globally paused.
-    &.videos-paused {
+    &.media-paused {
       .play-video {
         opacity: $hover-state-opacity;
       }
