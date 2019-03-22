@@ -76,7 +76,7 @@ export class Players extends EventEmitter {
 
       // Generate the video element.
       const video = $(
-        `<video name="video" loop controls="true" poster=${poster}></video>`
+        `<video name="video" loop preload="auto" poster=${poster}></video>`
       );
       sources.forEach((s) => {
         const parts = s.split('.');
@@ -117,8 +117,8 @@ export class Players extends EventEmitter {
           .catch((e) => {
             console.warn('could not play...trying again');
             this.errors = true;
-            // this.muteAll();
-            this.showAllControls();
+            this.muteAll();
+            // this.showAllControls();
 
             video.play()
               .then(() => {
