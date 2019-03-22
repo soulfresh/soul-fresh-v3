@@ -197,6 +197,16 @@ export class Players extends EventEmitter {
     document.body.classList.add('show-native-media-controls');
   }
 
+  useNativeControls() {
+    this.log('Reverting to native video controls.');
+    this.unmuteAll();
+    this.showAllControls();
+    if (this.focused) {
+      const video = this.focused[0].querySelector('video');
+      this.removeStateChanges(video);
+    }
+  }
+
   playingState(video) {
     const container = $(video).closest(selectors.container)
     container.addClass('playing');
@@ -265,9 +275,7 @@ export class Players extends EventEmitter {
                 .then(() => this.log('Playback started the second time.'))
                 .catch((e) => {
                   this.log('2. Could not play video', e.name, e.message);
-                  this.unmuteAll();
-                  this.showAllControls();
-                  this.removeStateChanges(video);
+                  this.useNativeControls();
                 })
               ;
             })
