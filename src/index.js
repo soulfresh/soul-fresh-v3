@@ -5,7 +5,8 @@ import { Dimensions } from './components/dimensions';
 import { Projects } from './components/projects';
 import { selectors } from './components/selectors';
 import { Years } from './components/years';
-import { LeftColors, RightColors } from './components/left-colors';
+import { LeftColors, RightColors } from './components/color-boxes';
+import { BackgroundColors } from './components/background-colors';
 
 var documentReady = false;
 const win = $(window);
@@ -24,8 +25,8 @@ projects.each((i, p) => {
 const colorsL = new LeftColors(root, projectIds);
 colorsL.init();
 
-const colorsR = new RightColors(root, projectIds);
-colorsR.init();
+const bgColors = new BackgroundColors(root, projectIds);
+bgColors.init();
 
 const years = new Years(root);
 years.init();
@@ -38,19 +39,16 @@ const resizeBottomPadding = () => {
 resizeBottomPadding();
 
 colorsL.resize();
-colorsR.resize();
 
 const projectsHelper = new Projects();
 projectsHelper.init(work);
 
 projectsHelper.on('focused', (i) => {
-  const project = projects.eq(i);
-  players.focus(project);
-  years.focus(i);
-});
-
-projectsHelper.on('hidden', (i) => {
-  years.unfocus(i);
+  requestAnimationFrame(() => {
+    const project = projects.eq(i);
+    players.focus(project);
+    years.focus(i);
+  });
 });
 
 // Setup video players.
@@ -61,7 +59,6 @@ const parallax = () => {
   const scrolled = dimensions.scrollPercent();
 
   years.scroll(scrolled, dimensions.scrollH);
-  colorsR.scroll(scrolled, dimensions.scrollH);
   colorsL.scroll(scrolled, dimensions.scrollH);
 };
 
@@ -72,28 +69,34 @@ const focusTracker = throttle(
 );
 
 const onScroll = () => {
-  parallax();
-  focusTracker(dimensions.viewportH);
+  requestAnimationFrame(() => {
+    parallax();
+    focusTracker(dimensions.viewportH);
+  });
 };
 
-const onResize = () => {
-  dimensions.update();
-  resizeBottomPadding();
-  years.resize();
-  colorsR.resize();
+const onResize = throttle(() => {
+    dimensions.update();
+    resizeBottomPadding();
+    years.resize();
 
-  // Update the positions of everything.
-  onScroll();
-};
+    // Update the positions of everything.
+    onScroll();
+  },
+  500,
+  {trailing: true, leading: false}
+);
 
-const ready = () => {
-  requestAnimationFrame(() => onResize());
-}
+const ready = throttle(() => {
+    requestAnimationFrame(() => onResize());
+  },
+  1000,
+  {trailing: true, leading: false}
+);
 
 players.on('ready', () => ready());
 
 document.addEventListener('visibilitychange', (e) => {
-  console.log('visibilitychange');
   if (document.hidden) {
     players.backgrounded();
   } else {

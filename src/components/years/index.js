@@ -26,7 +26,13 @@ export class Years {
   }
 
   focus(i) {
-    this.years.eq(i).addClass('focused');
+    for (let j = 0; j < this.years.length; j++) {
+      if (j === i) {
+        this.years.eq(j).addClass('focused');
+      } else {
+        this.unfocus(j);
+      }
+    }
   }
 
   unfocus(i) {

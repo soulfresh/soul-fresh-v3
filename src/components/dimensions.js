@@ -27,6 +27,3 @@ export class Dimensions {
   }
 }
 
-// TODO export this if we need an singleton.
-// export const dimensions = new Dimensions();
-
