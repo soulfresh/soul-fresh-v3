@@ -1,0 +1,35 @@
+.colors {
+  width: px($left-colors-width);
+  height: calc(100vh * 2);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  // transition: transform $t-s $ease-out;
+
+  .color-box {
+    flex-grow: 1;
+  }
+}
+
+.description-boxes {
+  display: none;
+  flex-direction: column;
+  flex-grow: 1;
+  position: fixed;
+  right: 0;
+  width: 50%;
+  z-index: -1;
+  opacity: 0.5;
+
+  @include media-breakpoint-up(md) {
+    display: flex;
+  }
+
+  .description-box {
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}
+

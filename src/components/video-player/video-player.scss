@@ -29,7 +29,8 @@
 
 body {
   // Hide custom controls by default.
-  .play-video {
+  .play-video,
+  .mute-video {
     display: none;
   }
 
@@ -50,6 +51,23 @@ body {
         opacity: $hover-state-opacity;
       }
     }
+
+    .mute-video {
+      display: flex;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      padding: px($s-l);
+    }
+
+    &.media-muted {
+      .mute-video {
+        i::before {
+          content: "\f028"; // volume waves
+          // content: "\f6a9"; // volume x
+        }
+      }
+    }
   }
 }
 
@@ -67,6 +85,7 @@ body {
     opacity: 0;
     transition: opacity $t-s linear;
     color: white;
+    z-index: 100;
 
     .icon-wrapper {
       display: flex;
@@ -90,24 +109,43 @@ body {
     }
   }
 
+  .mute-video {
+    font-size: px(30);
+    color: white;
+    opacity: $hover-state-opacity / 2;
+    transition: opacity $t-s linear, background-color $t-s linear;
+    z-index: 102;
+
+    @include media-breakpoint-up(md) {
+      font-size: px(40);
+    }
+
+    &:hover {
+      opacity: 1;
+      background-color: rgba(#000, 0.3);
+    }
+  }
+
   &.loading {
     .play-video {
       opacity: $hover-state-opacity;
-    }
 
-    i::before {
-      // content: "\f063"; // down arrow
-      // content: "\f0ab"; // down arrow circle
-      // content: "\f059"; // question mark
-      content: "\f1ce"; // circle notch
-      // content: "\f110"; // dot spinner
-      animation: spin 1s infinite ease-in-out;
+      i::before {
+        // content: "\f063"; // down arrow
+        // content: "\f0ab"; // down arrow circle
+        // content: "\f059"; // question mark
+        content: "\f1ce"; // circle notch
+        // content: "\f110"; // dot spinner
+        animation: spin 1s infinite ease-in-out;
+      }
     }
   }
 
   &.playing {
-    i::before {
-      content: "\f28b";
+    .play-video {
+      i::before {
+        content: "\f28b";
+      }
     }
   }
 

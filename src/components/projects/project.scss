@@ -58,6 +58,10 @@
 
     @include media-breakpoint-up(md) {
       margin-bottom: px($s-l * 2);
+
+      .text {
+        max-width: none;
+      }
     }
   }
 

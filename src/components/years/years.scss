@@ -8,12 +8,16 @@
 
   .project-year {
     opacity: 0.3;
-    transition: opacity $t-l, font-size $t-s ease-out;
+    transition: opacity $t-l, transform $t-s ease-out;
     font-size: $f-xl;
+    transform: scale(1);
 
     &.focused {
       opacity: 1;
-      font-size: $f-xxl;
+
+      @include media-breakpoint-up(md) {
+        transform: scale(1.2);
+      }
     }
   }
 }

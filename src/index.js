@@ -92,6 +92,15 @@ const ready = () => {
 
 players.on('ready', () => ready());
 
+document.addEventListener('visibilitychange', (e) => {
+  console.log('visibilitychange');
+  if (document.hidden) {
+    players.backgrounded();
+  } else {
+    players.foregrounded();
+  }
+});
+
 win.on('load', () => {
   documentReady = true;
   ready();

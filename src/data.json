@@ -134,7 +134,7 @@
         "Director of Software Development",
         "Software Developer"
       ],
-      "team": 30,
+      "team": 20,
       "clients": [],
       "description": "Flash and HTML based eCommerce applications built for DJs. Scalable REST based SOA that processed thousands of transactions and tens of thousands of audio streams a day. Product Manager for Beatport and Beatport Sounds. Director of Software Development.",
       "links": [{
@@ -339,13 +339,13 @@
     }, {
       "id": "moongold",
       "name": "Moongold",
-      "tools": [
-      ],
+      "tools": [],
       "year": 2011,
       "color": "#4e8bae",
-      "company": "",
+      "company": "Moongold",
       "positions": [],
       "clients": [],
+      "description": "Soul / Downtempo",
       "links": [{
           "name": "Bandcamp",
           "icon": "fab fa-bandcamp",
@@ -379,13 +379,13 @@
     }, {
       "id": "move-shake-pause-repeat",
       "name": "Move Shake Pause Repeat",
-      "tools": [
-      ],
+      "tools": [],
       "year": 2018,
       "color": "#eca800",
-      "company": "",
+      "company": "Move Shake Pause Repeat",
       "positions": [],
       "clients": [],
+      "description": "Post Rock",
       "links": [{
           "name": "Bandcamp",
           "icon": "fab fa-bandcamp",

@@ -31,10 +31,16 @@
     if project.company
       .project-company(name="company")
         span.animated-text= project.company
+
+    //- POSITION
+    if project.positions && project.positions.length > 0
       .position(name="position")
         span.animated-text
           each position, index in project.positions
             = position + (index < project.positions.length - 1 ? ' / ' : '')
+
+    //- TEAM
+    if project.team
       .team
         span.animated-text
           = 'Team of ' + project.team

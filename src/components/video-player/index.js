@@ -6,8 +6,9 @@ export class Players extends EventEmitter {
   constructor() {
     super();
     this.ready = false;
-    this.paused = false;
+    this.paused = true;
     this.muted = false;
+    this._backgrounded = false;
     this.nativeControls = false;
     this.errors = false;
     this.progressSpeed = 1000;
@@ -24,13 +25,25 @@ export class Players extends EventEmitter {
 
   init(root) {
     this.root = root;
-    this.containers = $(this.root).find(selectors.container);
-    this.videos = this.containers.find(selectors.video);
+    this.projects = $(selectors.project);
+    this.videoContainers = $(this.root).find(selectors.container);
+    this.videos = this.videoContainers.find(selectors.video);
+    this.muteButtons = this.videoContainers.find(selectors.videoMute);
     this.notifyWhenReady();
-    this.initPlayButtons();
+    this.initPlayerButtons();
     this.lastProgressEvent = Date.now();
 
     this.onVideoProgress = this.updateVideoProgress.bind(this);
+
+    // If we're starting out muted.
+    if (this.muted) {
+      this.muteAll();
+    }
+
+    // If we're starting out paused.
+    if (this.paused) {
+      this.setGlobalPausedState(true);
+    }
 
     if (this.debug) {
       this.onAbort          = () => this.log('abort', ...arguments);
@@ -55,11 +68,13 @@ export class Players extends EventEmitter {
   }
 
   checkProgress() {
+    // TODO Mute when window is backgrounded
     // TODO After enough data is loaded for the current video, start
     // preloading the next video.
     // TODO Test how quickly download is happening. If it's pretty fast
     // and the screen is large enough, boost the video quality for all videos.
     // Also do the inverse if downloads are slow.
+    console.log('check progress');
     if (this.focused && !this.paused) {
       const v = this.focused[0].querySelector('video');
       const now = Date.now();
@@ -149,27 +164,56 @@ export class Players extends EventEmitter {
     }
   }
 
-  initPlayButtons() {
+  initPlayerButtons() {
     if (!this.nativeControls) {
-      this.containers.on('click', (event) => {
+      this.videoContainers.on('click', (event) => {
         const target = event.currentTarget;
         const video = target.querySelector(selectors.video);
         const project = $(target).closest(selectors.project);
         if (video.paused) {
           this.paused = false;
           this.play(project);
-          $(document.body).removeClass('media-paused');
+          this.setGlobalPausedState(false);
         } else {
           this.paused = true;
           this.pause(project);
-          $(document.body).addClass('media-paused');
+          this.setGlobalPausedState(true);
+        }
+      });
+
+      this.muteButtons.on('click', (event) => {
+        event.stopPropagation();
+        const target = event.currentTarget;
+        const video = target.querySelector(selectors.video);
+        const project = $(target).closest(selectors.project);
+        this.muted = !this.muted;
+        if (this.muted) {
+          this.muteAll();
+        } else {
+          this.unmuteAll();
         }
       });
     }
   }
 
+  setGlobalPausedState(paused = true) {
+    if (paused) {
+      $(document.body).addClass('media-paused');
+    } else {
+      $(document.body).removeClass('media-paused');
+    }
+  }
+
+  setGlobalMutedState(muted = true) {
+    if (muted) {
+      document.body.classList.add('media-muted');
+    } else {
+      document.body.classList.remove('media-muted');
+    }
+  }
+
   disableCustomPlayButtons() {
-    this.containers.off('click');
+    this.videoContainers.off('click');
   }
 
   muteAll() {
@@ -181,12 +225,24 @@ export class Players extends EventEmitter {
   }
 
   changeAllMuteStates(muted = true) {
-    this.videos.each((i, v) => v.muted = muted);
+    this.videos.each((i, v) => {
+      v.muted = muted;
+    });
     this.muted = muted;
-    if (muted) {
-      document.body.classList.add('media-muted');
-    } else {
-      document.body.classList.remove('media-muted');
+    this.setGlobalMutedState(this.muted);
+    // if (muted) {
+    //   document.body.classList.add('media-muted');
+    // } else {
+    //   document.body.classList.remove('media-muted');
+    // }
+  }
+
+  pauseAllOthers(project) {
+    for (let i = 0; i < this.projects; i++) {
+      const p = this.projects[i];
+      if (p[0] !== project[0]) {
+        this.pause(p);
+      }
     }
   }
 
@@ -255,10 +311,27 @@ export class Players extends EventEmitter {
     this.pause(project);
   }
 
+  backgrounded() {
+    this._backgrounded = true;
+    if (this.focused) {
+      this.pause(this.focused);
+    }
+  }
+
+  foregrounded() {
+    this._backgrounded = false;
+    if (this.focused) {
+      console.log('restarting the focused player', this.focused);
+      this.play(this.focused);
+    }
+  }
+
   play(project) {
     // Do the auto play functionality if we're using the custom
     // controls and we haven't globally paused video playback.
     if (!this.nativeControls && !this.paused) {
+      this.pauseAllOthers(project);
+
       const video = project[0].querySelector('video');
       if (video.paused) {
         this.listenToStateChanges(video);
@@ -323,7 +396,7 @@ export class Players extends EventEmitter {
       container.append(video);
 
       // Update the list of videos.
-      this.videos = this.containers.find(selectors.video);
+      this.videos = this.videoContainers.find(selectors.video);
     }
   }
 }

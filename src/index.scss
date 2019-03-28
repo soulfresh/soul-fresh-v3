@@ -48,6 +48,11 @@ a {
     align-items: baseline;
     margin: 0;
     font-size: $f-xxxl;
+    transform: scale(0.8);
+
+    @include media-breakpoint-up(md) {
+      transform: scale(1);
+    }
   }
 
   .container {
@@ -124,42 +129,9 @@ a {
   }
 }
 
-.colors {
-  width: px($left-colors-width);
-  height: calc(100vh + 200px);
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  .color-box {
-    flex-grow: 1;
-  }
-}
-
-.description-boxes {
-  display: none;
-  flex-direction: column;
-  flex-grow: 1;
-  position: fixed;
-  right: 0;
-  width: 50%;
-  z-index: -1;
-  opacity: 0.5;
-
-  @include media-breakpoint-up(md) {
-    display: flex;
-  }
-
-  .description-box {
-    flex-grow: 1;
-    flex-shrink: 0;
-  }
-}
-
 @import "./components/video-player/video-player.scss";
 @import "./components/audio-player/audio-player.scss";
 @import "./components/years/years";
 @import "./components/projects/project.scss";
 @import "./components/experience/experience.scss";
+@import "./components/left-colors/colors.scss";

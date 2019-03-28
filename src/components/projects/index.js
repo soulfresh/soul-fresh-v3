@@ -30,7 +30,7 @@ export class Projects extends EventEmitter {
       // But use the preview bounds to determine what is considered "focused".
       let preview = project.querySelector(selectors.preview);
       let bounds = preview.getBoundingClientRect();
-      let previewBottom = bounds.top + bounds.height;
+      let previewBottom = bounds.top + bounds.height * 0.3;
 
       if (bounds.top < 0) {
         this.projectHidden(project, i);
@@ -39,9 +39,6 @@ export class Projects extends EventEmitter {
         found = true;
       } else if (project.__focused) {
         this.projectHidden(project, i);
-      // } else {
-      //   // No need to look any further.
-      //   return;
       }
     }
   }

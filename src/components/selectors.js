@@ -15,6 +15,7 @@ export const selectors = {
   container: '[name=videoContainer]',
   video: '[name=video]',
   poster: '[name=poster]',
-  play: '[name=playVideo]'
+  play: '[name=playVideo]',
+  videoMute: '[name=muteVideo]'
 };
 
