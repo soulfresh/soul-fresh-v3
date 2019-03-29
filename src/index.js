@@ -7,8 +7,8 @@ import { selectors } from './components/selectors';
 import { Years } from './components/years';
 import { LeftColors, RightColors } from './components/color-boxes';
 import { BackgroundColors } from './components/background-colors';
+import { BackgroundDrawing } from './components/background-drawing';
 
-var documentReady = false;
 const win = $(window);
 const header = $(selectors.header);
 const root = $(selectors.root);
@@ -22,6 +22,7 @@ projects.each((i, p) => {
   projectIds.push(p.getAttribute('id'));
 });
 
+// TODO Don't create ALL of these immediately.
 const colorsL = new LeftColors(root, projectIds);
 colorsL.init();
 
@@ -30,6 +31,8 @@ bgColors.init();
 
 const years = new Years(root);
 years.init();
+
+const drawing = new BackgroundDrawing(root, projectIds);
 
 const resizeBottomPadding = () => {
   // Calculate bottom padding so last item aligns to top of page.
@@ -60,6 +63,7 @@ const parallax = () => {
 
   years.scroll(scrolled, dimensions.scrollH);
   colorsL.scroll(scrolled, dimensions.scrollH);
+  drawing.scroll(scrolled);
 };
 
 const focusTracker = throttle(
@@ -67,6 +71,10 @@ const focusTracker = throttle(
   500,
   {leading: false, trailing: true}
 );
+
+const start = () => {
+  drawing.init();
+};
 
 const onScroll = () => {
   requestAnimationFrame(() => {
@@ -76,25 +84,20 @@ const onScroll = () => {
 };
 
 const onResize = throttle(() => {
-    dimensions.update();
-    resizeBottomPadding();
-    years.resize();
+    requestAnimationFrame(() => {
+      dimensions.update();
+      resizeBottomPadding();
+      years.resize();
 
-    // Update the positions of everything.
-    onScroll();
+      // Update the positions of everything.
+      onScroll();
+    });
   },
   500,
   {trailing: true, leading: false}
 );
 
-const ready = throttle(() => {
-    requestAnimationFrame(() => onResize());
-  },
-  1000,
-  {trailing: true, leading: false}
-);
-
-players.on('ready', () => ready());
+players.on('ready', onResize);
 
 document.addEventListener('visibilitychange', (e) => {
   if (document.hidden) {
@@ -105,8 +108,8 @@ document.addEventListener('visibilitychange', (e) => {
 });
 
 win.on('load', () => {
-  documentReady = true;
-  ready();
+  start();
+  onResize();
 });
 
 win.on('resize', onResize);

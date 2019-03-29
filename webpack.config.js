@@ -2,7 +2,7 @@ const htmlwebpackplugin = require("html-webpack-plugin");
 const miniCssExtractPlugin = require("mini-css-extract-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const path = require("path");
-const jsonImporter = require("node-sass-json-importer");
+// const jsonImporter = require("node-sass-json-importer");
 
 const src = path.resolve(__dirname, "./src");
 const dist = path.resolve(__dirname, "./dist");
@@ -45,7 +45,7 @@ const config = {
             loader: "sass-loader",
             // Apply the JSON importer via sass-loader"s options.
             options: {
-              importer: jsonImporter(),
+              // importer: jsonImporter(),
             }
           }
         ]
@@ -63,6 +63,12 @@ const config = {
               data: data
             }
           }
+        ]
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          'file-loader'
         ]
       }
     ]
