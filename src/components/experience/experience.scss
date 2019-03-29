@@ -1,15 +1,41 @@
 .project-preview.experience {
-  font-size: 0.9em;
-  font-style: italic;
   padding: px($s-m) px($s-m) px($s-xl);
   margin-left: px(25);
+  max-width: px(500);
 
   div {
     margin-bottom: px($s-l);
   }
 
-  // @include media-breakpoint-up(md) {
-  //   margin-left: 20px;
-  // }
+  .bio {
+    font-weight: $f-light;
+    font-size: $f-l;
+    padding-bottom: px($s-l);
+  }
+
+  .list {
+    font-size: 0.9em;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  .hello {
+    font-family: $f-fat;
+    font-weight: $f-bold;
+    font-size: px(140);
+    margin: 0;
+    opacity: 0.2;
+    position: absolute;
+    margin-top: px(-117);
+    margin-left: px(-88);
+  }
+
+  .name {
+    font-size: $f-ll;
+  }
+
+  .postscript {
+    padding: px($s-m);
+  }
 }
 

@@ -7,7 +7,7 @@ import { selectors } from './components/selectors';
 import { Years } from './components/years';
 import { LeftColors, RightColors } from './components/color-boxes';
 import { BackgroundColors } from './components/background-colors';
-import { BackgroundDrawing } from './components/background-drawing';
+import { SineWaveDrawing } from './components/background-drawing';
 
 const win = $(window);
 const header = $(selectors.header);
@@ -32,7 +32,7 @@ bgColors.init();
 const years = new Years(root);
 years.init();
 
-const drawing = new BackgroundDrawing($('body'), projectIds);
+const drawing = new SineWaveDrawing($('body'), projectIds);
 
 const resizeBottomPadding = () => {
   // Calculate bottom padding so last item aligns to top of page.

@@ -56,7 +56,7 @@
     if project.clients && project.clients.length > 0
       .project-clients(name="clients")
         span.animated-text
-          b= "Clients: "
+          span.bolder= "Clients: "
           each client, index in project.clients
             = client + (index < project.clients.length - 1 ? ', ' : '')
 

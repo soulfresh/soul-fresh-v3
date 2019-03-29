@@ -7,6 +7,7 @@
     var degrees = (360 / projects.length) * i;
     var hue = (degrees + 90) % 360;
     var color = `hsla(${hue}, 50%, 50%, 1)`;
+    var light = `hsla(${hue}, 50%, 50%, 0.5)`;
 
     styles += `
     .${p.id}.color-text,
@@ -17,6 +18,11 @@
     .${p.id}.color-background,
     .${p.id} .color-background {
       background-color: ${color};
+    }
+
+    .${p.id}.color-background-light,
+    .${p.id} .color-background-light {
+      background-color: ${light};
     }
     `;
   });

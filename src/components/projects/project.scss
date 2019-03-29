@@ -3,11 +3,9 @@
 .project {
   position: relative;
   padding-bottom: px($s-xxl);
-  background-color: rgba(#ffffff, 0.6);
 
   @include media-breakpoint-up(md) {
     padding-bottom: px($s-xxl * 2);
-    background-color: transparent;
   }
 
   .details {
@@ -53,6 +51,7 @@
       margin: 0;
       padding: px($s-s) px($s-m);
       font-size: $f-xl;
+      font-weight: $f-light;
       max-width: 94vw;
     }
 
@@ -78,21 +77,36 @@
   }
 
   .project-company {
-    font-size: $f-l;
-    font-weight: $f-bold;
+    font-family: $f-thin;
+    font-size: px(24);
+    line-height: normal;
   }
 
   .project-tools {
     font-style: italic;
   }
 
+  .team,
+  .position {
+    font-size: $f-s;
+  }
+
+  .team,
+  .position,
+  .project-clients,
   .description {
     color: rgba(#000000, 0.6);
+  }
 
+  .description {
     span {
       padding-top: px($s-m);
       padding-bottom: px($s-m);
     }
+  }
+
+  .bolder {
+    color: #000;
   }
 
   .project-links {
@@ -106,12 +120,11 @@
     }
   }
 
-  .position,
-  .team,
-  .description,
-  .project-clients {
-    font-size: 0.9em;
-  }
+  // .position,
+  // .team,
+  // .description,
+  // .project-clients {
+  // }
 
   .project-tools,
   .project-clients,

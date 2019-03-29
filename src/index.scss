@@ -1,12 +1,19 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:900|Quicksand:300);
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,900|Quicksand:300);
 @import './_variables';
 @import './_utils';
 
 body {
   padding: 0;
   margin: 0;
-  font-family: "Helvetica", sans-serif;
+  font-family: $f-body;
   font-size: $f-m;
+  font-weight: $f-normal;
+  letter-spacing: 0.03em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: normal;
+  letter-spacing: normal;
 }
 
 .social {
@@ -32,84 +39,11 @@ a {
   }
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  background-color: white;
-  padding: px($s-xl) px(18);
-
-  @include media-breakpoint-up(md) {
-    padding: px($s-xl);
-  }
-
-  h1 {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: baseline;
-    margin: 0;
-    font-size: $f-xxxl;
-    transform: scale(0.8);
-
-    @include media-breakpoint-up(md) {
-      transform: scale(1);
-    }
-  }
-
-  .container {
-    flex-grow: 1;
-    flex-shrink: 1;
-    overflow: hidden;
-  }
-
-  .soul-container {
-    animation-duration: $t-m * 2;
-    animation-name: grow;
-  }
-
-  .soul, .fresh {
-    display: inline-block;
-  }
-
-  .soul {
-    font-family: $f-thin;
-  }
-
-  .fresh {
-    font-family: $f-fat;
-    animation-duration: $t-m;
-    animation-name: slidein;
-  }
-
-  @keyframes grow {
-    0% {
-      width: 0;
-    }
-    50% {
-      width: 0;
-    }
-    100% {
-      width: 96px;
-    }
-  }
-
-  @keyframes slidein {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0%);
-    }
-  }
-}
-
-.content {
-  display: flex;
-  flex-direction: row;
-}
-
 .app-container {
   position: relative;
   box-shadow: 0px 0 150px 0px rgba(0, 0, 0, 0.28);
+  background-color: white;
+  width: 100%;
 
   @include media-breakpoint-up(md) {
     width: 80%;
@@ -120,8 +54,11 @@ a {
   }
 }
 
+.content {
+  display: flex;
+}
+
 .work {
-  background-color: white;
   padding-left: px($left-colors-width);
   width: 100%;
 
@@ -131,14 +68,7 @@ a {
   }
 }
 
-.project-year {
-  h3 {
-    transform: translateY(50px) rotate(-90deg);
-    width: px($s-xl);
-    margin: 0;
-  }
-}
-
+@import "./components/header";
 @import "./components/video-player/video-player.scss";
 @import "./components/audio-player/audio-player.scss";
 @import "./components/years/years";

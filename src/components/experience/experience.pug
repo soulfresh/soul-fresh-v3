@@ -1,20 +1,26 @@
-.languages
+.bio
+  p.hello.color-text Hello,
+  p.name I'm Marc. I'm a software developer.
+  p= project.preview.meta.bio
+  p.postscript.color-background-light I'm currently available for remote contract work.
+
+.languages.list
   each language, i in project.preview.meta.languages
     = language + (i < project.preview.meta.languages.length - 1 ? ', ' : '')
 
-.frameworks
+.frameworks.list
   each framework, i in project.preview.meta.frameworks
     = framework + (i < project.preview.meta.frameworks.length - 1 ? ', ' : '')
 
-.practices
+.practices.list
   each practice, i in project.preview.meta.practices
     = practice + (i < project.preview.meta.practices.length - 1 ? ', ' : '')
 
-.technologies
+.technologies.list
   each technology, i in project.preview.meta.technologies
     = technology + (i < project.preview.meta.technologies.length - 1 ? ', ' : '')
 
-.software
+.software.list
   each software, i in project.preview.meta.software
     = software + (i < project.preview.meta.software.length - 1 ? ', ' : '')
 
