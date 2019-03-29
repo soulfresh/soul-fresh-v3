@@ -32,7 +32,7 @@ bgColors.init();
 const years = new Years(root);
 years.init();
 
-const drawing = new BackgroundDrawing(root, projectIds);
+const drawing = new BackgroundDrawing($('body'), projectIds);
 
 const resizeBottomPadding = () => {
   // Calculate bottom padding so last item aligns to top of page.
@@ -88,6 +88,7 @@ const onResize = throttle(() => {
       dimensions.update();
       resizeBottomPadding();
       years.resize();
+      drawing.resize();
 
       // Update the positions of everything.
       onScroll();

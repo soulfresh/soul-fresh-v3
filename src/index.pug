@@ -1,23 +1,24 @@
 extends layout
 
 block content
-  .header(name="header")
-    h1
-      span.container.soul-container
-        span.soul= "Soul"
-      span.container.fresh-container
-        span.fresh= "Fresh"
-    .social
-      a.linked-in.color-text(
-        href=about.linkedin,
-        target="blank",
-        class=projects[0].id
-      )
-        i.fab.fa-linkedin
-  .content(name="root")
-    #work.work
-      each project, projectIndex in projects
-        include components/projects/project.pug
+  .app-container
+    .header(name="header")
+      h1
+        span.container.soul-container
+          span.soul= "Soul"
+        span.container.fresh-container
+          span.fresh= "Fresh"
+      .social
+        a.linked-in.color-text(
+          href=about.linkedin,
+          target="blank",
+          class=projects[0].id
+        )
+          i.fab.fa-linkedin
+    .content(name="root")
+      #work.work
+        each project, projectIndex in projects
+          include components/projects/project.pug
 
 block colors
   include components/colors.pug
