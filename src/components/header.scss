@@ -35,7 +35,7 @@
     align-items: baseline;
     margin: 0;
     font-size: $f-xxxl;
-    transform: scale(0.8);
+    transform: scale(0.8) translateX(-30px);
 
     @include media-breakpoint-up(md) {
       transform: scale(1);
@@ -70,6 +70,11 @@
 }
 
 .subhead {
-  padding: 0 px($s-xl) px($s-xl);
   opacity: 0.75;
+
+  padding: 0 px($s-l) px($s-xl);
+
+  @include media-breakpoint-up(md) {
+    padding: 0 px($s-xl) px(70);
+  }
 }

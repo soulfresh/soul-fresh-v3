@@ -1,6 +1,5 @@
 import $ from 'jquery';
 import { selectors } from '../selectors';
-import { Dimensions } from '../dimensions';
 
 export class Boxes {
   constructor(root, ids, ratio=1) {
@@ -29,7 +28,6 @@ export class LeftColors extends Boxes {
   }
 
   init() {
-    this.dimensions = new Dimensions();
     this.container = $('<div name="colorBoxes" class="colors"></div>');
     this.root.prepend(this.container);
     if (!this.initialized) {
@@ -38,11 +36,10 @@ export class LeftColors extends Boxes {
     }
   }
 
-  scroll(scrolled, scrollHeight) {
+  scroll(scrolled, scrollHeight, viewportH) {
     // TODO Optimize this to only measure on resize.
     const boxesH = this.container.outerHeight();
-    // TODO Can we do this without using the dimensions object?
-    const bMove = (boxesH - this.dimensions.viewportH) * scrolled;
+    const bMove = (boxesH - viewportH) * scrolled;
     this.container.css('transform', `translateY(-${bMove}px)`);
   }
 }

@@ -22,7 +22,7 @@ export class Dimensions {
     this.pageH = this.html[0].scrollHeight;
     this.viewportH = windowH;
     this.scrollH = this.pageH - this.viewportH;
-    this.bottomPadding = windowH - lastH - headerH;
+    // this.bottomPadding = windowH - lastH - headerH;
     // console.log(`dimensions: page = ${this.pageH} viewport = ${this.viewportH} scrollable height = ${this.scrollH}`);
   }
 }

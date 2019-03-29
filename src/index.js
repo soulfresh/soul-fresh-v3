@@ -22,29 +22,24 @@ projects.each((i, p) => {
   projectIds.push(p.getAttribute('id'));
 });
 
-// TODO Don't create ALL of these immediately.
-const colorsL = new LeftColors(root, projectIds);
-colorsL.init();
-
+// TODO Don't initialize ALL of these immediately.
 const bgColors = new BackgroundColors(root, projectIds);
 bgColors.init();
+
+const colorsL = new LeftColors(root, projectIds);
+colorsL.init();
 
 const years = new Years(root);
 years.init();
 
 const drawing = new SineWaveDrawing($('body'), projectIds);
 
-const resizeBottomPadding = () => {
-  // Calculate bottom padding so last item aligns to top of page.
-  work.css('padding-bottom', dimensions.bottomPadding);
-};
-// Get this close. We'll recalculate once the videos are loaded.
-resizeBottomPadding();
-
-colorsL.resize();
-
 const projectsHelper = new Projects();
 projectsHelper.init(work);
+
+// Setup video players.
+const players = new Players();
+players.init(work);
 
 projectsHelper.on('focused', (i) => {
   requestAnimationFrame(() => {
@@ -54,15 +49,11 @@ projectsHelper.on('focused', (i) => {
   });
 });
 
-// Setup video players.
-const players = new Players();
-players.init(work);
-
 const parallax = () => {
   const scrolled = dimensions.scrollPercent();
 
-  years.scroll(scrolled, dimensions.scrollH);
-  colorsL.scroll(scrolled, dimensions.scrollH);
+  years.scroll(scrolled, dimensions.scrollH, dimensions.viewportH);
+  colorsL.scroll(scrolled, dimensions.scrollH, dimensions.viewportH);
   drawing.scroll(scrolled);
 };
 
@@ -86,7 +77,6 @@ const onScroll = () => {
 const onResize = throttle(() => {
     requestAnimationFrame(() => {
       dimensions.update();
-      resizeBottomPadding();
       years.resize();
       drawing.resize();
 

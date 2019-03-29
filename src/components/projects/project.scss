@@ -11,6 +11,10 @@
   .details {
     padding-left: px($left-colors-years-width);
     margin-top: px($s-m);
+
+    @include media-breakpoint-up(md) {
+      max-width: px(450);
+    }
   }
 
   @include media-breakpoint-up(md) {
