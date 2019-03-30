@@ -341,7 +341,7 @@
       }
     }, {
       "id": "moongold",
-      "enabled": false,
+      "enabled": true,
       "name": "Moongold",
       "tools": [],
       "year": 2011,
@@ -350,47 +350,6 @@
       "positions": [],
       "clients": [],
       "description": "Soul / Downtempo",
-      "links": [{
-          "name": "Bandcamp",
-          "icon": "fab fa-bandcamp",
-          "url": "https://moveshakepauserepeat.bandcamp.com/album/move-shake-pause-repeat"
-        },{
-          "name": "Spotify",
-          "icon": "fab fa-spotify",
-          "url": "https://open.spotify.com/album/2USwvMh5tK2PAGxl7fcrQA"
-        },{
-          "name": "iTunes",
-          "icon": "fab fa-itunes",
-          "url": "https://itunes.apple.com/us/album/move-shake-pause-repeat/1449436404?uo=4&app=music&at=1001lry3&ct=dashboard&app=itunes&at=1001lry3&ct=dashboard"
-        },{
-          "name": "Google Play",
-          "icon": "fab fa-google-play",
-          "url": "https://play.google.com/store/music/album/Move_Shake_Pause_Repeat_Move_Shake_Pause_Repeat?id=B7iagss6ejaj7pt3zpwx253huky"
-        },{
-          "name": "Amazon Music",
-          "icon": "fab fa-amazon",
-          "url": "http://www.amazon.com/gp/product/B07M83DHYL/?tag=distrokid06-20"
-        }
-      ],
-      "preview": {
-        "type": "music",
-        "src": [],
-        "meta": {
-          "id": 513497906,
-          "img": "https://f4.bcbits.com/img/a4204002963_16.jpg"
-        }
-      }
-    }, {
-      "id": "move-shake-pause-repeat",
-      "enabled": false,
-      "name": "Move Shake Pause Repeat",
-      "tools": [],
-      "year": 2018,
-      "color": "#eca800",
-      "company": "Move Shake Pause Repeat",
-      "positions": [],
-      "clients": [],
-      "description": "Post Rock",
       "links": [{
           "name": "Bandcamp",
           "icon": "fab fa-bandcamp",
@@ -411,6 +370,47 @@
           "name": "Amazon Music",
           "icon": "fab fa-amazon",
           "url": "http://www.amazon.com/gp/product/B01CQW8PTC/?tag=distrokid06-20"
+        }
+      ],
+      "preview": {
+        "type": "music",
+        "src": [],
+        "meta": {
+          "id": 513497906,
+          "img": "https://f4.bcbits.com/img/a4204002963_16.jpg"
+        }
+      }
+    }, {
+      "id": "move-shake-pause-repeat",
+      "enabled": true,
+      "name": "Move Shake Pause Repeat",
+      "tools": [],
+      "year": 2018,
+      "color": "#eca800",
+      "company": "Move Shake Pause Repeat",
+      "positions": [],
+      "clients": [],
+      "description": "Post Rock",
+      "links": [{
+          "name": "Bandcamp",
+          "icon": "fab fa-bandcamp",
+          "url": "https://moveshakepauserepeat.bandcamp.com/album/move-shake-pause-repeat"
+        },{
+          "name": "Spotify",
+          "icon": "fab fa-spotify",
+          "url": "https://open.spotify.com/album/2USwvMh5tK2PAGxl7fcrQA"
+        },{
+          "name": "iTunes",
+          "icon": "fab fa-itunes",
+          "url": "https://itunes.apple.com/us/album/move-shake-pause-repeat/1449436404?uo=4&app=music&at=1001lry3&ct=dashboard&app=itunes&at=1001lry3&ct=dashboard"
+        },{
+          "name": "Google Play",
+          "icon": "fab fa-google-play",
+          "url": "https://play.google.com/store/music/album/Move_Shake_Pause_Repeat_Move_Shake_Pause_Repeat?id=B7iagss6ejaj7pt3zpwx253huky"
+        },{
+          "name": "Amazon Music",
+          "icon": "fab fa-amazon",
+          "url": "http://www.amazon.com/gp/product/B07M83DHYL/?tag=distrokid06-20"
         }
       ],
       "preview": {

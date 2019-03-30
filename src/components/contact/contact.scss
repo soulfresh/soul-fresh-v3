@@ -1,9 +1,12 @@
 .project.contact {
   padding-bottom: 60vh;
-  margin-left: px(35);
 
-  @include media-breakpoint-up(md) {
-    margin: 0;
+  .project-preview {
+    margin-left: px(35);
+
+    @include media-breakpoint-up(md) {
+      margin: 0;
+    }
   }
 
   .project-preview {
@@ -19,7 +22,7 @@
     opacity: 0.3;
     position: absolute;
     margin-top: px(-77);
-    margin-left: px(-28);
+    margin-left: px(-58);
     transform: rotate(-3deg);
     pointer-events: none;
   }

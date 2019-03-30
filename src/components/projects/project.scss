@@ -116,10 +116,35 @@
   .project-links {
     .project-link {
       text-decoration: none;
+      position: relative;
+      opacity: 1;
 
       i {
         font-size: $f-xl;
         margin: px($s-m);
+        transition: opacity linear $t-s;
+        opacity: 0.7;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+
+      .label {
+        display: none;
+        position: absolute;
+        background-color: black;
+        padding: 3px 5px;
+        top: 100%;
+        left: 0;
+        transform-origin: bottom left;
+        transform: rotate(55deg) translate(5px, -120%);
+        white-space: nowrap;
+        color: white;
+
+        @include media-breakpoint-up(md) {
+          display: block;
+        }
       }
     }
   }
