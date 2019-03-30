@@ -1,7 +1,11 @@
 .project-preview.experience {
-  padding: px($s-m) px($s-m) px($s-xl);
+  padding: px($s-m) px(15) px($s-xl);
   margin-left: px(25);
   max-width: px(500);
+
+  @include media-breakpoint-up(md) {
+    margin: 0;
+  }
 
   div {
     margin-bottom: px($s-l);
@@ -10,7 +14,7 @@
   .bio {
     font-weight: $f-light;
     font-size: $f-l;
-    padding-bottom: px($s-l);
+    padding-bottom: px($s-m);
   }
 
   .list {

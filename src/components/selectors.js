@@ -2,6 +2,7 @@
 export const selectors = {
   root: '[name=root]',
   header: '[name=header]',
+  logo: '#logo',
   menu: '[name=menu]',
   menuItem: '[name=menuItem]',
   work: '#work',

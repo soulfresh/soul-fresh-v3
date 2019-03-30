@@ -85,7 +85,7 @@ body {
     opacity: 0;
     transition: opacity $t-s linear;
     color: white;
-    z-index: 100;
+    z-index: $z-video-overlay;
 
     .icon-wrapper {
       display: flex;
@@ -114,7 +114,7 @@ body {
     color: white;
     opacity: $hover-state-opacity / 2;
     transition: opacity $t-s linear, background-color $t-s linear;
-    z-index: 102;
+    z-index: $z-video-overlay + 1;
 
     @include media-breakpoint-up(md) {
       font-size: px(40);

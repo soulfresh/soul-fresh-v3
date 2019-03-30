@@ -1,8 +1,13 @@
 .project.contact {
   padding-bottom: 60vh;
+  margin-left: px(35);
+
+  @include media-breakpoint-up(md) {
+    margin: 0;
+  }
 
   .project-preview {
-    margin-left: px(35);
+    padding: px($s-m) px(15) px($s-xl);
   }
 
   .big {
@@ -23,7 +28,7 @@
     position: relative;
     font-family: $f-fat;
     font-weight: $f-bold;
-    font-size: $f-ll;
+    font-size: $f-m;
 
     @include media-breakpoint-up(md) {
       font-size: $f-xl;
@@ -41,7 +46,6 @@
     max-width: 80%;
 
     @include media-breakpoint-up(md) {
-      margin-bottom: 60px;
       margin-left: -10px;
       margin-top: -20px;
     }

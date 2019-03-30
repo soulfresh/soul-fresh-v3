@@ -27,6 +27,8 @@ export class Menu {
       this.close();
       return false;
     });
+
+    this.links.css('transition-delay', (i) => `${(this.links.length - i) * 60}ms`);
   }
 
   open() {

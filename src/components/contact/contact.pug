@@ -1,8 +1,12 @@
-p.big.color-text Call me... maybe
+p.big.color-text Call me...
 
 if about.available
   p.available
-    span I currently have bandwidth for new projects.
+    span Currently available for new projects
 
-- var email = `${about.contact}@soul-fresh.com`
+div(name="cSlot")
+
+.social
+  a.linked-in.color-text(href=about.linkedin, target="blank", aria-label="LinkedIn")
+    i.fab.fa-linkedin
 

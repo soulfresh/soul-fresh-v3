@@ -29,8 +29,8 @@
     padding: px($s-xl) px($s-xl) px($s-m);
   }
 
-  h1 {
-    display: inline-flex;
+  #logo {
+    display: none;
     flex-direction: row;
     align-items: baseline;
     margin: 0;

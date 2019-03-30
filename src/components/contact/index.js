@@ -4,6 +4,6 @@ export class Contact {
   constructor(root, address) {
     const a = `${address}@${window.location.hostname}`;
     const p = 'mailto';
-    root.append(`<a class="do-it" href="${p}:${a}" target="blank">${a}</a>`);
+    root.append(`<p><a class="do-it" href="${p}:${a}" target="blank">${a}</a></p>`);
   }
 }

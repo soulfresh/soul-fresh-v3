@@ -7,14 +7,14 @@ block content
 
   .app-container
     .header(name="header")
-      h1
+      h1#logo
         span.container.soul-container
           span.soul= "Soul"
         span.container.fresh-container
           span.fresh= "Fresh"
       include components/menu/menu.pug
     .subhead.color-text(class=first.id)
-      = "Software Developer"
+      = "A software developer in Denver, CO"
     .content(name="root")
       #work.work
         each project, projectIndex in projects
