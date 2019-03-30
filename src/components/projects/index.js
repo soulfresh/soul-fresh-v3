@@ -62,14 +62,18 @@ export class Projects extends EventEmitter {
   focus(index) {
     const project = this.projects[index];
     const title = project.querySelector(selectors.projectTitle);
-    project.classList.add('focused');
-    SizeAnimation.unroll($(title));
+    requestAnimationFrame(() => {
+      project.classList.add('focused');
+      SizeAnimation.unroll($(title));
+    });
   }
 
   hide(index) {
     const project = this.projects[index];
     const title = project.querySelector(selectors.projectTitle);
-    project.classList.remove('focused');
-    SizeAnimation.roll($(title));
+    requestAnimationFrame(() => {
+      project.classList.remove('focused');
+      SizeAnimation.roll($(title));
+    });
   }
 }

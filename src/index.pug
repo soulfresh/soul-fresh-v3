@@ -18,7 +18,8 @@ block content
     .content(name="root")
       #work.work
         each project, projectIndex in projects
-          include components/projects/project.pug
+          if project.enabled == null || project.enabled === true
+            include components/projects/project.pug
 
 block colors
   include components/colors.pug

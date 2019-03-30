@@ -341,6 +341,7 @@
       }
     }, {
       "id": "moongold",
+      "enabled": false,
       "name": "Moongold",
       "tools": [],
       "year": 2011,
@@ -381,6 +382,7 @@
       }
     }, {
       "id": "move-shake-pause-repeat",
+      "enabled": false,
       "name": "Move Shake Pause Repeat",
       "tools": [],
       "year": 2018,

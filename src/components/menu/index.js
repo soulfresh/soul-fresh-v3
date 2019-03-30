@@ -7,8 +7,6 @@ export class Menu {
     this.button = this.root.find(selectors.menu);
     this.links = this.root.find(selectors.menuItem);
     this._open = false;
-
-    console.log(this.links);
   }
 
   init() {
