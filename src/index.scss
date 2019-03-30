@@ -28,14 +28,33 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
   opacity: 0.8;
-
-  i {
-    opacity: 0.5;
-  }
   transition: opacity linear $t-s;
+  text-decoration: none;
+  color: black;
+
+  // i {
+  //   opacity: 0.5;
+  // }
 
   &:hover {
     opacity: 1;
+  }
+}
+
+button {
+  background: none;
+  border: none;
+  border-radius: px($s-s);
+  background-color: #fff;
+  transition: background-color $t-s linear;
+  cursor: pointer;
+
+  i {
+    font-size: $f-ll;
+  }
+
+  &:hover {
+    background-color: rgba(#000, 0.1);
   }
 }
 
@@ -71,10 +90,12 @@ a {
 }
 
 @import "./components/header";
+@import "./components/menu/menu";
 @import "./components/video-player/video-player.scss";
 @import "./components/audio-player/audio-player.scss";
 @import "./components/years/years";
 @import "./components/projects/project.scss";
 @import "./components/experience/experience.scss";
+@import "./components/contact/contact";
 @import "./components/color-boxes/colors.scss";
 @import "./components/background-drawing/background-drawing";

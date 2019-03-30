@@ -1,6 +1,10 @@
 extends layout
 
+
 block content
+  - var first = projects[0];
+  a(name="work")
+
   .app-container
     .header(name="header")
       h1
@@ -8,14 +12,8 @@ block content
           span.soul= "Soul"
         span.container.fresh-container
           span.fresh= "Fresh"
-      .social
-        a.linked-in.color-text(
-          href=about.linkedin,
-          target="blank",
-          class=projects[0].id
-        )
-          i.fab.fa-linkedin
-    .subhead.color-text(class=projects[0].id)
+      include components/menu/menu.pug
+    .subhead.color-text(class=first.id)
       = "Software Developer"
     .content(name="root")
       #work.work

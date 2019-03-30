@@ -8,6 +8,8 @@ import { Years } from './components/years';
 import { LeftColors, RightColors } from './components/color-boxes';
 import { BackgroundColors } from './components/background-colors';
 import { SineWaveDrawing } from './components/background-drawing';
+import { Menu } from './components/menu';
+import { Contact } from './components/contact';
 
 const win = $(window);
 const header = $(selectors.header);
@@ -32,14 +34,17 @@ colorsL.init();
 const years = new Years(root);
 years.init();
 
-const drawing = new SineWaveDrawing($('body'), projectIds);
-
 const projectsHelper = new Projects();
 projectsHelper.init(work);
+
+const menu = new Menu(header);
+menu.init();
 
 // Setup video players.
 const players = new Players();
 players.init(work);
+
+const drawing = new SineWaveDrawing($('body'), projectIds);
 
 projectsHelper.on('focused', (i) => {
   requestAnimationFrame(() => {
@@ -55,6 +60,7 @@ const parallax = () => {
   years.scroll(scrolled, dimensions.scrollH, dimensions.viewportH);
   colorsL.scroll(scrolled, dimensions.scrollH, dimensions.viewportH);
   drawing.scroll(scrolled);
+  menu.close();
 };
 
 const focusTracker = throttle(
@@ -65,6 +71,7 @@ const focusTracker = throttle(
 
 const start = () => {
   drawing.init();
+  const contact = new Contact($('.project.contact .project-preview'), 'makecontact');
 };
 
 const onScroll = () => {

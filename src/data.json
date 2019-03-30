@@ -1,5 +1,7 @@
 {
   "about": {
+    "contact": "makecontact",
+    "available": true,
     "bio": "I enjoy building products that delight users. I work well in collaborative and creative environments. I believe customer research is key to understanding what you should build next, prototyping will help you deliver a great product the first time and metrics must be your gauge of success. I provide leadership and believe in empowering others.",
     "practices": [
       "Agile",

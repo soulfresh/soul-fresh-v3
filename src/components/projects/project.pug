@@ -4,6 +4,7 @@
   data-type=project.preview.type,
   id=project.id
 )
+  a(name=project.id)
 
   .project-name(name="name", class="color-background")
     h2.text= project.name
@@ -25,6 +26,9 @@
     when 'experience'
       .project-preview.experience(name="preview", data-type="experience")
         include ../experience/experience.pug
+    when 'contact'
+      .project-preview.contact(name="preview", data-type="contact")
+        include ../contact/contact.pug
 
   .details
     //- COMPANY

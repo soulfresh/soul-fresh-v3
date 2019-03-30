@@ -27,15 +27,13 @@
     opacity: 0.2;
     position: absolute;
     margin-top: px(-117);
-    margin-left: px(-88);
+    margin-left: px(-58);
+    transform: rotate(-3deg);
+    pointer-events: none;
   }
 
   .name {
     font-size: $f-ll;
-  }
-
-  .postscript {
-    padding: px($s-m);
   }
 }
 

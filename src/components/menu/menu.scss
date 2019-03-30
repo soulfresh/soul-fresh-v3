@@ -1,0 +1,68 @@
+
+.menu {
+  width: px(60);
+  height: px(60);
+  border-radius: 50%;
+  background-color: #000;
+  color: #fff;
+  transition-duration: $t-m;
+  position: fixed;
+  right: px($s-m);
+  z-index: 100;
+
+  &:focus, &:active,
+  &:hover {
+    transition-duration: $t-s;
+    background-color: rgba(#000, 0.3);
+    outline: none;
+  }
+
+  @include media-breakpoint-up(md) {
+    right: px($s-xl);
+  }
+}
+
+.menu-list {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(#fff, 1);
+  padding: 150px 0 px(30);
+  text-align: right;
+  font-size: $f-l;
+  transform: skewY(10deg) translate(50%, -100%);
+  transition: transform $t-m $ease-out, opacity $t-s linear;
+  z-index: 99;
+  opacity: 0;
+
+  @include media-breakpoint-up(md) {
+    background-color: rgba(#fff, 0.7);
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+    padding: px($s-m) px($s-xl);
+    cursor: pointer;
+    transition: background-color $t-m linear, transform $t-l $ease-out;
+    transform: skewY(-10deg);
+
+    &:hover {
+      background-color: rgba(#fff, 0.5);
+      transition-duration: $t-s;
+    }
+  }
+}
+
+.menu-open {
+  .menu-list {
+    transform: skewY(10deg) translate(0, -20px);
+    opacity: 1;
+
+    a {
+      transform: skewY(-13deg);
+    }
+  }
+}

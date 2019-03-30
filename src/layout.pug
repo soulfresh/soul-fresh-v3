@@ -2,14 +2,28 @@ doctype html
 html(lang='en')
   -
     projects.sort((a, b) => b.year - a.year)
+
     if (!projects.find((p) => p.preview.type === "experience")) {
       projects.push({
         id : "experience",
         name : "Me",
         year : "About",
+        anchor: true,
         preview : {
           type : "experience",
           meta : about
+        }
+      })
+    }
+
+    if (!projects.find((p) => p.preview.type === "contact")) {
+      projects.push({
+        id : "contact",
+        name : "Me",
+        year : "Contact",
+        anchor: true,
+        preview : {
+          type : "contact"
         }
       })
     }

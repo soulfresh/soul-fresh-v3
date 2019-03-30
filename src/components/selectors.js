@@ -2,6 +2,8 @@
 export const selectors = {
   root: '[name=root]',
   header: '[name=header]',
+  menu: '[name=menu]',
+  menuItem: '[name=menuItem]',
   work: '#work',
   project: '[name=project]',
   years: '[name=years]',

@@ -37,7 +37,6 @@ export class LeftColors extends Boxes {
   }
 
   scroll(scrolled, scrollHeight, viewportH) {
-    // TODO Optimize this to only measure on resize.
     const boxesH = this.container.outerHeight();
     const bMove = (boxesH - viewportH) * scrolled;
     this.container.css('transform', `translateY(-${bMove}px)`);
