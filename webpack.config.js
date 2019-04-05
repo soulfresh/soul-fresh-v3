@@ -85,7 +85,11 @@ const config = {
     new FaviconsWebpackPlugin(`${src}/assets/favicon-flying.png`)
   ],
   devServer: {
-    contentBase: dist
+    contentBase: dist,
+    host: '0.0.0.0',
+    allowedHosts: [
+      '.local'
+    ],
   }
 };
 

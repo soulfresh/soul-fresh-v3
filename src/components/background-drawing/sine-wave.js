@@ -9,7 +9,8 @@ export class SineWaveDrawing {
   }
 
   visible() {
-    return this.win.width() > 768;
+    // TODO Move this check into dimensions.
+    return this.win.width() >= 768;
   }
 
   init() {
@@ -26,7 +27,7 @@ export class SineWaveDrawing {
   }
 
   resize() {
-    if (this.initialized) {
+    if (this.initialized && this.visible()) {
       this.width  = this.canvas.width  = this.canvas.parentElement.clientWidth;
       this.height = this.canvas.height = this.canvas.parentElement.clientHeight;
     }
