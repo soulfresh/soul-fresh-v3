@@ -7,7 +7,7 @@ import { selectors } from './components/selectors';
 import { Years } from './components/years';
 import { LeftColors, RightColors } from './components/color-boxes';
 import { BackgroundColors } from './components/background-colors';
-import { SineWaveDrawing } from './components/background-drawing';
+import { SineWaveDrawing, BoxesDrawing } from './components/background-drawing';
 import { Menu } from './components/menu';
 import { Contact } from './components/contact';
 import { Logo } from './components/logo';
@@ -104,7 +104,13 @@ logo.once('ready', () => {
   log('[logo ready] begin');
   projectsHelper = new Projects();
   players = new Players();
-  drawing = new SineWaveDrawing($('body'), projectIds);
+
+  const random = Math.round(Math.random() * 10);
+  if ((random % 2) === 0) {
+    drawing = new SineWaveDrawing($('body'), projectIds);
+  } else {
+    drawing = new BoxesDrawing($('body'), projectIds);
+  }
 
   projectsHelper.init(work);
   log('[logo ready] project helper initialized');
