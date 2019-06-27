@@ -1,12 +1,14 @@
 import $ from 'jquery';
+import EventEmitter from 'eventemitter3';
 
-export class Drawing {
+export class Drawing extends EventEmitter {
   constructor(root, ids) {
     this.root = root;
     this.ids = ids;
     this.initialized = false;
     this.win = $(window);
     this.alpha = 0.05;
+    this.className = 'drawing';
   }
 
   visible() {
@@ -16,7 +18,7 @@ export class Drawing {
 
   init() {
     if (this.visible()) {
-      this.container = $('<div class="background-drawing sine-wave" name="sineWaveDrawing"></div>');
+      this.container = $(`<div class="background-drawing ${this.className}" name="sineWaveDrawing"></div>`);
       const c = $('<canvas></canvas>');
       this.canvas = c[0];
       this.container.append(c);

@@ -2,6 +2,11 @@ import $ from 'jquery';
 import { Drawing } from './drawing';
 
 export class SineWaveDrawing extends Drawing{
+  constructor(root, ids) {
+    super(root, ids);
+    this.className = 'sine-wave';
+  }
+
   draw(percent) {
     this.context.clearRect(0, 0, this.width, this.height);
 
@@ -32,7 +37,7 @@ export class SineWaveDrawing extends Drawing{
       this.sine(x, w, ampWave, frequency, offsetX, offsetY);
 
       const hue = (360 * percent + 270) % 360;
-      this.context.strokeStyle = `hsla(${hue}, 100%, 60%, 0.3)`;
+      this.context.strokeStyle = `hsla(${hue}, 100%, 60%, 1)`;
       this.context.stroke();
 
       this.context.closePath();

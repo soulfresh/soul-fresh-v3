@@ -1,2 +1,3 @@
-export * from './sine-wave.js';
-export * from './boxes.js';
+export * from './sine-wave';
+export * from './boxes';
+export * from './triangle-drawing';

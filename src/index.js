@@ -7,7 +7,11 @@ import { selectors } from './components/selectors';
 import { Years } from './components/years';
 import { LeftColors, RightColors } from './components/color-boxes';
 import { BackgroundColors } from './components/background-colors';
-import { SineWaveDrawing, BoxesDrawing } from './components/background-drawing';
+import {
+  SineWaveDrawing,
+  BoxesDrawing,
+  TriangleDrawing
+} from './components/background-drawing';
 import { Menu } from './components/menu';
 import { Contact } from './components/contact';
 import { Logo } from './components/logo';

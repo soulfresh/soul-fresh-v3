@@ -1,6 +1,11 @@
 import { Drawing } from './drawing';
 
 export class BoxesDrawing extends Drawing {
+  constructor(root, ids) {
+    super(root, ids);
+    this.className = 'rotating-boxes';
+  }
+
   draw(percent) {
     this.context.clearRect(0, 0, this.width, this.height);
     this.context.save();
@@ -14,7 +19,7 @@ export class BoxesDrawing extends Drawing {
 
     for (let i = 0; i < boxCount; i++){
       const hue = (360 * percent + 90) % 360;
-      this.context.strokeStyle = `hsla(${hue}, 100%, 60%, 0.2)`;
+      this.context.strokeStyle = `hsla(${hue}, 100%, 60%, 1)`;
 
       const subBoxCount = 6;
       const lineW = (radius/2)/subBoxCount;
