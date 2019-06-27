@@ -2,8 +2,8 @@ import $ from 'jquery';
 import { Drawing } from './drawing';
 
 export class SineWaveDrawing extends Drawing{
-  constructor(root, ids) {
-    super(root, ids);
+  constructor(context) {
+    super(context);
     this.className = 'sine-wave';
   }
 

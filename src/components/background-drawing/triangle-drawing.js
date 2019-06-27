@@ -1,8 +1,8 @@
 import { Drawing } from './drawing';
 
 export class TriangleDrawing extends Drawing {
-  constructor(root, ids) {
-    super(root, ids);
+  constructor(context) {
+    super(context);
     this.className = 'rotating-triangles';
   }
 

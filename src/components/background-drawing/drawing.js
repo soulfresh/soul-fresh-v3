@@ -1,45 +1,19 @@
 import $ from 'jquery';
 import EventEmitter from 'eventemitter3';
 
-export class Drawing extends EventEmitter {
-  constructor(root, ids) {
-    this.root = root;
-    this.ids = ids;
-    this.initialized = false;
-    this.win = $(window);
-    this.alpha = 0.05;
+export class Drawing {
+  constructor(context) {
+    this.context = context;
     this.className = 'drawing';
   }
 
-  visible() {
-    // TODO Move this check into dimensions.
-    return this.win.width() >= 768;
-  }
-
-  init() {
-    if (this.visible()) {
-      this.container = $(`<div class="background-drawing ${this.className}" name="sineWaveDrawing"></div>`);
-      const c = $('<canvas></canvas>');
-      this.canvas = c[0];
-      this.container.append(c);
-      this.root.prepend(this.container);
-      this.context = this.canvas.getContext("2d");
-      this.resize();
-      this.initialized = true;
-    }
-  }
-
-  resize() {
-    if (this.initialized && this.visible()) {
-      this.width  = this.canvas.width  = this.canvas.parentElement.clientWidth;
-      this.height = this.canvas.height = this.canvas.parentElement.clientHeight;
-    }
+  resize(w, h) {
+    this.width = w;
+    this.height = h;
   }
 
   scroll(percent, pageHeight) {
-    if (this.initialized && this.visible()) {
-      this.draw(percent);
-    }
+    this.draw(percent);
   }
 
   draw() {}

@@ -1,13 +1,4 @@
 
-@keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .background-drawing {
   display: flex;
   flex-grow: 1;
@@ -17,8 +8,8 @@
   height: 100vh;
   right: 0;
   top: 0;
-  animation-name: fadein;
-  animation-duration: 3s;
+  opacity: 0;
+  transition: opacity 3s linear;
   cursor: pointer;
 
   canvas {

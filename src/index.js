@@ -8,6 +8,7 @@ import { Years } from './components/years';
 import { LeftColors, RightColors } from './components/color-boxes';
 import { BackgroundColors } from './components/background-colors';
 import {
+  DrawingSwitcher,
   SineWaveDrawing,
   BoxesDrawing,
   TriangleDrawing
@@ -109,12 +110,7 @@ logo.once('ready', () => {
   projectsHelper = new Projects();
   players = new Players();
 
-  const random = Math.round(Math.random() * 10);
-  if ((random % 2) === 0) {
-    drawing = new SineWaveDrawing($('body'), projectIds);
-  } else {
-    drawing = new BoxesDrawing($('body'), projectIds);
-  }
+  drawing = new DrawingSwitcher($('body'));
 
   projectsHelper.init(work);
   log('[logo ready] project helper initialized');
