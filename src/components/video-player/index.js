@@ -45,6 +45,9 @@ export class Players extends EventEmitter {
       this.setGlobalPausedState(true);
     }
 
+    // Load a larger video if necessary.
+    this.updateVideoDimensions();
+
     if (this.debug) {
       this.onAbort          = () => this.log('abort', ...arguments);
       this.onEmptied        = () => this.log('emptied', ...arguments);
@@ -60,6 +63,29 @@ export class Players extends EventEmitter {
       this.onPlaying        = () => this.log('playing', ...arguments);
       this.onPlay           = () => this.log('play', ...arguments);
       this.onPause          = () => this.log('pause', ...arguments);
+    }
+  }
+
+  updateVideoDimensions() {
+    // Update the dimensions of all the videos.
+    const small = 640;
+    const overThreshold = 1.0;
+    const first = this.videos[0];
+
+    if (first.clientWidth > small * overThreshold) {
+      this.videos.each((i, v) => {
+        const root = v.getAttribute('data-root');
+        const largeHD = v.getAttribute('data-large-hd').split('||');
+        // const largeSD = v.getAttribute('data-large-sd').split('||');
+        // const smallHD = v.getAttribute('data-small-hd').split('||');
+        // const smallSD = v.getAttribute('data-small-sd').split('||');
+
+        $(v).find('source').each((j, s) => {
+          const url = `${root}/${largeHD[j]}`;
+          s.setAttribute('src', url);
+        });
+        v.load();
+      });
     }
   }
 

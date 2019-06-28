@@ -41,6 +41,11 @@
     name="video",
     poster=poster,
     preload= projectIndex == 0 ? "auto" : "none"
+    data-root=root,
+    data-large-hd=sources.largeHD.join('||'),
+    data-large-sd=sources.largeSD.join('||'),
+    data-small-hd=sources.smallHD.join('||'),
+    data-small-sd=sources.smallSD.join('||')
   )
     each source in project.preview.src.smallHD
       -
