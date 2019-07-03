@@ -75,13 +75,11 @@ export class Players extends EventEmitter {
     if (first.clientWidth > small * overThreshold) {
       this.videos.each((i, v) => {
         const root = v.getAttribute('data-root');
-        const largeHD = v.getAttribute('data-large-hd').split('||');
-        // const largeSD = v.getAttribute('data-large-sd').split('||');
-        // const smallHD = v.getAttribute('data-small-hd').split('||');
-        // const smallSD = v.getAttribute('data-small-sd').split('||');
+        const large = v.getAttribute('data-large').split('||');
+        // const small = v.getAttribute('data-small').split('||');
 
         $(v).find('source').each((j, s) => {
-          const url = `${root}/${largeHD[j]}`;
+          const url = `${root}/${large[j]}`;
           s.setAttribute('src', url);
         });
         v.load();

@@ -17,9 +17,12 @@
       "ESP32",
       "OpenGL",
       "WebRTC",
-      "Bluetooth"
+      "Bluetooth",
+      "MIDI",
+      "OSC"
     ],
     "frameworks": [
+      "React",
       "Vue.js",
       "Angular",
       "AngularJS",
@@ -62,6 +65,35 @@
   },
   "projects": [
     {
+      "id": "zespri",
+      "name": "Zespri",
+      "tools": [
+        "Vue.js",
+        "Javascript",
+        "SCSS"
+      ],
+      "year": 2019,
+      "color": "#76b4dc",
+      "company": "LRXD",
+      "positions": ["Software Developer"],
+      "team": 3,
+      "clients": ["Zespri"],
+      "description": "Microsite for Zespri's 2019 Wander & Win campaign.",
+      "links": [{
+        "name": "Zespri Wander & Win",
+        "url": "https://zesprikiwi.com/wander"
+      }],
+      "preview": {
+        "type": "video",
+        "meta": {
+          "img": "Zespri.jpg"
+        },
+        "src": {
+          "large": ["Zespri 960 x 720.webm", "Zespri 960 x 720.mp4"],
+          "small": ["Zespri 640 x 480.webm", "Zespri 640 x 480.mp4"]
+        }
+      }
+    }, {
       "id": "flash",
       "name": "Flash Development",
       "tools": [
@@ -84,10 +116,8 @@
           "img": "Flash.jpg"
         },
         "src": {
-          "largeHD": ["Flash 960 x 720 HD.webm", "Flash 960 x 720 HD.mp4"],
-          "largeSD": ["Flash 960 x 720 SD.webm", "Flash 960 x 720 SD.mp4"],
-          "smallHD": ["Flash 640 x 480 HD.webm", "Flash 640 x 480 HD.mp4"],
-          "smallSD": ["Flash 640 x 480 SD.webm", "Flash 640 x 480 SD.mp4"]
+          "large": ["Flash 960 x 720.webm", "Flash 960 x 720.mp4"],
+          "small": ["Flash 640 x 480.webm", "Flash 640 x 480.mp4"]
         }
       }
     }, {
@@ -114,10 +144,8 @@
           "img": "OpenGL.jpg"
         },
         "src": {
-          "largeHD": ["OpenGL 960 x 720 HD.webm", "OpenGL 960 x 720 HD.mp4"],
-          "largeSD": ["OpenGL 960 x 720 SD.webm", "OpenGL 960 x 720 SD.mp4"],
-          "smallHD": ["OpenGL 640 x 480 HD.webm", "OpenGL 640 x 480 HD.mp4"],
-          "smallSD": ["OpenGL 640 x 480 SD.webm", "OpenGL 640 x 480 SD.mp4"]
+          "large": ["OpenGL 960 x 720.webm", "OpenGL 960 x 720.mp4"],
+          "small": ["OpenGL 640 x 480.webm", "OpenGL 640 x 480.mp4"]
         }
       }
     }, {
@@ -141,7 +169,7 @@
       "clients": [],
       "description": "Flash and HTML based eCommerce applications built for DJs. Scalable REST based SOA that processed thousands of transactions and tens of thousands of audio streams a day. Product Manager for Beatport and Beatport Sounds. Director of Software Development.",
       "links": [{
-        "name": "Visit Beatport",
+        "name": "Beatport",
         "url": "https://www.beatport.com/"
       }],
       "preview": {
@@ -150,10 +178,8 @@
           "img": "Beatport.jpg"
         },
         "src": {
-          "largeHD": ["Beatport 960 x 720 HD.webm", "Beatport 960 x 720 HD.mp4"],
-          "largeSD": ["Beatport 960 x 720 SD.webm", "Beatport 960 x 720 SD.mp4"],
-          "smallHD": ["Beatport 640 x 480 HD.webm", "Beatport 640 x 480 HD.mp4"],
-          "smallSD": ["Beatport 640 x 480 SD.webm", "Beatport 640 x 480 SD.mp4"]
+          "large": ["Beatport 960 x 720.webm", "Beatport 960 x 720.mp4"],
+          "small": ["Beatport 640 x 480.webm", "Beatport 640 x 480.mp4"]
         }
       }
     }, {
@@ -174,7 +200,7 @@
       "team": 3,
       "clients": [],
       "links": [{
-        "name": "Visit PowerPro Leasing",
+        "name": "PowerPro Leasing",
         "url": "http://www.powerproleasing.com/"
       }],
       "description": "Reporting dashboard for PowerPro Leasing software. PDF and CSV generation for email reporting.",
@@ -184,10 +210,8 @@
           "img": "PowerPro.jpg"
         },
         "src": {
-          "largeHD": ["PowerPro 960 x 720 HD.webm", "PowerPro 960 x 720 HD.mp4"],
-          "largeSD": ["PowerPro 960 x 720 SD.webm", "PowerPro 960 x 720 SD.mp4"],
-          "smallHD": ["PowerPro 640 x 480 HD.webm", "PowerPro 640 x 480 HD.mp4"],
-          "smallSD": ["PowerPro 640 x 480 SD.webm", "PowerPro 640 x 480 SD.mp4"]
+          "large": ["PowerPro 960 x 720.webm", "PowerPro 960 x 720.mp4"],
+          "small": ["PowerPro 640 x 480.webm", "PowerPro 640 x 480.mp4"]
         }
       }
     }, {
@@ -213,13 +237,11 @@
       "preview": {
         "type": "video",
         "meta": {
-          "img": "BitMod.jpg"
+          "img": "BitMod2.jpg"
         },
         "src": {
-          "largeHD": ["BitMod 960 x 540 HD.webm", "BitMod 960 x 540 HD.mp4"],
-          "largeSD": ["BitMod 960 x 540 SD.webm", "BitMod 960 x 540 SD.mp4"],
-          "smallHD": ["BitMod 640 x 360 HD.webm", "BitMod 640 x 360 HD.mp4"],
-          "smallSD": ["BitMod 640 x 360 SD.webm", "BitMod 640 x 360 SD.mp4"]
+          "large": ["BitMod 960 x 540.webm", "BitMod 960 x 540.mp4"],
+          "small": ["BitMod 640 x 360.webm", "BitMod 640 x 360.mp4"]
         }
       }
     }, {
@@ -243,7 +265,7 @@
       "team": 10,
       "clients": [],
       "links": [{
-        "name": "Visit Foxden",
+        "name": "Foxden",
         "url": "https://my.foxden.io"
       }],
       "description": "WebRTC based video conferencing web application. Custom hardware with Bluetooth discovery of nearby meeting rooms. Android and iOS apps for remote control of video conferencing hardware and mobile meetings.",
@@ -253,10 +275,8 @@
           "img": "Foxden.jpg"
         },
         "src": {
-          "largeHD": ["Foxden 960 x 720 HD.webm", "Foxden 960 x 720 HD.mp4"],
-          "largeSD": ["Foxden 960 x 720 SD.webm", "Foxden 960 x 720 SD.mp4"],
-          "smallHD": ["Foxden 640 x 480 HD.webm", "Foxden 640 x 480 HD.mp4"],
-          "smallSD": ["Foxden 640 x 480 SD.webm", "Foxden 640 x 480 SD.mp4"]
+          "large": ["Foxden 960 x 720.webm", "Foxden 960 x 720.mp4"],
+          "small": ["Foxden 640 x 480.webm", "Foxden 640 x 480.mp4"]
         }
       }
     }, {
@@ -275,7 +295,7 @@
       "clients": [],
       "description": "Privacy focused social networking site with a large community of designers, artists and musicians.",
       "links": [{
-        "name": "Visit Ello",
+        "name": "Ello",
         "url": "https://ello.co/"
       }],
       "preview": {
@@ -284,10 +304,8 @@
           "img": "Ello.jpg"
         },
         "src": {
-          "largeHD": ["Ello 960 x 720 HD.webm", "Ello 960 x 720 HD.mp4"],
-          "largeSD": ["Ello 960 x 720 SD.webm", "Ello 960 x 720 SD.mp4"],
-          "smallHD": ["Ello 640 x 480 HD.webm", "Ello 640 x 480 HD.mp4"],
-          "smallSD": ["Ello 640 x 480 SD.webm", "Ello 640 x 480 SD.mp4"]
+          "large": ["Ello 960 x 720.webm", "Ello 960 x 720.mp4"],
+          "small": ["Ello 640 x 480.webm", "Ello 640 x 480.mp4"]
         }
       }
     }, {
@@ -301,7 +319,7 @@
       "team": 5,
       "clients": [],
       "links": [{
-        "name": "Visit Shutterstock Music",
+        "name": "Shutterstock Music",
         "url": "https://www.shutterstock.com/music/"
       }],
       "description": "Sync music licensing website expands the content licensing offering for Shutterstock.com. Managed development team, business relationships, product vision and user experience.",
@@ -311,10 +329,8 @@
           "img": "Shutterstock.jpg"
         },
         "src": {
-          "largeHD": ["Shutterstock 960 x 720 HD.webm", "Shutterstock 960 x 720 HD.mp4"],
-          "largeSD": ["Shutterstock 960 x 720 SD.webm", "Shutterstock 960 x 720 SD.mp4"],
-          "smallHD": ["Shutterstock 640 x 480 HD.webm", "Shutterstock 640 x 480 HD.mp4"],
-          "smallSD": ["Shutterstock 640 x 480 SD.webm", "Shutterstock 640 x 480 SD.mp4"]
+          "large": ["Shutterstock 960 x 720.webm", "Shutterstock 960 x 720.mp4"],
+          "small": ["Shutterstock 640 x 480.webm", "Shutterstock 640 x 480.mp4"]
         }
       }
     }, {
@@ -333,10 +349,8 @@
           "img": "Echo Machine.jpg"
         },
         "src": {
-          "largeHD": ["Echo Machine 960 x 720 HD.webm", "Echo Machine 960 x 720 HD.mp4"],
-          "largeSD": ["Echo Machine 960 x 720 SD.webm", "Echo Machine 960 x 720 SD.mp4"],
-          "smallHD": ["Echo Machine 640 x 480 HD.webm", "Echo Machine 640 x 480 HD.mp4"],
-          "smallSD": ["Echo Machine 640 x 480 SD.webm", "Echo Machine 640 x 480 SD.mp4"]
+          "large": ["Echo Machine 960 x 720.webm", "Echo Machine 960 x 720.mp4"],
+          "small": ["Echo Machine 640 x 480.webm", "Echo Machine 640 x 480.mp4"]
         }
       }
     }, {

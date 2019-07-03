@@ -11,7 +11,7 @@
     var image = encodeURIComponent(project.preview.meta.img);
     var poster = `assets/poster-frames/${image}`;
     var sources = project.preview.src;
-    var large = sources.largeHD[0];
+    var large = sources.large[0];
     var parts = large.split(' x ');
     var partsL = parts[0].trim().split(' ');
     var partsR = parts[1].trim().split(' ');
@@ -23,31 +23,16 @@
     style    += `padding-top: ${ratio}%;`;
     style    += "background-size: cover;"
 
-  //- .video-poster(
-  //-   name="poster"
-  //-   style=style,
-  //-   data-width=width,
-  //-   data-height=height,
-  //-   data-poster=poster,
-  //-   data-root=root,
-  //-   data-large-hd=sources.largeHD.join('||'),
-  //-   data-large-sd=sources.largeSD.join('||'),
-  //-   data-small-hd=sources.smallHD.join('||'),
-  //-   data-small-sd=sources.smallSD.join('||')
-  //- )
-
   video(
     loop,
     name="video",
-    poster=poster,
+    poster=`../../${poster}`,
     preload= projectIndex == 0 ? "auto" : "none"
     data-root=root,
-    data-large-hd=sources.largeHD.join('||'),
-    data-large-sd=sources.largeSD.join('||'),
-    data-small-hd=sources.smallHD.join('||'),
-    data-small-sd=sources.smallSD.join('||')
+    data-large=sources.large.join('||'),
+    data-small=sources.small.join('||'),
   )
-    each source in project.preview.src.smallHD
+    each source in project.preview.src.small
       -
         var parts = source.split('.');
         var type = parts[parts.length - 1];

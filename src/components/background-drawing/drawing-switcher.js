@@ -1,6 +1,7 @@
 import $ from 'jquery';
 
 import { TriangleDrawing } from './triangle-drawing';
+import { SolidTrianglesDrawing } from './solid-triangles-drawing';
 import { SineWaveDrawing } from './sine-wave';
 import { BoxesDrawing } from './boxes';
 
@@ -42,15 +43,17 @@ export class DrawingSwitcher {
 
       this.list = this.shuffle([
         new TriangleDrawing(this.context),
+        new SolidTrianglesDrawing(this.context),
         new SineWaveDrawing(this.context),
         new BoxesDrawing(this.context)
       ]);
       this.index = 0;
       this.drawing = this.list[this.index];
 
-      requestAnimationFrame(() => this.switch(this.index));
-
       this.initialized = true;
+
+      this.resize();
+      requestAnimationFrame(() => this.switch(this.index));
     }
   }
 
