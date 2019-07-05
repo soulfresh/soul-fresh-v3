@@ -1,20 +1,22 @@
 import $ from 'jquery';
 import EventEmitter from 'eventemitter3';
 import { selectors } from '../selectors';
+import { browser } from '../browser-detect';
+import { makeElement } from '../element-creator';
 
 export class Players extends EventEmitter {
   constructor() {
     super();
     this.ready = false;
-    this.paused = true;
     this.muted = false;
+    this.paused = browser.safari;
+    this.nativeControls = browser.safari;
     this._backgrounded = false;
-    this.nativeControls = false;
     this.errors = false;
     this.progressSpeed = 1000;
-    // The PROJECT element that is focused.
+    // The index of the video element that is focused.
     this.focused = null;
-    this.debug = false;
+    this.debug = true;
   }
 
   log() {
@@ -24,16 +26,53 @@ export class Players extends EventEmitter {
   }
 
   init(root) {
-    this.root = root;
-    this.projects = $(selectors.project);
-    this.videoContainers = $(this.root).find(selectors.container);
-    this.videos = this.videoContainers.find(selectors.video);
-    this.muteButtons = this.videoContainers.find(selectors.videoMute);
-    this.notifyWhenReady();
-    this.initPlayerButtons();
+    root = root[0];
+    this.onVideoProgress = this.onVideoProgress.bind(this);
+    this.onCheckProgress = this.onCheckProgress.bind(this);
     this.lastProgressEvent = Date.now();
 
-    this.onVideoProgress = this.updateVideoProgress.bind(this);
+    const projects = Array.from(root.querySelectorAll(selectors.project));
+
+    this.data = [];
+    projects.forEach((p, i) => {
+      const id = p.getAttribute('id');
+      const placeholder = p.querySelector(selectors.videoPlaceholder);
+
+      if (placeholder) {
+        const root = placeholder.getAttribute('data-root');
+        const small = placeholder.getAttribute('data-small')
+          .split('||')
+          .map((src) => `${root}/${src}`);
+        const large = placeholder.getAttribute('data-large')
+          .split('||')
+          .map((src) => `${root}/${src}`);
+
+        this.data.push({
+          id: id,
+          isVideoProject: true,
+          ready: false,
+          container: p.querySelector(selectors.container),
+          placeholder: placeholder,
+          poster: placeholder.getAttribute('data-poster'),
+          srcRoot: root,
+          srcsSmall: small,
+          srcsLarge: large,
+          video: null,
+          muteButton: p.querySelector(selectors.videoMute),
+          muted: this.muted,
+          pause: this.paused
+        });
+      } else {
+        this.data.push({isVideoProject: false});
+      }
+    });
+
+    // Initialize controls.
+    if (!this.nativeControls) {
+      this.initPlayerButtons();
+    } else {
+      this.useNativeControls();
+    }
 
     // If we're starting out muted.
     if (this.muted) {
@@ -44,9 +83,6 @@ export class Players extends EventEmitter {
     if (this.paused) {
       this.setGlobalPausedState(true);
     }
-
-    // Load a larger video if necessary.
-    this.updateVideoDimensions();
 
     if (this.debug) {
       this.onAbort          = () => this.log('abort', ...arguments);
@@ -64,55 +100,41 @@ export class Players extends EventEmitter {
       this.onPlay           = () => this.log('play', ...arguments);
       this.onPause          = () => this.log('pause', ...arguments);
     }
+
+    this.emit('ready');
   }
 
-  updateVideoDimensions() {
-    // Update the dimensions of all the videos.
+  useLargeVideo(el) {
     const small = 640;
     const overThreshold = 1.0;
-    const first = this.videos[0];
-
-    if (first.clientWidth > small * overThreshold) {
-      this.videos.each((i, v) => {
-        const root = v.getAttribute('data-root');
-        const large = v.getAttribute('data-large').split('||');
-        // const small = v.getAttribute('data-small').split('||');
-
-        $(v).find('source').each((j, s) => {
-          const url = `${root}/${large[j]}`;
-          s.setAttribute('src', url);
-        });
-        v.load();
-      });
-    }
+    return !browser.safari && el.clientWidth > small * overThreshold;
   }
 
-  updateVideoProgress() {
+  onVideoProgress() {
     this.lastProgressEvent = Date.now();
   }
 
-  checkProgress() {
-    // TODO Mute when window is backgrounded
+  onCheckProgress() {
     // TODO After enough data is loaded for the current video, start
     // preloading the next video.
     // TODO Test how quickly download is happening. If it's pretty fast
     // and the screen is large enough, boost the video quality for all videos.
     // Also do the inverse if downloads are slow.
-    console.log('check progress');
-    if (this.focused && !this.paused) {
-      const v = this.focused[0].querySelector('video');
+    this.log('check progress');
+    if (this.focused != null && !this.paused) {
+      const v = this.data[this.focused].video;
       const now = Date.now();
 
       if (now >= this.lastProgressEvent + this.progressSpeed) {
         this.log(`slow progress: ${now} >= ${this.lastProgressEvent + this.progressSpeed} = true`);
-        this.loadingState(v);
+        this.loadingState(this.focused);
       }
       else {
         this.log(`normal progress: ${now} >= ${this.lastProgressEvent + this.progressSpeed} = false`);
         if (!v.paused) {
-          this.playingState(v);
+          this.playingState(this.focused);
         } else {
-          this.pausedState(v);
+          this.pausedState(this.focused);
         }
       }
 
@@ -120,12 +142,14 @@ export class Players extends EventEmitter {
     }
   }
 
-  listenToStateChanges(v) {
+  listenToStateChanges(index) {
+    const v = this.data[index].video;
+
     // Turn on the loading state immediately.
-    this.loadingState(v);
+    this.loadingState(index);
 
     // TODO Do this in a request animation frame so it will pause when backgrounded.
-    this.interval = setInterval(this.checkProgress.bind(this), this.progressSpeed);
+    this.interval = setInterval(this.onCheckProgress, this.progressSpeed);
     v.addEventListener('timeupdate', this.onVideoProgress);
 
     if (this.debug) {
@@ -146,7 +170,9 @@ export class Players extends EventEmitter {
     }
   }
 
-  removeStateChanges(v) {
+  removeStateChanges(index) {
+    const v = this.data[index].video;
+
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
@@ -172,14 +198,16 @@ export class Players extends EventEmitter {
   }
 
   notifyWhenReady() {
-    this.videos.each((i, v) => {
-      if (v.readyState > 0) {
-        this.ready = true;
-      } else {
-        v.addEventListener('loadedmetadata', (event) => {
+    this.data.forEach((d, i) => {
+      if (d.isVideoProject && d.video) {
+        if (d.video.readyState > 0) {
           this.ready = true;
-          this.emit('ready');
-        });
+        } else {
+          v.addEventListener('loadedmetadata', (event) => {
+            this.ready = true;
+            this.emit('ready');
+          });
+        }
       }
     });
 
@@ -188,33 +216,44 @@ export class Players extends EventEmitter {
     }
   }
 
+  playClick(index) {
+    const p = this.data[index];
+    if (p.video) {
+      if (p.video.paused) {
+        this.paused = false;
+        this.play(index);
+        this.setGlobalPausedState(false);
+      } else {
+        this.paused = true;
+        this.pause(index);
+        this.setGlobalPausedState(true);
+      }
+    }
+  }
+
+  muteClick() {
+    this.muted = !this.muted;
+    if (this.muted) {
+      this.muteAll();
+    } else {
+      this.unmuteAll();
+    }
+  }
+
   initPlayerButtons() {
     if (!this.nativeControls) {
-      this.videoContainers.on('click', (event) => {
-        const target = event.currentTarget;
-        const video = target.querySelector(selectors.video);
-        const project = $(target).closest(selectors.project);
-        if (video.paused) {
-          this.paused = false;
-          this.play(project);
-          this.setGlobalPausedState(false);
-        } else {
-          this.paused = true;
-          this.pause(project);
-          this.setGlobalPausedState(true);
-        }
-      });
+      this.data.forEach((p, i) => {
+        if (p.isVideoProject) {
+          p.container.handleClick = (event) => {
+            this.playClick(i);
+          };
+          p.container.addEventListener('click', p.container.handleClick);
 
-      this.muteButtons.on('click', (event) => {
-        event.stopPropagation();
-        const target = event.currentTarget;
-        const video = target.querySelector(selectors.video);
-        const project = $(target).closest(selectors.project);
-        this.muted = !this.muted;
-        if (this.muted) {
-          this.muteAll();
-        } else {
-          this.unmuteAll();
+          p.muteButton.handleClick = (event) => {
+            event.stopPropagation();
+            this.muteClick();
+          };
+          p.muteButton.addEventListener('click', p.muteButton.handleClick);
         }
       });
     }
@@ -222,9 +261,9 @@ export class Players extends EventEmitter {
 
   setGlobalPausedState(paused = true) {
     if (paused) {
-      $(document.body).addClass('media-paused');
+      document.body.classList.add('media-paused');
     } else {
-      $(document.body).removeClass('media-paused');
+      document.body.classList.remove('media-paused');
     }
   }
 
@@ -237,7 +276,11 @@ export class Players extends EventEmitter {
   }
 
   disableCustomPlayButtons() {
-    this.videoContainers.off('click');
+    this.data.forEach((p, i) => {
+      if (p.container && p.container.handleClick) {
+        p.container.removeEventListener('click', p.container.handleClick);
+      }
+    });
   }
 
   muteAll() {
@@ -249,30 +292,31 @@ export class Players extends EventEmitter {
   }
 
   changeAllMuteStates(muted = true) {
-    this.videos.each((i, v) => {
-      v.muted = muted;
+    this.data.forEach((p, i) => {
+      if (p.isVideoProject && p.video) {
+        p.video.muted = muted;
+      }
     });
+
     this.muted = muted;
     this.setGlobalMutedState(this.muted);
-    // if (muted) {
-    //   document.body.classList.add('media-muted');
-    // } else {
-    //   document.body.classList.remove('media-muted');
-    // }
   }
 
-  pauseAllOthers(project) {
-    for (let i = 0; i < this.projects; i++) {
-      const p = this.projects[i];
-      if (p[0] !== project[0]) {
-        this.pause(p);
+  pauseAllOthers(index) {
+    for (let i = 0; i < this.data.length; i++) {
+      if (i !== index) {
+        this.pause(i);
       }
     }
   }
 
   showAllControls() {
     this.disableCustomPlayButtons();
-    this.videos.each((i, v) => v.controls = true);
+    this.data.forEach((d, i) => {
+      if (d.isVideoProject && d.video) {
+        d.video.controls = true;
+      }
+    })
     this.nativeControls = true;
     document.body.classList.add('show-native-media-controls');
   }
@@ -281,84 +325,103 @@ export class Players extends EventEmitter {
     this.log('Reverting to native video controls.');
     this.unmuteAll();
     this.showAllControls();
-    if (this.focused) {
-      const video = this.focused[0].querySelector('video');
-      this.removeStateChanges(video);
+    if (this.focused != null) {
+      this.removeStateChanges(this.focused);
     }
   }
 
-  playingState(video) {
-    const container = $(video).closest(selectors.container)
-    container.addClass('playing');
-    container.removeClass('loading');
+  playingState(index) {
+    const p = this.data[index];
+    p.container.classList.add('playing');
+    p.container.classList.remove('loading');
   }
 
-  pausedState(video) {
-    const container = $(video).closest(selectors.container);
-    container.removeClass('playing');
-    container.removeClass('loading');
+  pausedState(index) {
+    const p = this.data[index];
+    p.container.classList.remove('playing');
+    p.container.classList.remove('loading');
   }
 
-  loadingState(video) {
-    const container = $(video).closest(selectors.container);
-    container.removeClass('playing');
-    container.addClass('loading');
+  loadingState(index) {
+    const p = this.data[index];
+    p.container.classList.remove('playing');
+    p.container.classList.add('loading');
   }
 
-  focus(project) {
-    // Compare against the video node (rather than the jquery object)
-    // because we know the video node won't change.
-    if (this.focused && this.focused[0] !== project[0]) {
+  focus(index) {
+    const project = this.data[index];
+
+    // Pause the currently focused player.
+    if (this.focused != null && this.focused !== index) {
       this.pause(this.focused);
-    }
-
-    // If the project being focused has a video, store it
-    // as the focused element. Otherwise, clear our currently
-    // focused project because we don't care about this project.
-    const video = project[0].querySelector('video');
-    if (video) {
-      this.focused = project;
-      this.play(project);
-    } else {
       this.focused = null;
     }
+
+    if (project.isVideoProject) {
+      this.log('focused video', index);
+
+      if (!project.video) {
+        this.attachVideo(index);
+      }
+
+      this.focused = index;
+      this.play(index);
+      // this.preloadNext(index);
+    }
   }
 
-  unfocus(project) {
+  unfocus(index) {
     // If the project being unfocused is the item we currently have
     // as the focused project, clear the focused project. Otherwise,
     // leave the focused project alone.
-    if (this.focused && this.focused[0] === project[0]) {
+    if (this.focused != null && this.focused === index) {
       this.focused = null;
     }
 
-    this.pause(project);
+    this.pause(index);
+  }
+
+  preloadNext(index) {
+    const total = browser.safari ? 1 : 2;
+    const start = index + 1;
+    const end = Math.min(this.data.length, start + total);
+
+    this.log('preloading videos', start, ' -> ', end);
+
+    for (let i = start; i < end; i++) {
+      const p = this.data[i];
+      if (p.isVideoProject && p.video) {
+        p.video.setAttribute('preload', 'auto');
+      }
+    }
   }
 
   backgrounded() {
     this._backgrounded = true;
-    if (this.focused) {
+    if (this.focused != null) {
       this.pause(this.focused);
     }
   }
 
   foregrounded() {
     this._backgrounded = false;
-    if (this.focused) {
-      console.log('restarting the focused player', this.focused);
+    if (this.focused != null) {
+      this.log('restarting the focused player', this.focused);
       this.play(this.focused);
     }
   }
 
-  play(project) {
+  play(index) {
     // Do the auto play functionality if we're using the custom
     // controls and we haven't globally paused video playback.
-    if (!this.nativeControls && !this.paused) {
-      this.pauseAllOthers(project);
+    if (!this.paused) {
+      this.pauseAllOthers(index);
 
-      const video = project[0].querySelector('video');
-      if (video.paused) {
-        this.listenToStateChanges(video);
+      const video = this.data[index].video;
+      if (video && video.paused) {
+        this.listenToStateChanges(index);
+
+        this.log('playing video', video);
         const result = video.play();
         if (result && result.catch) {
           result
@@ -382,45 +445,80 @@ export class Players extends EventEmitter {
     }
   }
 
-  pause(project) {
-    const video = project[0].querySelector('video');
-    if (!video.paused) {
+  pause(index) {
+    const video = this.data[index].video;
+    if (video) {
       video.pause();
-      this.removeStateChanges(video);
-      this.pausedState(video);
+      this.removeStateChanges(index);
+      this.pausedState(index);
+
+      // Remove the video element in Safari in order
+      // to improve load performance of the next video.
+      if (browser.safari) {
+        this.detachVideo(index);
+      }
     }
   }
 
-  // Can be used to dynamically attach a video to the page.
-  show(project) {
-    const video = project.find(selectors.video);
-
-    if (video.length < 1) {
-      const image = project.find(selectors.poster);
-      const container = project.find(selectors.container);
-      const poster = image.attr('data-poster');
-      const sources = image.attr('data-small-sd').split('||');
-      const root = image.attr('data-root');
-
-      // Generate the video element.
-      const video = $(
-        `<video name="video" loop preload="auto" poster=${poster}></video>`
-      );
-      sources.forEach((s) => {
-        const parts = s.split('.');
-        const type = parts[parts.length - 1];
-        video.append(`<source src="${root}/${s}" type="video/${type}"></source>`);
-      });
-
-      // Remove the image.
-      // TODO Don't remove the image because it causes a content flash.
-      image.remove();
-
-      // Add the video element.
-      container.append(video);
-
-      // Update the list of videos.
-      this.videos = this.videoContainers.find(selectors.video);
+  hidePlaceholder(index) {
+    const p = this.data[index];
+    if (p.placeholder) {
+      p.placeholder.style.visibility = 'hidden';
     }
+  }
+
+  showPlaceholder(index) {
+    const p = this.data[index];
+    if (p.placeholder) {
+      p.placeholder.style.visibility = 'visible';
+    }
+  }
+
+  detachVideo(index) {
+    this.log('detach video', this.data[index].id);
+    this.showPlaceholder(index);
+    const p = this.data[index];
+    p.video.remove();
+    p.video = null;
+  }
+
+  // Can be used to dynamically attach a video to the page.
+  attachVideo(index) {
+    this.log('attach video', this.data[index].id);
+    const project = this.data[index];
+
+    // Generate the video element.
+    const video = makeElement(
+      `<video name="video" class="video"
+         loop preload="auto"
+         ${!this.paused ? 'autoplay' : ''}
+         ${this.muted ? 'muted' : ''}
+         ${this.nativeControls ? 'controls' : ''}
+         poster=${project.poster}>
+       </video>`
+    );
+
+    const sources = this.useLargeVideo(project.placeholder)
+      ? project.srcsLarge
+      : project.srcsSmall;
+
+    sources.forEach((s) => {
+      const parts = s.split('.');
+      const type = parts[parts.length - 1];
+      const source = makeElement(
+        `<source src="${s}" type="video/${type}"></source>`
+      );
+      video.appendChild(source);
+    });
+
+    // Add the video element.
+    project.container.append(video);
+
+    setTimeout(() =>
+      this.hidePlaceholder(index)
+    , 1000);
+
+    project.video = video;
+    project.ready = true;
   }
 }

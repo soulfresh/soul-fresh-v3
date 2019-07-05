@@ -118,7 +118,7 @@ logo.once('ready', () => {
   projectsHelper.on('focused', (i) => {
     requestAnimationFrame(() => {
       const project = projects.eq(i);
-      players.focus(project);
+      players.focus(i);
       years.focus(i);
     });
   });

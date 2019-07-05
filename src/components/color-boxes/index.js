@@ -2,16 +2,16 @@ import $ from 'jquery';
 import { selectors } from '../selectors';
 
 export class Boxes {
-  constructor(root, ids, ratio=1) {
+  constructor(root, data, ratio=1) {
     this.root = root;
-    this.ids = ids;
+    this.data = data;
     this.ratio = ratio;
   }
 
   createBoxes(name, classes) {
-    this.ids.forEach((id) => {
+    this.data.forEach((d) => {
       this.container.append(
-        `<div name="${name}" class="${id} ${classes}"></div>`
+        `<div name="${name}" class="${d.id} ${classes}"></div>`
       );
     });
     this.boxes = this.container.find(`[name=${name}]`);
@@ -23,8 +23,8 @@ export class Boxes {
 }
 
 export class LeftColors extends Boxes {
-  constructor(root, ids, ratio=1.1) {
-    super(root, ids, ratio);
+  constructor(root, data, ratio=1.1) {
+    super(root, data, ratio);
   }
 
   init() {
@@ -44,8 +44,8 @@ export class LeftColors extends Boxes {
 }
 
 export class RightColors extends Boxes {
-  constructor(root, ids, ratio=1.5) {
-    super(root, ids, ratio);
+  constructor(root, data, ratio=1.5) {
+    super(root, data, ratio);
   }
 
   init() {

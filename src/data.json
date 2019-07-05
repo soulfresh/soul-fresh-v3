@@ -133,7 +133,7 @@
       ],
       "year": 2008,
       "color": "#ec3b02",
-      "company": "",
+      "company": "sfFreeFrame",
       "positions": [],
       "clients": [],
       "description": "3d video plugins for video and VJ software using the FreeFrame plugin architecture.",
@@ -179,7 +179,10 @@
         },
         "src": {
           "large": ["Beatport 960 x 720.webm", "Beatport 960 x 720.mp4"],
-          "small": ["Beatport 640 x 480.webm", "Beatport 640 x 480.mp4"]
+          "small": [
+            "Beatport 640 x 480.webm",
+            "Beatport 640 x 480.mp4"
+          ]
         }
       }
     }, {
@@ -229,7 +232,7 @@
       ],
       "year": 2019,
       "color": "#d5df7e",
-      "company": "",
+      "company": "BitMod",
       "positions": [],
       "clients": [],
       "links": [],
@@ -322,7 +325,7 @@
         "name": "Shutterstock Music",
         "url": "https://www.shutterstock.com/music/"
       }],
-      "description": "Sync music licensing website expands the content licensing offering for Shutterstock.com. Managed development team, business relationships, product vision and user experience.",
+      "description": "Sync music licensing website expands the content licensing offering for Shutterstock.com. Managed development team, business relationships, product vision and user testing.",
       "preview": {
         "type": "video",
         "meta": {

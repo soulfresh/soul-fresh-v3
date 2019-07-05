@@ -23,21 +23,14 @@
     style    += `padding-top: ${ratio}%;`;
     style    += "background-size: cover;"
 
-  video(
-    loop,
-    name="video",
-    poster=`../../${poster}`,
-    preload= projectIndex == 0 ? "auto" : "none"
+  img(
+    class="video-placeholder"
+    name="videoPlaceholder",
+    src=`../../${poster}`,
+    data-poster=`/${poster}`,
+    data-id=project.id,
     data-root=root,
     data-large=sources.large.join('||'),
     data-small=sources.small.join('||'),
   )
-    each source in project.preview.src.small
-      -
-        var parts = source.split('.');
-        var type = parts[parts.length - 1];
 
-      source(
-        src=`${root}/${source}`
-        type="video/" + type
-      )
