@@ -19,61 +19,70 @@ export class Projects extends EventEmitter {
   init(root) {
     this.root = root;
     this.projects = $(this.root).find(selectors.project);
+
+    const projects = Array.from(root[0].querySelectorAll(selectors.project));
+    this.data = [];
+    projects.forEach((p, i) => {
+      this.data.push({
+        id: p.getAttribute('id'),
+        focused: false,
+        container: p,
+        preview: p.querySelector(selectors.preview),
+        title: p.querySelector(selectors.projectTitle)
+      });
+    });
   }
 
   testFocus(bottom) {
     let found = false;
 
-    for (let i = 0; i < this.projects.length; i++) {
-      // Use the project element to track focus.
-      let project = this.projects[i];
-      // But use the preview bounds to determine what is considered "focused".
-      let preview = project.querySelector(selectors.preview);
-      let bounds = preview.getBoundingClientRect();
+    this.data.forEach((project, i) => {
+      let bounds = project.preview.getBoundingClientRect();
       let previewBottom = bounds.top + bounds.height * 0.3;
 
       if (bounds.top < 0) {
-        this.projectHidden(project, i);
+        this.projectHidden(i);
       } else if (previewBottom < bottom && !found) {
-        this.projectFocused(project, i);
+        this.projectFocused(i);
         found = true;
-      } else if (project.__focused) {
-        this.projectHidden(project, i);
+      } else if (project.focused) {
+        this.projectHidden(i);
       }
-    }
+    });
   }
 
-  projectFocused(project, index) {
-    if (!project.__focused) {
-      project.__focused = true;
+  projectFocused(index) {
+    const p = this.data[index];
+    if (!p.focused) {
+      p.focused = true;
       this.focus(index);
       this.emit('focused', index);
     }
   }
 
-  projectHidden(project, index) {
-    if (project.__focused) {
-      project.__focused = false;
+  projectHidden(index) {
+    const p = this.data[index];
+    if (p.focused) {
+      p.focused = false;
       this.hide(index);
       this.emit('hidden', index);
     }
   }
 
   focus(index) {
-    const project = this.projects[index];
-    const title = project.querySelector(selectors.projectTitle);
+    const p = this.data[index];
     requestAnimationFrame(() => {
-      project.classList.add('focused');
-      SizeAnimation.unroll($(title));
+      p.container.classList.add('focused');
+      SizeAnimation.unroll($(p.title));
     });
   }
 
   hide(index) {
-    const project = this.projects[index];
-    const title = project.querySelector(selectors.projectTitle);
+    const p = this.data[index];
     requestAnimationFrame(() => {
-      project.classList.remove('focused');
-      SizeAnimation.roll($(title));
+      p.container.classList.remove('focused');
+      SizeAnimation.roll($(p.title));
     });
   }
 }
+

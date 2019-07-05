@@ -16,7 +16,7 @@ export class Players extends EventEmitter {
     this.progressSpeed = 1000;
     // The index of the video element that is focused.
     this.focused = null;
-    this.debug = true;
+    this.debug = false;
   }
 
   log() {
@@ -476,7 +476,8 @@ export class Players extends EventEmitter {
 
   detachVideo(index) {
     this.log('detach video', this.data[index].id);
-    this.showPlaceholder(index);
+    // this.showPlaceholder(index);
+
     const p = this.data[index];
     p.video.remove();
     p.video = null;
@@ -514,9 +515,7 @@ export class Players extends EventEmitter {
     // Add the video element.
     project.container.append(video);
 
-    setTimeout(() =>
-      this.hidePlaceholder(index)
-    , 1000);
+    // this.hidePlaceholder(index)
 
     project.video = video;
     project.ready = true;

@@ -33,18 +33,24 @@ const log = function() {
 };
 
 // Get the ids of all our projects.
-const projectIds = [];
+const data = [];
 projects.each((i, p) => {
-  projectIds.push(p.getAttribute('id'));
+  const id = p.getAttribute('id');
+  const video = p.querySelector(selectors.videoPlaceholder);
+
+  data.push({
+    id: id,
+    type: video ? 'video' : 'audio'
+  });
 });
 
-const colorsL = new LeftColors(root, projectIds);
+const colorsL = new LeftColors(root, data);
 colorsL.init();
 
 const years = new Years(root);
 years.init();
 
-const bgColors = new BackgroundColors(root, projectIds);
+const bgColors = new BackgroundColors(root, data);
 bgColors.init();
 
 const menu = new Menu(header);
@@ -103,6 +109,10 @@ const onResize = throttle(() => {
 
 const logo = new Logo();
 
+// TODO The page scroll gets janky the further down the page we scroll.
+// See if there are any additional optimizations we can make.
+// Also take advantage of scroll hinting.
+
 // Once the logo is done animating, initialize the rest of our components.
 logo.once('ready', () => {
   // console.profileEnd();
@@ -139,7 +149,7 @@ logo.once('ready', () => {
   });
 
   win.on('resize', onResize);
-  win.scroll(() => onScroll(false));
+  window.addEventListener('scroll', () => onScroll(false), {passive: true});
 
   // TODO We are missing this event.
   setTimeout(() => {
