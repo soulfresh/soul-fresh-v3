@@ -40,7 +40,7 @@ const config = {
         use: [
           miniCssExtractPlugin.loader,
           "css-loader",
-          // "postcss-loader"
+          "postcss-loader",
           {
             loader: "sass-loader",
             // Apply the JSON importer via sass-loader"s options.

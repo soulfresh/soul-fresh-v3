@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'mdn-polyfills/Array.from';
 import EventEmitter from 'eventemitter3';
 import { SizeAnimation } from '../size-animation';
 import { selectors } from '../selectors';

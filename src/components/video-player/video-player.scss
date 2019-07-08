@@ -27,6 +27,31 @@
   }
 }
 
+@keyframes rotate {
+  from {
+    transform: rotate(-45deg);
+  }
+  to {
+    transform: rotate(-405deg);
+  }
+}
+
+$end: 160;
+@keyframes dash-spin {
+  0% {
+    stroke-dasharray: 10 $end;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: $end $end;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dasharray: $end $end;
+    stroke-dashoffset: -180;
+  }
+}
+
 body {
   // Hide custom controls by default.
   .play-video,
@@ -126,23 +151,57 @@ body {
     }
   }
 
+  .loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    overflow: hidden;
+    border-radius: 50%;
+
+    .dashes {
+      fill: none;
+      stroke: white;
+      stroke-width: 15px;
+      stroke-dasharray: 200 0;
+      stroke-linecap: round;
+      transform-origin: center;
+    }
+
+    .background {
+      fill: currentColor;
+    }
+  }
+
   &.loading {
     .play-video {
       opacity: $hover-state-opacity;
 
-      i::before {
-        // content: "\f063"; // down arrow
-        // content: "\f0ab"; // down arrow circle
-        // content: "\f059"; // question mark
-        content: "\f1ce"; // circle notch
-        // content: "\f110"; // dot spinner
-        animation: spin 1s infinite ease-in-out;
+      .play-icon {
+        visibility: hidden;
+      }
+
+      .loader {
+        visibility: visible;
+
+        .dashes {
+          animation: dash-spin 2s infinite ease-in-out,
+            rotate 500ms infinite linear;
+        }
       }
     }
   }
 
   &.playing {
     .play-video {
+      .play-icon {
+        visibility: visible;
+      }
+
+      .loader {
+        visibility: hidden;
+      }
+
       i::before {
         content: "\f28b";
       }

@@ -9,8 +9,8 @@ export class Players extends EventEmitter {
     super();
     this.ready = false;
     this.muted = false;
-    this.paused = browser.safari;
-    this.nativeControls = browser.safari;
+    this.paused = false;
+    this.nativeControls = false;
     this._backgrounded = false;
     this.errors = false;
     this.progressSpeed = 1000;
@@ -310,6 +310,11 @@ export class Players extends EventEmitter {
     }
   }
 
+  pauseAll() {
+    this.data.forEach((i) => this.pause(i));
+    this.paused = true;
+  }
+
   showAllControls() {
     this.disableCustomPlayButtons();
     this.data.forEach((d, i) => {
@@ -324,6 +329,7 @@ export class Players extends EventEmitter {
   useNativeControls() {
     this.log('Reverting to native video controls.');
     this.unmuteAll();
+    this.pauseAll();
     this.showAllControls();
     if (this.focused != null) {
       this.removeStateChanges(this.focused);
@@ -513,7 +519,7 @@ export class Players extends EventEmitter {
     });
 
     // Add the video element.
-    project.container.append(video);
+    project.container.appendChild(video);
 
     // this.hidePlaceholder(index)
 
