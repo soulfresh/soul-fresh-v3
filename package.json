@@ -19,7 +19,7 @@
   "homepage": "https://github.com/soulfresh/soul-fresh-v3#readme",
   "dependencies": {
     "eventemitter3": "^3.1.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "lodash": "^4.17.11",
     "mdn-polyfills": "^5.17.1"
   },
