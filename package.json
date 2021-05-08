@@ -20,7 +20,7 @@
   "dependencies": {
     "eventemitter3": "^3.1.0",
     "jquery": "^3.4.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "mdn-polyfills": "^5.17.1"
   },
   "devDependencies": {
