@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import projectsData from "../../src/data.json";
 import Menu from "./components/Menu";
 import Project from "./components/Project";
+import { legacyInit } from "../../src/index.js";
 
 // Sort and augment projects as in layout.pug
 const projects = [...(projectsData.projects || [])];
@@ -31,8 +32,34 @@ if (!projects.find((p) => p.preview?.type === "contact")) {
   });
 }
 
+function injectProjectColors(projects) {
+  let styles = "";
+  projects.forEach((p, i) => {
+    const degrees = (360 / projects.length) * i;
+    const hue = (degrees + 90) % 360;
+    const color = `hsla(${hue}, 50%, 50%, 1)`;
+    const light = `hsla(${hue}, 50%, 80%, 1)`;
+    styles += `\n.${p.id}.color-text, .${p.id} .color-text { color: ${color}; }`;
+    styles += `\n.${p.id}.color-background, .${p.id} .color-background { background-color: ${color}; }`;
+    styles += `\n.${p.id}.color-background-light, .${p.id} .color-background-light { background-color: ${light}; }`;
+  });
+  let styleTag = document.getElementById("project-colors");
+  if (!styleTag) {
+    styleTag = document.createElement("style");
+    styleTag.id = "project-colors";
+    document.head.appendChild(styleTag);
+  }
+  styleTag.innerHTML = styles;
+}
+
 export default function App() {
   const first = projects[0];
+
+  useEffect(() => {
+    injectProjectColors(projects);
+    legacyInit();
+  }, []);
+
   return (
     <div className="app-container">
       <header className="header" name="header">
