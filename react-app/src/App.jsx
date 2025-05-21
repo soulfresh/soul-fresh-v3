@@ -1,5 +1,5 @@
 import React from "react";
-import projectsData from "../../../src/data.json";
+import projectsData from "../../src/data.json";
 import Menu from "./components/Menu";
 import Project from "./components/Project";
 
@@ -46,14 +46,16 @@ export default function App() {
         </h1>
         <Menu />
       </header>
-      <div className={`subhead color-text ${first.id}`}>A software developer in Denver, CO</div>
+      <div className={`subhead color-text ${first.id}`}>
+        A software developer in Denver, CO
+      </div>
       <main className="content" name="root">
         <section id="work" className="work">
           {projects.map(
             (project, i) =>
               (project.enabled === undefined || project.enabled === true) && (
                 <Project key={project.id || i} project={project} />
-              )
+              ),
           )}
         </section>
       </main>
