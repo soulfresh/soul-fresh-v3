@@ -1,0 +1,106 @@
+// TODO Download this font and serve it myself.
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,900|Quicksand:300);
+@import '../../src/_variables';
+@import '../../src/_utils';
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: $f-body;
+  font-size: $f-m;
+  font-weight: $f-normal;
+  letter-spacing: 0.03em;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  font-size: $f-xxxl;
+
+  a:not(:last-child) {
+    margin-right: px($s-m);
+  }
+}
+
+a {
+  opacity: 0.7;
+  transition: opacity linear $t-s;
+  text-decoration: none;
+  color: black;
+
+  // i {
+  //   opacity: 0.5;
+  // }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+button {
+  background: none;
+  border: none;
+  border-radius: px($s-s);
+  background-color: #fff;
+  transition: background-color $t-s linear;
+  cursor: pointer;
+
+  i {
+    font-size: $f-ll;
+  }
+
+  &:hover {
+    background-color: rgba(#000, 0.1);
+  }
+}
+
+.app-container {
+  position: relative;
+  box-shadow: 0px 0 150px 0px rgba(0, 0, 0, 0.28);
+  background-color: white;
+  width: 100%;
+  overflow: hidden;
+
+  @include media-breakpoint-up(md) {
+    overflow: visible;
+    width: 80%;
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 60%;
+  }
+}
+
+.content {
+  display: flex;
+}
+
+.work {
+  padding-left: px($left-colors-width);
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    padding-left: 10%;
+    padding-right: px($s-l);
+  }
+}
+
+@import "../../src/components/header";
+@import "../../src/components/menu/menu";
+@import "../../src/components/video-player/video-player.scss";
+@import "../../src/components/audio-player/audio-player.scss";
+@import "../../src/components/years/years";
+@import "../../src/components/projects/project.scss";
+@import "../../src/components/experience/experience.scss";
+@import "../../src/components/contact/contact";
+@import "../../src/components/color-boxes/colors.scss";
+@import "../../src/components/background-drawing/background-drawing";
