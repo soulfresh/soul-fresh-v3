@@ -40,7 +40,6 @@ export class PlayersInteractivity extends EventEmitter {
 
       if (placeholder) {
         const root = placeholder.getAttribute("data-root");
-        debugger;
         const small = placeholder
           .getAttribute("data-small")
           .split("||")

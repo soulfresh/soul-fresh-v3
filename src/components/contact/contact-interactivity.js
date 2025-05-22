@@ -1,6 +1,4 @@
-import $ from "jquery";
-
-export class Contact {
+export class ContactInteractivity {
   constructor(root, address) {
     const hp = window.location.hostname.split("www.");
     const h = hp.length === 1 ? hp[0] : hp[1];

@@ -5,39 +5,18 @@ import $ from "jquery";
 import { throttle } from "lodash";
 
 import {
-  // VideoPlayer as Players,
   PlayersInteractivity as Players,
   Dimensions,
   ProjectsInteractivity as Projects,
   selectors,
   Years,
   LeftColors,
-  // RightColors,
   BackgroundColors,
   DrawingSwitcher,
-  // SineWaveDrawing,
-  // BoxesDrawing,
-  // TriangleDrawing,
   MenuInteractivity as Menu,
-  Contact,
+  ContactInteractivity as Contact,
   Logo,
 } from "@/components";
-// import { VideoPlayer as Players } from "@/components/video-player";
-// import { Dimensions } from "@/components/dimensions";
-// import { Project as Projects } from "@/components/projects";
-// import { selectors } from "@/components/selectors";
-// import { Years } from "@/components/years";
-// import { LeftColors, RightColors } from "@/components/color-boxes/color-boxes";
-// import { BackgroundColors } from "@/components/background-colors";
-// import {
-//   DrawingSwitcher,
-//   SineWaveDrawing,
-//   BoxesDrawing,
-//   TriangleDrawing,
-// } from "@/components/background-drawing";
-// import { Menu } from "@/components/menu";
-// import { Contact } from "@/components/contact";
-// import { Logo } from "@/components/logo";
 
 const debug = false;
 
@@ -49,16 +28,15 @@ export function legacyInit() {
   const projects = $(selectors.project);
   const dimensions = new Dimensions();
 
-  const log = function () {
+  const log = function (...args: unknown[]) {
     if (debug) {
-      // eslint-disable-next-line prefer-rest-params
-      console.log(arguments);
+      console.log(...args);
     }
   };
 
   // Get the ids of all our projects.
-  const data = [];
-  projects.each((i, p) => {
+  const data: { id: string | null; type: "video" | "audio" }[] = [];
+  projects.each((_i, p) => {
     const id = p.getAttribute("id");
     const video = p.querySelector(selectors.videoPlaceholder);
     data.push({
@@ -79,11 +57,11 @@ export function legacyInit() {
   const menu = new Menu(header);
   menu.init();
 
-  let projectsHelper, players, drawing;
+  let projectsHelper: Projects, players: Players, drawing: DrawingSwitcher;
 
   const parallax = () => {
     const scrolled = dimensions.scrollPercent();
-    years.scroll(scrolled, dimensions.scrollH, dimensions.viewportH);
+    years.scroll(scrolled, dimensions.scrollH);
     colorsL.scroll(scrolled, dimensions.scrollH, dimensions.viewportH);
     drawing.scroll(scrolled);
   };
@@ -100,7 +78,7 @@ export function legacyInit() {
     log("[start] begin");
     drawing.init();
     log("[start] drawing initialized");
-    new Contact($("#contact [name=cSlot]"), "makecontact");
+    new Contact($(selectors.contact), "makecontact");
     log("[start] end");
   };
 

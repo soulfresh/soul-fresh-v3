@@ -1,4 +1,52 @@
-const data = {
+interface Link {
+  name: string;
+  url: string;
+}
+
+interface Preview {
+  type: string;
+  meta?: unknown;
+  src?: {
+    large: string[];
+    small: string[];
+  };
+}
+
+export interface Project {
+  id: string;
+  name: string;
+  tools: string[];
+  year: string | number;
+  color: string;
+  company: string;
+  positions: string[];
+  team?: number;
+  clients: string[];
+  description: string;
+  links: Link[];
+  preview: Preview;
+  enabled?: boolean;
+}
+
+interface About {
+  contact: string;
+  available: boolean;
+  bio: string;
+  practices: string[];
+  technologies: string[];
+  frameworks: string[];
+  software: string[];
+  languages: string[];
+  linkedin: string;
+  github: string;
+}
+
+export interface ProjectsData {
+  about: About;
+  projects: Project[];
+}
+
+export const data: ProjectsData = {
   about: {
     contact: "makecontact",
     available: true,
@@ -330,121 +378,120 @@ const data = {
         },
       },
     },
-    {
-      id: "echo-machine",
-      name: "Echo Machine",
-      tools: [],
-      year: 2005,
-      color: "#000000",
-      company: "",
-      positions: [],
-      clients: [],
-      links: [],
-      preview: {
-        type: "video",
-        meta: {
-          img: "Echo Machine.jpg",
-        },
-        src: {
-          large: ["Echo Machine 960 x 720.webm", "Echo Machine 960 x 720.mp4"],
-          small: ["Echo Machine 640 x 480.webm", "Echo Machine 640 x 480.mp4"],
-        },
-      },
-    },
-    {
-      id: "moongold",
-      enabled: true,
-      name: "Moongold",
-      tools: [],
-      year: 2011,
-      color: "#4e8bae",
-      company: "Moongold",
-      positions: [],
-      clients: [],
-      description: "Soul / Downtempo",
-      links: [
-        {
-          name: "Bandcamp",
-          icon: "fab fa-bandcamp",
-          url: "https://moongoldmusic.bandcamp.com/album/moongold",
-        },
-        {
-          name: "Spotify",
-          icon: "fab fa-spotify",
-          url: "https://open.spotify.com/album/23hqlkxBej7XjFUlMpkXKH",
-        },
-        {
-          name: "iTunes",
-          icon: "fab fa-itunes",
-          url: "https://itunes.apple.com/us/album/friday-saturday-sunday-ep/id1091490097?uo=4&app=itunes&at=1001lry3&ct=dashboard",
-        },
-        {
-          name: "Google Play",
-          icon: "fab fa-google-play",
-          url: "https://play.google.com/store/music/album/Moongold_Friday_Saturday_Sunday?id=Buop2bc3yhau2nszun4tw47fvfq",
-        },
-        {
-          name: "Amazon Music",
-          icon: "fab fa-amazon",
-          url: "http://www.amazon.com/gp/product/B01CQW8PTC/?tag=distrokid06-20",
-        },
-      ],
-      preview: {
-        type: "music",
-        src: [],
-        meta: {
-          id: 513497906,
-          img: "https://f4.bcbits.com/img/a4204002963_16.jpg",
-        },
-      },
-    },
-    {
-      id: "move-shake-pause-repeat",
-      enabled: true,
-      name: "Move Shake Pause Repeat",
-      tools: [],
-      year: 2018,
-      color: "#eca800",
-      company: "Move Shake Pause Repeat",
-      positions: [],
-      clients: [],
-      description: "Post Rock",
-      links: [
-        {
-          name: "Bandcamp",
-          icon: "fab fa-bandcamp",
-          url: "https://moveshakepauserepeat.bandcamp.com/album/move-shake-pause-repeat",
-        },
-        {
-          name: "Spotify",
-          icon: "fab fa-spotify",
-          url: "https://open.spotify.com/album/2USwvMh5tK2PAGxl7fcrQA",
-        },
-        {
-          name: "iTunes",
-          icon: "fab fa-itunes",
-          url: "https://itunes.apple.com/us/album/move-shake-pause-repeat/1449436404?uo=4&app=music&at=1001lry3&ct=dashboard&app=itunes&at=1001lry3&ct=dashboard",
-        },
-        {
-          name: "Google Play",
-          icon: "fab fa-google-play",
-          url: "https://play.google.com/store/music/album/Move_Shake_Pause_Repeat_Move_Shake_Pause_Repeat?id=B7iagss6ejaj7pt3zpwx253huky",
-        },
-        {
-          name: "Amazon Music",
-          icon: "fab fa-amazon",
-          url: "http://www.amazon.com/gp/product/B07M83DHYL/?tag=distrokid06-20",
-        },
-      ],
-      preview: {
-        type: "music",
-        src: [],
-        meta: {
-          id: 4267962352,
-          img: "https://f4.bcbits.com/img/a1231200312_16.jpg",
-        },
-      },
-    },
+    // {
+    //   id: "echo-machine",
+    //   name: "Echo Machine",
+    //   tools: [],
+    //   year: 2005,
+    //   color: "#000000",
+    //   company: "",
+    //   positions: [],
+    //   clients: [],
+    //   links: [],
+    //   preview: {
+    //     type: "video",
+    //     meta: {
+    //       img: "Echo Machine.jpg",
+    //     },
+    //     src: {
+    //       large: ["Echo Machine 960 x 720.webm", "Echo Machine 960 x 720.mp4"],
+    //       small: ["Echo Machine 640 x 480.webm", "Echo Machine 640 x 480.mp4"],
+    //     },
+    //   },
+    // },
+    // {
+    //   id: "moongold",
+    //   enabled: true,
+    //   name: "Moongold",
+    //   tools: [],
+    //   year: 2011,
+    //   color: "#4e8bae",
+    //   company: "Moongold",
+    //   positions: [],
+    //   clients: [],
+    //   description: "Soul / Downtempo",
+    //   links: [
+    //     {
+    //       name: "Bandcamp",
+    //       icon: "fab fa-bandcamp",
+    //       url: "https://moongoldmusic.bandcamp.com/album/moongold",
+    //     },
+    //     {
+    //       name: "Spotify",
+    //       icon: "fab fa-spotify",
+    //       url: "https://open.spotify.com/album/23hqlkxBej7XjFUlMpkXKH",
+    //     },
+    //     {
+    //       name: "iTunes",
+    //       icon: "fab fa-itunes",
+    //       url: "https://itunes.apple.com/us/album/friday-saturday-sunday-ep/id1091490097?uo=4&app=itunes&at=1001lry3&ct=dashboard",
+    //     },
+    //     {
+    //       name: "Google Play",
+    //       icon: "fab fa-google-play",
+    //       url: "https://play.google.com/store/music/album/Moongold_Friday_Saturday_Sunday?id=Buop2bc3yhau2nszun4tw47fvfq",
+    //     },
+    //     {
+    //       name: "Amazon Music",
+    //       icon: "fab fa-amazon",
+    //       url: "http://www.amazon.com/gp/product/B01CQW8PTC/?tag=distrokid06-20",
+    //     },
+    //   ],
+    //   preview: {
+    //     type: "music",
+    //     src: [],
+    //     meta: {
+    //       id: 513497906,
+    //       img: "https://f4.bcbits.com/img/a4204002963_16.jpg",
+    //     },
+    //   },
+    // },
+    // {
+    //   id: "move-shake-pause-repeat",
+    //   enabled: true,
+    //   name: "Move Shake Pause Repeat",
+    //   tools: [],
+    //   year: 2018,
+    //   color: "#eca800",
+    //   company: "Move Shake Pause Repeat",
+    //   positions: [],
+    //   clients: [],
+    //   description: "Post Rock",
+    //   links: [
+    //     {
+    //       name: "Bandcamp",
+    //       icon: "fab fa-bandcamp",
+    //       url: "https://moveshakepauserepeat.bandcamp.com/album/move-shake-pause-repeat",
+    //     },
+    //     {
+    //       name: "Spotify",
+    //       icon: "fab fa-spotify",
+    //       url: "https://open.spotify.com/album/2USwvMh5tK2PAGxl7fcrQA",
+    //     },
+    //     {
+    //       name: "iTunes",
+    //       icon: "fab fa-itunes",
+    //       url: "https://itunes.apple.com/us/album/move-shake-pause-repeat/1449436404?uo=4&app=music&at=1001lry3&ct=dashboard&app=itunes&at=1001lry3&ct=dashboard",
+    //     },
+    //     {
+    //       name: "Google Play",
+    //       icon: "fab fa-google-play",
+    //       url: "https://play.google.com/store/music/album/Move_Shake_Pause_Repeat_Move_Shake_Pause_Repeat?id=B7iagss6ejaj7pt3zpwx253huky",
+    //     },
+    //     {
+    //       name: "Amazon Music",
+    //       icon: "fab fa-amazon",
+    //       url: "http://www.amazon.com/gp/product/B07M83DHYL/?tag=distrokid06-20",
+    //     },
+    //   ],
+    //   preview: {
+    //     type: "music",
+    //     src: [],
+    //     meta: {
+    //       id: 4267962352,
+    //       img: "https://f4.bcbits.com/img/a1231200312_16.jpg",
+    //     },
+    //   },
+    // },
   ],
 };
-export default data;

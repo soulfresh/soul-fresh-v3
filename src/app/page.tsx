@@ -2,22 +2,28 @@ import { Project, Menu } from "@/components";
 import { Init } from "./init";
 
 import "./page.scss";
-import projectsData from "./data";
+import { data as projectsData } from "./data";
 
 // Sort and augment projects as in layout.pug
 const projects = [...(projectsData.projects || [])];
-projects.sort((a, b) => b.year - a.year);
+projects.sort((a, b) => Number(b.year) - Number(a.year));
 
 if (!projects.find((p) => p.preview?.type === "experience")) {
   projects.push({
     id: "experience",
     name: "Me",
     year: "About",
-    anchor: true,
     preview: {
       type: "experience",
       meta: projectsData.about,
     },
+    description: "",
+    tools: [],
+    color: "",
+    company: "",
+    positions: [],
+    clients: [],
+    links: [],
   });
 }
 if (!projects.find((p) => p.preview?.type === "contact")) {
@@ -25,10 +31,16 @@ if (!projects.find((p) => p.preview?.type === "contact")) {
     id: "contact",
     name: "Me",
     year: "Contact",
-    anchor: true,
     preview: {
       type: "contact",
     },
+    description: "",
+    tools: [],
+    color: "",
+    company: "",
+    positions: [],
+    clients: [],
+    links: [],
   });
 }
 
@@ -54,7 +66,7 @@ export default function Home() {
       </style>
       <div className="app-container">
         <Init />
-        <header className="header" name="header">
+        <header className="header" id="header">
           <h1 id="logo">
             <span className="container soul-container">
               <span className="soul">Soul</span>
@@ -68,7 +80,7 @@ export default function Home() {
         <div className={`subhead color-text ${first.id}`}>
           A software developer in Denver, CO
         </div>
-        <main className="content" name="root">
+        <main className="content" id="root">
           <section id="work" className="work">
             {projects.map(
               (project, i) =>
