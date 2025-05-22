@@ -1,0 +1,64 @@
+.project.contact {
+  padding-bottom: 60vh;
+
+  .project-preview {
+    margin-left: px(35);
+
+    @include media-breakpoint-up(md) {
+      margin: 0;
+    }
+  }
+
+  .project-preview {
+    padding: px($s-m) px(15) px($s-xl);
+  }
+
+  .big {
+    font-family: $f-fat;
+    font-weight: $f-bold;
+    font-size: px(120);
+    line-height: 0.9em;
+    margin: 0;
+    opacity: 0.3;
+    position: absolute;
+    margin-top: px(-77);
+    margin-left: px(-58);
+    transform: rotate(-3deg);
+    pointer-events: none;
+  }
+
+  .do-it {
+    position: relative;
+    font-family: $f-fat;
+    font-weight: $f-bold;
+    font-size: $f-m;
+
+    @include media-breakpoint-up(md) {
+      font-size: $f-l;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: $f-xl;
+    }
+  }
+
+  .available {
+    margin-bottom: 40px;
+    transform: rotate(-3deg);
+    padding: px($s-m);
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    display: inline-block;
+    max-width: 80%;
+
+    @include media-breakpoint-up(md) {
+      margin-left: -10px;
+      margin-top: -20px;
+    }
+  }
+
+  .do-it, .words, .available {
+    position: relative;
+  }
+}

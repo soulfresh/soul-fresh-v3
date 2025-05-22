@@ -1,0 +1,21 @@
+.album-image {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  padding: px($s-xl) 0;
+
+  .bandcamp-album {
+    opacity: 0.96;
+    height: 350px;
+  }
+
+  @include media-breakpoint-up(md) {
+    padding: 50px;
+
+    .bandcamp-album {
+      width: 400px;
+      height: 406px;
+    }
+  }
+}
