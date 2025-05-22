@@ -39,8 +39,7 @@ import {
 // import { Contact } from "@/components/contact";
 // import { Logo } from "@/components/logo";
 
-let debug = false;
-let initialized = false;
+const debug = false;
 
 export function legacyInit() {
   const win = $(window);
@@ -52,6 +51,7 @@ export function legacyInit() {
 
   const log = function () {
     if (debug) {
+      // eslint-disable-next-line prefer-rest-params
       console.log(arguments);
     }
   };
@@ -79,7 +79,7 @@ export function legacyInit() {
   const menu = new Menu(header);
   menu.init();
 
-  var projectsHelper, players, drawing;
+  let projectsHelper, players, drawing;
 
   const parallax = () => {
     const scrolled = dimensions.scrollPercent();
@@ -100,8 +100,7 @@ export function legacyInit() {
     log("[start] begin");
     drawing.init();
     log("[start] drawing initialized");
-    const contact = new Contact($("#contact [name=cSlot]"), "makecontact");
-    initialized = true;
+    new Contact($("#contact [name=cSlot]"), "makecontact");
     log("[start] end");
   };
 
@@ -146,7 +145,7 @@ export function legacyInit() {
     log("[logo ready] project helper initialized");
     projectsHelper.on("focused", (i) => {
       requestAnimationFrame(() => {
-        const project = projects.eq(i);
+        // const project = projects.eq(i);
         players.focus(i);
         years.focus(i);
       });
@@ -157,7 +156,7 @@ export function legacyInit() {
     players.init(work);
     players.on("ready", onResize);
     log("[logo ready] players initialized");
-    document.addEventListener("visibilitychange", (e) => {
+    document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         players.backgrounded();
       } else {

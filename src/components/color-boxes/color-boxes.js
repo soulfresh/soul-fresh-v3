@@ -18,7 +18,7 @@ export class Boxes {
   }
 
   init() {}
-  scroll(scrolled, scrollHeight) {}
+  scroll() {}
   resize() {}
 }
 

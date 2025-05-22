@@ -1,4 +1,4 @@
-export default {
+const data = {
   about: {
     contact: "makecontact",
     available: true,
@@ -447,3 +447,4 @@ export default {
     },
   ],
 };
+export default data;

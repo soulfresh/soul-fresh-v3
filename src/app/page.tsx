@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { Project, Menu } from "@/components";
 import { Init } from "./init";
 

@@ -16,8 +16,6 @@ export class Dimensions {
 
   update() {
     const windowH = $(window).height();
-    const lastH = this.projects.last().outerHeight();
-    const headerH = this.header.outerHeight();
 
     this.pageH = this.html[0].scrollHeight;
     this.viewportH = windowH;

@@ -1,23 +1,21 @@
-import $ from 'jquery';
-
 export class SizeAnimation {
   static collapse($elements) {
     const handleTransitionEnd = () => {
       $elements.each((i, n) => {
-        n.removeEventListener('transitionend', handleTransitionEnd);
-        n.classList.remove('closing');
+        n.removeEventListener("transitionend", handleTransitionEnd);
+        n.classList.remove("closing");
       });
     };
 
     $elements.each((i, n) => {
       const w = n.scrollWidth;
       n.style.width = `${w}px`;
-      n.classList.add('closing');
-      n.addEventListener('transitionend', handleTransitionEnd);
+      n.classList.add("closing");
+      n.addEventListener("transitionend", handleTransitionEnd);
 
       // Wait 1 paint to set the width to 0;
       requestAnimationFrame(() => {
-        n.style.width = '0px';
+        n.style.width = "0px";
       });
     });
   }
@@ -25,8 +23,8 @@ export class SizeAnimation {
   static expand($elements) {
     const handleTransitionEnd = () => {
       $elements.each((i, n) => {
-        n.removeEventListener('transitionend', handleTransitionEnd);
-        n.classList.remove('opening');
+        n.removeEventListener("transitionend", handleTransitionEnd);
+        n.classList.remove("opening");
       });
     };
 
@@ -34,16 +32,16 @@ export class SizeAnimation {
       const w = n.scrollWidth;
       // Immediately set the width to our desired width;
       n.style.width = `${w}px`;
-      n.classList.add('opening');
-      n.addEventListener('transitionend', handleTransitionEnd);
+      n.classList.add("opening");
+      n.addEventListener("transitionend", handleTransitionEnd);
     });
   }
 
   static slideIn($elements) {
     const handleTransitionEnd = () => {
       $elements.each((i, n) => {
-        n.removeEventListener('transitionend', handleTransitionEnd);
-        n.classList.remove('opening');
+        n.removeEventListener("transitionend", handleTransitionEnd);
+        n.classList.remove("opening");
       });
     };
 
@@ -56,11 +54,11 @@ export class SizeAnimation {
 
       n.style.transform = `translateX(-${w}px)`;
       requestAnimationFrame(() => {
-        n.classList.add('opening');
-        n.addEventListener('transitionend', handleTransitionEnd);
+        n.classList.add("opening");
+        n.addEventListener("transitionend", handleTransitionEnd);
 
         requestAnimationFrame(() => {
-          n.style.transform = 'translateX(0px)';
+          n.style.transform = "translateX(0px)";
         });
       });
     });
@@ -69,18 +67,18 @@ export class SizeAnimation {
   static slideOut($elements) {
     const handleTransitionEnd = () => {
       $elements.each((i, n) => {
-        n.removeEventListener('transitionend', handleTransitionEnd);
-        n.classList.remove('opening');
+        n.removeEventListener("transitionend", handleTransitionEnd);
+        n.classList.remove("opening");
       });
     };
 
     $elements.each((i, n) => {
       const w = n.scrollWidth;
 
-      n.style.transform = 'translateX(0px)';
+      n.style.transform = "translateX(0px)";
       requestAnimationFrame(() => {
-        n.classList.add('opening');
-        n.addEventListener('transitionend', handleTransitionEnd);
+        n.classList.add("opening");
+        n.addEventListener("transitionend", handleTransitionEnd);
 
         requestAnimationFrame(() => {
           n.style.transform = `translateX(-${w}px)`;
@@ -90,11 +88,11 @@ export class SizeAnimation {
   }
 
   static roll($elements) {
-    const $texts = $elements.find('.text');
+    const $texts = $elements.find(".text");
     const handleTransitionEnd = () => {
       $elements.each((i, n) => {
-        n.removeEventListener('transitionend', handleTransitionEnd);
-        n.classList.remove('closing');
+        n.removeEventListener("transitionend", handleTransitionEnd);
+        n.classList.remove("closing");
       });
     };
 
@@ -102,24 +100,24 @@ export class SizeAnimation {
       const w = n.scrollWidth;
       const text = $texts[i];
 
-      text.style.transform = 'translateX(0%)';
+      text.style.transform = "translateX(0%)";
       n.style.width = `${w}px`;
-      n.classList.add('closing');
-      n.addEventListener('transitionend', handleTransitionEnd);
+      n.classList.add("closing");
+      n.addEventListener("transitionend", handleTransitionEnd);
 
       requestAnimationFrame(() => {
         text.style.transform = `translateX(-100%)`;
-        n.style.width = '0px';
+        n.style.width = "0px";
       });
     });
   }
 
   static unroll($elements) {
-    const $texts = $elements.find('.text');
+    const $texts = $elements.find(".text");
     const handleTransitionEnd = () => {
       $elements.each((i, n) => {
-        n.removeEventListener('transitionend', handleTransitionEnd);
-        n.classList.remove('opening');
+        n.removeEventListener("transitionend", handleTransitionEnd);
+        n.classList.remove("opening");
       });
     };
 
@@ -127,13 +125,13 @@ export class SizeAnimation {
       const w = n.scrollWidth;
       const text = $texts[i];
 
-      text.style.transform = 'translateX(-100px)';
-      n.style.width = '0px';
-      n.classList.add('opening');
-      n.addEventListener('transitionend', handleTransitionEnd);
+      text.style.transform = "translateX(-100px)";
+      n.style.width = "0px";
+      n.classList.add("opening");
+      n.addEventListener("transitionend", handleTransitionEnd);
 
       requestAnimationFrame(() => {
-        text.style.transform = 'translateX(0%)';
+        text.style.transform = "translateX(0%)";
         n.style.width = `${w}px`;
       });
     });

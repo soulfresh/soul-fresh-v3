@@ -1,10 +1,9 @@
-import $ from 'jquery';
-import { Drawing } from './drawing';
+import { Drawing } from "./drawing";
 
-export class SineWaveDrawing extends Drawing{
+export class SineWaveDrawing extends Drawing {
   constructor(context) {
     super(context);
-    this.className = 'sine-wave';
+    this.className = "sine-wave";
   }
 
   draw(percent) {
@@ -12,9 +11,9 @@ export class SineWaveDrawing extends Drawing{
 
     const value = percent * 100;
     const sines = 20;
-    const rotation = (value * Math.PI / 180) * 0.5;
-    const centerX = this.width/2;
-    const centerY = this.height/2;
+    const rotation = ((value * Math.PI) / 180) * 0.5;
+    const centerX = this.width / 2;
+    const centerY = this.height / 2;
 
     this.context.save();
     this.context.translate(centerX, centerY);
@@ -29,8 +28,7 @@ export class SineWaveDrawing extends Drawing{
       const x = (value % 720) * (i * 0.5);
       const amplitude = this.height * 0.1;
       const frequency = this.width * 0.4;
-      const ampWave = amplitude + (i * growth * 4);
-      const freqWave = frequency + (i * growth);
+      const ampWave = amplitude + i * growth * 4;
       const offsetX = -this.width * 0.7;
       const offsetY = this.height * 0.5;
 
@@ -49,12 +47,11 @@ export class SineWaveDrawing extends Drawing{
   sine(value, w, amplitude, frequency, offsetX, offsetY) {
     const step = 60;
     const startX = value;
-    const startY = 0;
     let x = 0;
     let y = 0;
 
     while (x < w + step) {
-      y = amplitude * Math.sin((x + startX)/frequency);
+      y = amplitude * Math.sin((x + startX) / frequency);
       this.context.lineTo(offsetX + x, offsetY + y);
       x += step;
     }

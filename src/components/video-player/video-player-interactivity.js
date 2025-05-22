@@ -1,4 +1,3 @@
-import $ from "jquery";
 import EventEmitter from "eventemitter3";
 import { selectors } from "../selectors";
 import { browserDetect } from "../browser-detect";
@@ -35,7 +34,7 @@ export class PlayersInteractivity extends EventEmitter {
     const projects = Array.from(root.querySelectorAll(selectors.project));
 
     this.data = [];
-    projects.forEach((p, i) => {
+    projects.forEach((p) => {
       const id = p.getAttribute("id");
       const placeholder = p.querySelector(selectors.videoPlaceholder);
 
@@ -205,12 +204,12 @@ export class PlayersInteractivity extends EventEmitter {
   }
 
   notifyWhenReady() {
-    this.data.forEach((d, i) => {
+    this.data.forEach((d) => {
       if (d.isVideoProject && d.video) {
         if (d.video.readyState > 0) {
           this.ready = true;
         } else {
-          v.addEventListener("loadedmetadata", (event) => {
+          v.addEventListener("loadedmetadata", () => {
             this.ready = true;
             this.emit("ready");
           });
@@ -251,7 +250,7 @@ export class PlayersInteractivity extends EventEmitter {
     if (!this.nativeControls) {
       this.data.forEach((p, i) => {
         if (p.isVideoProject) {
-          p.container.handleClick = (event) => {
+          p.container.handleClick = () => {
             this.playClick(i);
           };
           p.container.addEventListener("click", p.container.handleClick);
@@ -283,7 +282,7 @@ export class PlayersInteractivity extends EventEmitter {
   }
 
   disableCustomPlayButtons() {
-    this.data.forEach((p, i) => {
+    this.data.forEach((p) => {
       if (p.container && p.container.handleClick) {
         p.container.removeEventListener("click", p.container.handleClick);
       }
@@ -299,7 +298,7 @@ export class PlayersInteractivity extends EventEmitter {
   }
 
   changeAllMuteStates(muted = true) {
-    this.data.forEach((p, i) => {
+    this.data.forEach((p) => {
       if (p.isVideoProject && p.video) {
         p.video.muted = muted;
       }
@@ -324,7 +323,7 @@ export class PlayersInteractivity extends EventEmitter {
 
   showAllControls() {
     this.disableCustomPlayButtons();
-    this.data.forEach((d, i) => {
+    this.data.forEach((d) => {
       if (d.isVideoProject && d.video) {
         d.video.controls = true;
       }
