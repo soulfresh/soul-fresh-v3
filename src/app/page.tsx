@@ -33,6 +33,7 @@ if (!projects.find((p) => p.preview?.type === "contact")) {
     year: "Contact",
     preview: {
       type: "contact",
+      meta: projectsData.about,
     },
     description: "",
     tools: [],

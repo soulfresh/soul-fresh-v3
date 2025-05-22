@@ -78,7 +78,7 @@ export function legacyInit() {
     log("[start] begin");
     drawing.init();
     log("[start] drawing initialized");
-    new Contact($(selectors.contact), "makecontact");
+    new Contact($(`${selectors.contact} [name=cSlot]`), "makecontact");
     log("[start] end");
   };
 

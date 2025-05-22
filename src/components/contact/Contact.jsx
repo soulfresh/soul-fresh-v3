@@ -1,15 +1,14 @@
 import React from "react";
 
 export function Contact({ meta }) {
-  if (!meta) return null;
   return (
     <div className="contact-preview">
       <p className="big color-text">Call me...</p>
-      {meta.available && (
+      {/*meta.available && (
         <p className="available">
           <span>Currently available for new projects</span>
         </p>
-      )}
+      )*/}
       <div name="cSlot"></div>
       <div className="social">
         {meta.linkedin && (

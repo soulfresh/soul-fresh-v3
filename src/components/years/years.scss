@@ -2,7 +2,6 @@
 
 .years {
   font-family: $f-fat;
-  font-weight: $f-bold;
   position: fixed;
 
   .project-year {
@@ -27,6 +26,7 @@
       transform: translateY(50px) rotate(-90deg);
       width: px($s-xl);
       margin: 0;
+  font-weight: $f-bold;
     }
   }
 }
