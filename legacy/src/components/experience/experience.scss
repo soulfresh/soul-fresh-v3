@@ -1,0 +1,43 @@
+.project-preview.experience {
+  padding: px($s-m) px(15) px($s-xl);
+  margin-left: px(25);
+  max-width: px(500);
+
+  @include media-breakpoint-up(md) {
+    margin: 0;
+  }
+
+  div {
+    margin-bottom: px($s-l);
+  }
+
+  .bio {
+    font-weight: $f-light;
+    font-size: $f-l;
+    padding-bottom: px($s-m);
+  }
+
+  .list {
+    font-size: 0.9em;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  .hello {
+    font-family: $f-fat;
+    font-weight: $f-bold;
+    font-size: px(140);
+    margin: 0;
+    opacity: 0.2;
+    position: absolute;
+    margin-top: px(-117);
+    margin-left: px(-58);
+    transform: rotate(-3deg);
+    pointer-events: none;
+  }
+
+  .name {
+    font-size: $f-ll;
+  }
+}
+

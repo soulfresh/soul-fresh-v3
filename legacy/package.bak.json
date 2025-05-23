@@ -1,0 +1,51 @@
+{
+  "name": "soul-fresh-v3",
+  "version": "0.3.1",
+  "description": "soul-fresh website",
+  "scripts": {
+    "test": "test",
+    "start": "webpack-dev-server --open --devtool inline-source-map",
+    "build": "echo 'not implemented yet'",
+    "build:pug": "webpack --mode production",
+    "release": "yarn firebase deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soulfresh/soul-fresh-v3.git"
+  },
+  "author": "Marc Wren",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/soulfresh/soul-fresh-v3/issues"
+  },
+  "homepage": "https://github.com/soulfresh/soul-fresh-v3#readme",
+  "dependencies": {
+    "eventemitter3": "^3.1.0",
+    "jquery": "^3.4.1",
+    "lodash": "^4.17.11",
+    "mdn-polyfills": "^5.17.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "autoprefixer": "^9.6.1",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.0",
+    "favicons-webpack-plugin": "0.0.9",
+    "file-loader": "^3.0.1",
+    "firebase-tools": "^14.4.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^7.0.0",
+    "postcss-loader": "^3.0.0",
+    "pug": "^2.0.3",
+    "pug-html-loader": "^1.1.5",
+    "sass-loader": "^7.1.0",
+    "serve": "^14.2.4",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "packageManager": "yarn@4.6.0+sha512.5383cc12567a95f1d668fbe762dfe0075c595b4bfff433be478dbbe24e05251a8e8c3eb992a986667c1d53b6c3a9c85b8398c35a960587fbd9fa3a0915406728"
+}

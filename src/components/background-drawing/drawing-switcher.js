@@ -1,9 +1,9 @@
-import $ from 'jquery';
+import $ from "jquery";
 
-import { TriangleDrawing } from './triangle-drawing';
-import { SolidTrianglesDrawing } from './solid-triangles-drawing';
-import { SineWaveDrawing } from './sine-wave';
-import { BoxesDrawing } from './boxes';
+import { TriangleDrawing } from "./triangle-drawing";
+import { SolidTrianglesDrawing } from "./solid-triangles-drawing";
+import { SineWaveDrawing } from "./sine-wave";
+import { BoxesDrawing } from "./boxes";
 
 export class DrawingSwitcher {
   constructor(root, ids) {
@@ -30,22 +30,23 @@ export class DrawingSwitcher {
     return a;
   }
 
-
   init() {
     if (this.visible()) {
-      this.container = $(`<div class="background-drawing" name="drawings"></div>`);
-      const c = $('<canvas></canvas>');
+      this.container = $(
+        `<div class="background-drawing" name="drawings"></div>`,
+      );
+      const c = $("<canvas></canvas>");
       this.canvas = c[0];
       this.container.append(c);
       this.root.prepend(this.container);
-      this.context = this.canvas.getContext('2d');
-      this.container.on('click', this.click.bind(this));
+      this.context = this.canvas.getContext("2d");
+      this.container.on("click", this.click.bind(this));
 
       this.list = this.shuffle([
         new TriangleDrawing(this.context),
         new SolidTrianglesDrawing(this.context),
         new SineWaveDrawing(this.context),
-        new BoxesDrawing(this.context)
+        new BoxesDrawing(this.context),
       ]);
       this.index = 0;
       this.drawing = this.list[this.index];
@@ -86,13 +87,13 @@ export class DrawingSwitcher {
   resize() {
     // TODO Remove when resized down.
     if (this.initialized && this.visible()) {
-      this.width  = this.canvas.width  = this.canvas.parentElement.clientWidth;
+      this.width = this.canvas.width = this.canvas.parentElement.clientWidth;
       this.height = this.canvas.height = this.canvas.parentElement.clientHeight;
       this.list.forEach((d) => d.resize(this.width, this.height));
     }
   }
 
-  scroll(percent, pageHeight) {
+  scroll(percent) {
     if (this.initialized && this.visible()) {
       this.percent = percent;
       this.drawing.draw(percent);

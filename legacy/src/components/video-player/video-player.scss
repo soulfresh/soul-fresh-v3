@@ -1,0 +1,229 @@
+@import '../../theme';
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg) scale(0.75);
+  }
+  80% {
+    transform: rotate(360deg) scale(0.75);
+  }
+  100% {
+    transform: rotate(360deg) scale(0.75);
+  }
+}
+
+@keyframes downloading {
+  0% {
+    transform: translateY(-100%) scale(0.75);
+  }
+  40% {
+    transform: translateY(0) scale(0.75);
+  }
+  60% {
+    transform: translateY(0) scale(0.75);
+  }
+  100% {
+    transform: translateY(100%) scale(0.75);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(-45deg);
+  }
+  to {
+    transform: rotate(-405deg);
+  }
+}
+
+$end: 160;
+@keyframes dash-spin {
+  0% {
+    stroke-dasharray: 10 $end;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: $end $end;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dasharray: $end $end;
+    stroke-dashoffset: -180;
+  }
+}
+
+body {
+  // Hide custom controls by default.
+  .play-video,
+  .mute-video {
+    display: none;
+  }
+
+  // Use custom controls if we haven't explicity turned them off.
+  &:not(.show-native-media-controls) {
+    .play-video {
+      display: flex;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    // If videos are globally paused.
+    &.media-paused {
+      .play-video {
+        opacity: $hover-state-opacity;
+      }
+    }
+
+    .mute-video {
+      display: flex;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      padding: px($s-l);
+    }
+
+    &.media-muted {
+      .mute-video {
+        i::before {
+          content: "\f028"; // volume waves
+          // content: "\f6a9"; // volume x
+        }
+      }
+    }
+  }
+}
+
+.video-container {
+  position: relative;
+  cursor: pointer;
+  // There's a 4px margin that I can't find
+  // above and below the video.
+  margin: -4px 0;
+
+  .play-video {
+    justify-content: center;
+    align-items: center;
+    font-size: px(80);
+    opacity: 0;
+    transition: opacity $t-s linear;
+    color: white;
+    z-index: $z-video-overlay;
+
+    .icon-wrapper {
+      display: flex;
+      overflow: hidden;
+      border: px($s-m) solid rgba(#000, 0.5);
+      border-radius: 100%;
+
+      // Fix circular masking with animation in Safari.
+      transform: translate3d(0, 0, 0);
+
+      i {
+        border-radius: 100%;
+
+        &::before {
+          border-radius: 100%;
+          display: inline-block;
+          // animation: loading 600ms infinite ease-in-out;
+          // transform: translateY(50%) scale(0.75);
+        }
+      }
+    }
+  }
+
+  .mute-video {
+    font-size: px(30);
+    color: white;
+    opacity: $hover-state-opacity / 2;
+    transition: opacity $t-s linear, background-color $t-s linear;
+    z-index: $z-video-overlay + 1;
+
+    @include media-breakpoint-up(md) {
+      font-size: px(40);
+    }
+
+    &:hover {
+      opacity: 1;
+      // background-color: rgba(#000, 0.3);
+    }
+  }
+
+  .loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    overflow: hidden;
+    border-radius: 50%;
+
+    .dashes {
+      fill: none;
+      stroke: white;
+      stroke-width: 15px;
+      stroke-dasharray: 200 0;
+      stroke-linecap: round;
+      transform-origin: center;
+    }
+
+    .background {
+      fill: currentColor;
+    }
+  }
+
+  &.loading {
+    .play-video {
+      opacity: $hover-state-opacity;
+
+      .play-icon {
+        visibility: hidden;
+      }
+
+      .loader {
+        visibility: visible;
+
+        .dashes {
+          animation: dash-spin 2s infinite ease-in-out,
+            rotate 500ms infinite linear;
+        }
+      }
+    }
+  }
+
+  &.playing {
+    .play-video {
+      .play-icon {
+        visibility: visible;
+      }
+
+      .loader {
+        visibility: hidden;
+      }
+
+      i::before {
+        content: "\f28b";
+      }
+    }
+  }
+
+  &:hover {
+    .play-video {
+      opacity: $hover-state-opacity;
+    }
+  }
+
+  .video-placeholder,
+  .video {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .video {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
