@@ -1,4 +1,3 @@
-import $ from "jquery";
 import EventEmitter from "eventemitter3";
 import { selectors } from "../selectors";
 
