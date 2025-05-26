@@ -456,7 +456,7 @@ export class PlayersInteractivity extends EventEmitter {
   }
 
   pause(index) {
-    const video = this.data[index].video;
+    const video = this.data[index]?.video;
     if (video) {
       video.pause();
       this.removeStateChanges(index);

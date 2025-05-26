@@ -79,7 +79,7 @@ export default function Home() {
           <Menu />
         </header>
         <div className={`subhead color-text ${first.id}`}>
-          A software developer in Denver, CO
+          A software developer in Washington, DC
         </div>
         <main className="content" id="root">
           <section id="work" className="work">

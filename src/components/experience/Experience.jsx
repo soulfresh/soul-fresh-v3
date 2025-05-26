@@ -6,7 +6,11 @@ export function Experience({ meta }) {
     <div className="experience-preview">
       <div className="bio">
         <p className="hello color-text">Hello,</p>
-        <p className="name">I'm Marc. I'm a software developer.</p>
+        <p className="name">
+          I'm Marc. I'm a Front-End and Full-Stack developer with{" "}
+          {new Date().getFullYear() - 2002}+ years of development, team
+          leadership and product management experience.
+        </p>
         <p>{meta.bio}</p>
       </div>
       <div className="languages list">
@@ -21,9 +25,11 @@ export function Experience({ meta }) {
       <div className="technologies list">
         <b>Technologies:</b> {meta.technologies?.join(", ")}
       </div>
+      {/*
       <div className="software list">
         <b>Software:</b> {meta.software?.join(", ")}
       </div>
+      */}
       <div className="social">
         {meta.github && (
           <a

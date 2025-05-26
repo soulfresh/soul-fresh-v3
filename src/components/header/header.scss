@@ -30,7 +30,8 @@
   }
 
   #logo {
-    display: none;
+    /* display: none; */
+    display: inline-flex;
     flex-direction: row;
     align-items: baseline;
     margin: 0;
@@ -48,11 +49,6 @@
     overflow: hidden;
   }
 
-  .soul-container {
-    animation-duration: $t-m * 2;
-    animation-name: grow;
-  }
-
   .soul, .fresh {
     display: inline-block;
   }
@@ -64,8 +60,18 @@
 
   .fresh {
     font-family: $f-fat;
-    animation-duration: $t-m;
-    animation-name: slidein;
+  }
+
+  #logo.ready {
+    .soul-container {
+      animation-duration: $t-m * 2;
+      animation-name: grow;
+    }
+
+    .fresh {
+      animation-duration: $t-m;
+      animation-name: slidein;
+    }
   }
 }
 
