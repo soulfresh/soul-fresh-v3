@@ -22,16 +22,42 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ### Creating videos
 
-- Screen capture at least 960 x 720.
-- Generate the small version by resizing to 640 x 480.
+- Screen capture at least 960 x 720 using Quicktime
+  - Make sure the video capture is inside the web page border so the site
+    completely fills the video and you don't have any borders.
+  - To include audio, I used [Background Music app](https://github.com/kyleneideck/BackgroundMusic)
+  - Save the screen capture into the video project `Work/Websites` folder
+- In Final Cut Pro, create two empty projects
+  - 960 x 720
+  - 640 x 480
+- Import the screenshot into FPX
+  - Add 150% speed up
+- Export both projects to Compressor and from compressor export two versions
+  - uncompressed .mov
+  - .mp4 (H.264 with AAC audio)
+- Convert the .mov to .webm using my `mov2webm` alias
+  - `ffmpeg -i "$mov" -c:v libvpx-vp9 -pix_fmt yuva420p "${$(basename $mov)}".webm`
+- Create a poster frame using Preview
+  - Open the .mov in Quicktime
+  - Find a nice frame
+  - Command + C
+  - Open Preview
+  - File > New from Clipboard
+  - Save to the project `public/poster-frames`
+- Upload videos to Google Cloud Storage
 
-### Video Export
+### Archiving videos
 
-Chrome & Firefox
-- Convert .mov files to .webm using Miro video converter.
+In Final Cut Pro
 
-Safari
-- Convert .mov files to .mp4 using Compressor export to H.264 with AAC audio.
+- Make sure the project is setup to consolidate files into the Library
+  - Click on the SoulFresh Project library in the file navigator
+  - Click the "Modify Settings" in the right hand panel
+  - Make sure everything is set to "Library"
+- Consolidate media by clicking the "Consolidate" buttons on the Library
+inspector
+- File > Delete Generated Library Files
+- Archive the project folder
 
 ## Releasing
 

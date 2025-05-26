@@ -14,9 +14,9 @@
     "url": "https://github.com/soulfresh/soul-fresh-v3/issues"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
+    "start": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "serve": "next start",
     "lint": "yarn typecheck && next lint",
     "typecheck": "tsc --noEmit",
     "release": "yarn firebase deploy"

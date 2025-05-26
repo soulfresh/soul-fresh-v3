@@ -18,7 +18,7 @@ import {
   Logo,
 } from "@/components";
 
-const debug = false;
+const debug = true;
 
 export function legacyInit() {
   const win = $(window);

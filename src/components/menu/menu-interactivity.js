@@ -20,7 +20,7 @@ export class MenuInteractivity {
 
     this.links.on("click", (e) => {
       const link = $(e.currentTarget).attr("href").split("#")[1];
-      const target = $(`[name='${link}']`);
+      const target = $(`#${link}`);
       target[0].scrollIntoView({ behavior: "smooth" });
       this.close();
       return false;

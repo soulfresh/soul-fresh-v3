@@ -54,28 +54,34 @@ export const data: ProjectsData = {
     practices: [
       "Agile",
       "TDD",
-      "UI/UX",
+      "UI/UX Design",
       "REST",
       "SOA",
       "Product Management",
       "User Testing",
       "Team Management",
+      "Audio Production",
+      "Video Production",
     ],
     technologies: ["ESP32", "OpenGL", "WebRTC", "Bluetooth", "MIDI", "OSC"],
     frameworks: [
+      "React Native",
       "React",
+      "Expo",
+      "Next.js",
       "Vue.js",
       "Angular",
-      "AngularJS",
+      "NodeJS",
       "D3",
-      "Ionic",
+      "Juce",
       "Processing",
       "OpenFrameworks",
-      "FreeFrame",
       "Arduino",
-      "Jasmine",
-      "Mocha",
+      "Jest",
       "Google Test",
+      "Docker",
+      "Postgres",
+      "MySQL",
     ],
     software: [
       "After Effects",
@@ -87,24 +93,226 @@ export const data: ProjectsData = {
       "ProTools",
       "Ableton Live",
     ],
-    languages: [
-      "Javascript",
-      "Typescript",
-      "NodeJS",
-      "C++",
-      "Java",
-      "CSS",
-      "SASS",
-      "LESS",
-      "Pug",
-      "Actionscript",
-      "PHP",
-      "MySQL",
-    ],
+    languages: ["Typescript", "C++", "GraphQL", "Java", "PHP", "SQL"],
     linkedin: "https://www.linkedin.com/in/marcwren/",
     github: "https://github.com/soulfresh",
   },
   projects: [
+    {
+      id: "aptsnap",
+      name: "Apt Snap!",
+      tools: ["React Native", "Typescript", "Expo", "GraphQL", "OAuth"],
+      year: 2025,
+      color: "#76b4dc",
+      company: "Apartment Snapshot",
+      positions: ["Software Lead"],
+      team: 3,
+      clients: [],
+      description: `
+An iOS/Android/Web app for metrics reporting in the apartment rental industry.
+The app provides executive level reporting accross multiple properties as well as
+detailed reporting for on-site property personnel. Designed with a
+user-centric approach, the app transforms the typically mundane task of metrics
+tracking into an engaging experience. Key features include
+performance-based bonus tracking, achievement awards, real-time mobile
+notifications, and location-aware reporting capabilities.
+`,
+      links: [
+        {
+          name: "Apartment Snapshot",
+          url: "https://www.apartmentsnapshot.com/",
+        },
+      ],
+      preview: {
+        type: "video",
+        meta: {
+          // img: "Zespri.jpg",
+          img: "AptSnap.jpg",
+        },
+        src: {
+          // large: ["Zespri 960 x 720.webm", "Zespri 960 x 720.mp4"],
+          large: ["AptSnap 960 x 720.webm", "AptSnap 960 x 720.mp4"],
+          // small: ["Zespri 640 x 480.webm", "Zespri 640 x 480.mp4"],
+          small: ["AptSnap 640 x 480.webm", "AptSnap 640 x 480.mp4"],
+          // small: ["AptSnap 720 x 480.webm", "AptSnap 720 x 480.mp4"],
+        },
+      },
+    },
+    {
+      id: "self-tour",
+      name: "PowerPro Self Tours",
+      tools: ["Typescript", "Next.js"],
+      year: 2024,
+      color: "#76b4dc",
+      company: "PowerPro Leasing",
+      positions: ["Software Developer"],
+      team: 3,
+      clients: [],
+      description: `
+PowerPro Self Tours offer apartment seekers a simple, mobile self tour
+experience. Schedule a self tour on any of the industry standard apartment
+rental platforms. Then receive an SMS/email link to a personalized tour
+with interactive property map, remote door access, customized quotes and detailed
+information about the property.
+`,
+      links: [
+        {
+          name: "PowerPro Self Tours",
+          url: "https://powerproleasing.com/self-tour/",
+        },
+      ],
+      preview: {
+        type: "video",
+        meta: {
+          img: "PowerPro Self Tour.jpg",
+        },
+        src: {
+          large: [
+            "PowerPro Self Tour 960 x 720.webm",
+            "PowerPro Self Tour 960 x 720.mp4",
+          ],
+          small: [
+            "PowerPro Self Tour 640 x 480.webm",
+            "PowerPro Self Tour 640 x 480.mp4",
+          ],
+        },
+      },
+    },
+    {
+      id: "spider-points",
+      name: "Spider Points Plugin",
+      tools: ["C++", "OpenGL", "FFGL"],
+      year: 2023,
+      color: "#76b4dc",
+      company: "Now We're In Stereo",
+      positions: ["Software Developer"],
+      team: 1,
+      clients: [],
+      description: `
+    A VJ plugin for Resolume and other FFGL compatible software. The plugin
+    generates a randomized web of points that animate in 3D space with various
+    animations that can be synced to audio/midi.
+
+    "Elevate your live visuals with this dynamic source plugin, where weird and
+    wonderful shapes dance to the beat, creating a visually immersive experience."
+    `,
+      links: [
+        {
+          name: "Juicebar Plugins",
+          url: "https://get-juicebar.com/detail/spider-points",
+        },
+      ],
+      preview: {
+        type: "video",
+        meta: {
+          img: "Spider Points.jpg",
+        },
+        src: {
+          large: [
+            "Spider Points 960 x 540.webm",
+            "Spider Points 960 x 540.mp4",
+          ],
+          small: [
+            "Spider Points 640 x 360.webm",
+            "Spider Points 640 x 360.mp4",
+          ],
+        },
+      },
+    },
+    {
+      id: "moongold",
+      name: "Moongold Music",
+      tools: ["React", "NodeJS", "Vite", "Google Sheets API", "Firebase"],
+      year: 2022,
+      color: "#76b4dc",
+      company: "Moongold",
+      positions: ["Software Developer"],
+      team: 1,
+      clients: [],
+      description: `
+    Band website for Moongold. Dynamically generated based
+    on the artist catalog in Google Sheets. The band can add new releases in the
+    spreadsheet and run a CLI program to generate release
+    assets and deploy the update to Google Firebase.
+    `,
+      links: [
+        {
+          name: "Moongold",
+          url: "https://moongoldmusic.com/",
+        },
+      ],
+      preview: {
+        type: "video",
+        meta: {
+          img: "Moongold.jpg",
+        },
+        src: {
+          large: ["Moongold 960 x 720.webm", "Moongold 960 x 720.mp4"],
+          small: ["Moongold 640 x 480.webm", "Moongold 640 x 480.mp4"],
+        },
+      },
+    },
+    {
+      id: "collection-builder",
+      name: "Collection Builder",
+      tools: ["React", "Hasura GraphQL", "Docker", "Postgres"],
+      year: 2020,
+      color: "#76b4dc",
+      company: "Nine Dot Arts",
+      positions: ["Software Developer"],
+      team: 1,
+      clients: [],
+      description: `
+Nine Dot Arts is a leading art consultancy that provides art curation and management services for
+public and private spaces. The Collection Builder app allows curators to manage art installations
+by searching artworks and laying them out in a virtual space. Projects can then be printed or 
+shared with clients for review.
+`,
+      links: [],
+      preview: {
+        type: "video",
+        meta: {
+          img: "Collection Builder.jpg",
+        },
+        src: {
+          large: [
+            "Collection Builder 960 x 720.webm",
+            "Collection Builder 960 x 720.mp4",
+          ],
+          small: [
+            "Collection Builder 640 x 480.webm",
+            "Collection Builder 640 x 480.mp4",
+          ],
+        },
+      },
+    },
+    {
+      id: "stagency",
+      name: "Stagency",
+      tools: ["React", "Hasura GraphQL", "Docker", "Postgres"],
+      year: 2021,
+      color: "#76b4dc",
+      company: "Stagency",
+      positions: ["Software Lead"],
+      team: 2,
+      clients: [],
+      description: `
+Prototype web application for artist tour scheduling and management. The app
+helps tour managers calculate expenses and profit margins as well as manage
+show schedule and logistics.
+`,
+      links: [],
+      preview: {
+        type: "video",
+        meta: {
+          img: "Stagency.jpg",
+        },
+        src: {
+          large: ["Stagency 960 x 720.webm", "Stagency 960 x 720.mp4"],
+          small: ["Stagency 640 x 480.webm", "Stagency 640 x 480.mp4"],
+        },
+      },
+    },
     {
       id: "zespri",
       name: "Zespri",
@@ -115,13 +323,9 @@ export const data: ProjectsData = {
       positions: ["Software Developer"],
       team: 3,
       clients: ["Zespri"],
-      description: "Microsite for Zespri's 2019 Wander & Win campaign.",
-      links: [
-        {
-          name: "Zespri Wander & Win",
-          url: "https://zesprikiwi.com/wander",
-        },
-      ],
+      description:
+        "Responsive microsite for Zespri's 2019 Wander & Win campaign.",
+      links: [],
       preview: {
         type: "video",
         meta: {
@@ -182,8 +386,8 @@ export const data: ProjectsData = {
           img: "OpenGL.jpg",
         },
         src: {
-          large: ["OpenGL 960 x 720.webm", "OpenGL 960 x 720.mp4"],
-          small: ["OpenGL 640 x 480.webm", "OpenGL 640 x 480.mp4"],
+          large: ["OpenGL Work 960 x 720.webm", "OpenGL Work 960 x 720.mp4"],
+          small: ["OpenGL Work 640 x 480.webm", "OpenGL Work 640 x 480.mp4"],
         },
       },
     },
@@ -201,8 +405,12 @@ export const data: ProjectsData = {
       ],
       team: 20,
       clients: [],
-      description:
-        "Flash and HTML based eCommerce applications built for DJs. Scalable REST based SOA that processed thousands of transactions and tens of thousands of audio streams a day. Product Manager for Beatport and Beatport Sounds. Director of Software Development.",
+      description: `
+Flash and HTML based eCommerce applications built for DJs. Scalable REST based
+SOA that processed thousands of transactions and tens of thousands of audio
+streams a day. Held positions as Product Manager for Beatport and Beatport Sounds,
+Director of Software Development and Software Team Lead.
+`,
       links: [
         {
           name: "Beatport",
@@ -222,8 +430,8 @@ export const data: ProjectsData = {
     },
     {
       id: "powerpro",
-      name: "PowerPro",
-      tools: ["Angular", "D3", "Typescript", "Javascript", "SASS", "Jasmine"],
+      name: "PowerPro Dashboard",
+      tools: ["Angular", "D3", "Typescript", "SCSS", "Jasmine"],
       year: 2018,
       color: "#5fa3ec",
       company: "PowerPro Leasing",
@@ -236,8 +444,14 @@ export const data: ProjectsData = {
           url: "http://www.powerproleasing.com/",
         },
       ],
-      description:
-        "Reporting dashboard for PowerPro Leasing software. PDF and CSV generation for email reporting.",
+      description: `
+Responsive reporting dashboard for PowerPro Leasing, a unified
+platform for prospect management in the apartment rental industry. The
+dashboard provides property managers with actionable insights by summarizing
+prospect engagement and conversion metrics. Key features include PDF/CSV
+export, automated email reporting, custom responsive 
+charts, and fully customizable dashboards.
+`,
       preview: {
         type: "video",
         meta: {
@@ -287,7 +501,6 @@ export const data: ProjectsData = {
       tools: [
         "AngularJS",
         "Ionic",
-        "Javascript",
         "SASS",
         "NodeJS",
         "WebRTC",
@@ -301,14 +514,12 @@ export const data: ProjectsData = {
       positions: ["Software Developer"],
       team: 10,
       clients: [],
-      links: [
-        {
-          name: "Foxden",
-          url: "https://my.foxden.io",
-        },
-      ],
-      description:
-        "WebRTC based video conferencing web application. Custom hardware with Bluetooth discovery of nearby meeting rooms. Android and iOS apps for remote control of video conferencing hardware and mobile meetings.",
+      links: [],
+      description: `
+WebRTC based video conferencing web and mobile application. Custom hardware with
+Bluetooth discovery of nearby meeting rooms. Android and iOS apps for remote
+control of video conferencing hardware and mobile meetings.
+`,
       preview: {
         type: "video",
         meta: {
@@ -332,12 +543,7 @@ export const data: ProjectsData = {
       clients: [],
       description:
         "Privacy focused social networking site with a large community of designers, artists and musicians.",
-      links: [
-        {
-          name: "Ello",
-          url: "https://ello.co/",
-        },
-      ],
+      links: [],
       preview: {
         type: "video",
         meta: {
@@ -378,6 +584,7 @@ export const data: ProjectsData = {
         },
       },
     },
+    // Hiding non-work projects for now but could bring them back later
     // {
     //   id: "echo-machine",
     //   name: "Echo Machine",

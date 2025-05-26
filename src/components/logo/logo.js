@@ -7,8 +7,9 @@ export class Logo extends EventEmitter {
     var count = 0;
 
     // TODO Ensure fonts have been applied to the document first.
-    this.logo = $(selectors.logo);
-    this.logo.on("animationend", () => {
+    // this.logo = $(selectors.logo);
+    this.logo = document.querySelector(selectors.logo);
+    this.logo.addEventListener("animationend", () => {
       count++;
       if (count == 2) {
         this.emit("ready");
@@ -16,7 +17,8 @@ export class Logo extends EventEmitter {
     });
 
     requestAnimationFrame(() => {
-      this.logo.css("display", "inline-flex");
+      this.logo.classList.add("ready");
+      // this.logo.css("display", "inline-flex");
     });
   }
 }
