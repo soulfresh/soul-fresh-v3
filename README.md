@@ -1,6 +1,6 @@
 ## Soul Fresh Website
 
-Using:
+The app uses the following libraries:
 
  - Yarn 4
  - [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
