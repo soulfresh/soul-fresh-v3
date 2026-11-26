@@ -12,7 +12,6 @@ import {
   Years,
   LeftColors,
   BackgroundColors,
-  DrawingSwitcher,
   MenuInteractivity as Menu,
   ContactInteractivity as Contact,
   Logo,
@@ -57,13 +56,12 @@ export function legacyInit() {
   const menu = new Menu(header);
   menu.init();
 
-  let projectsHelper: Projects, players: Players, drawing: DrawingSwitcher;
+  let projectsHelper: Projects, players: Players;
 
   const parallax = () => {
     const scrolled = dimensions.scrollPercent();
     years.scroll(scrolled, dimensions.scrollH);
     colorsL.scroll(scrolled, dimensions.scrollH, dimensions.viewportH);
-    drawing.scroll(scrolled);
   };
 
   const focusTracker = throttle(
@@ -76,8 +74,6 @@ export function legacyInit() {
 
   const start = () => {
     log("[start] begin");
-    drawing.init();
-    log("[start] drawing initialized");
     new Contact($(`${selectors.contact} [name=cSlot]`), "makecontact");
     log("[start] end");
   };
@@ -97,7 +93,6 @@ export function legacyInit() {
       requestAnimationFrame(() => {
         dimensions.update();
         years.resize();
-        drawing.resize();
         // Update the positions of everything.
         onScroll(true);
       });
@@ -118,7 +113,6 @@ export function legacyInit() {
     log("[logo ready] begin");
     projectsHelper = new Projects();
     players = new Players();
-    drawing = new DrawingSwitcher($("body"));
     projectsHelper.init(work);
     log("[logo ready] project helper initialized");
     projectsHelper.on("focused", (i) => {

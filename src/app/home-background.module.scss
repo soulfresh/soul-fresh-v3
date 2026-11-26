@@ -1,0 +1,22 @@
+.homeBackground {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100vh;
+  cursor: pointer;
+  animation: fade-in 3s linear;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

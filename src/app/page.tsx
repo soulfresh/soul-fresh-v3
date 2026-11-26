@@ -1,5 +1,6 @@
 import { Project, Menu } from "@/components";
 import { Init } from "./init";
+import { HomeBackground } from "./HomeBackground";
 
 import "./page.scss";
 import { data as projectsData } from "./data";
@@ -50,6 +51,7 @@ export default function Home() {
 
   return (
     <main>
+      <HomeBackground />
       <style id="project-colors">
         {projects
           .map((p, i) => {
