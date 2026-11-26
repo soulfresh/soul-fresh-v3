@@ -44,7 +44,7 @@ export function BackgroundDrawing({
     return () => observer.disconnect();
   }, []);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     // Hidden (e.g. display: none) or not measured yet.
