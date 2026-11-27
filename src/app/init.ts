@@ -11,7 +11,6 @@ import {
   selectors,
   Years,
   LeftColors,
-  BackgroundColors,
   MenuInteractivity as Menu,
   ContactInteractivity as Contact,
   Logo,
@@ -49,9 +48,6 @@ export function legacyInit() {
 
   const years = new Years(root);
   years.init();
-
-  const bgColors = new BackgroundColors(root, data);
-  bgColors.init();
 
   const menu = new Menu(header);
   menu.init();
