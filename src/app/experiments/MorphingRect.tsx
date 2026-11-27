@@ -33,8 +33,13 @@ interface Props {
   seedOffset?: number;
   className?: string;
   style?: React.CSSProperties;
-  /** Shown as the SVG's title. */
+  /**
+   * Shown as the SVG's title, and the accessible name of the shape. Without
+   * a title or `onClick` the rectangle is decorative and hidden from
+   * assistive technology.
+   */
   title?: string;
+  /** Makes the shape a button, activated by clicking, Enter or Space. */
   onClick?: () => void;
   ref?: React.Ref<SVGSVGElement>;
 }
@@ -128,11 +133,25 @@ export function MorphingRect({
       className={className}
       style={style}
       viewBox={`0 0 ${width} ${height}`}
-      role={title ? "img" : undefined}
-      aria-hidden={title ? undefined : true}
+      role={title && !onClick ? "img" : undefined}
+      aria-hidden={title || onClick ? undefined : true}
     >
       {title && <title>{title}</title>}
-      <path d={toPathData(shape)} onClick={onClick} />
+      <path
+        d={toPathData(shape)}
+        {...(onClick && {
+          role: "button",
+          tabIndex: 0,
+          "aria-label": title,
+          onClick,
+          onKeyDown: (e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onClick();
+            }
+          },
+        })}
+      />
       {settings.showPoints && <PointsOverlay shape={shape} />}
     </svg>
   );

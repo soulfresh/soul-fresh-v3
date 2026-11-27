@@ -27,5 +27,13 @@
   > path {
     fill: #999;
     cursor: pointer;
+
+    // SVG shapes don't reliably draw outlines, so mark focus with a stroke.
+    &:focus-visible {
+      outline: none;
+      stroke: #e0245e;
+      stroke-width: 3;
+      vector-effect: non-scaling-stroke;
+    }
   }
 }

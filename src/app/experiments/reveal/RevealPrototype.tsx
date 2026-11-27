@@ -25,17 +25,22 @@ export interface RevealItem extends Size {
   poster?: string;
 }
 
-/** Fraction of the element's height currently inside the viewport, 0..1. */
+/**
+ * How much of the element is inside the viewport, 0..1, as a fraction of
+ * the most of it that can fit. An element taller than the viewport counts
+ * as fully visible once it fills the viewport, so it can still reach 1.
+ */
 function visibleFraction(el: Element): number {
   const { top, bottom, height } = el.getBoundingClientRect();
-  if (height === 0) return 0;
+  const fits = Math.min(height, window.innerHeight);
+  if (fits <= 0) return 0;
   const visible = Math.min(bottom, window.innerHeight) - Math.max(top, 0);
-  return Math.min(1, Math.max(0, visible / height));
+  return Math.min(1, Math.max(0, visible / fits));
 }
 
 /**
  * Maps visibility to morph progress: shrunk (1) while at most half is on
- * screen, full size (0) once all of it is.
+ * screen, full size (0) once all of it is, or once it fills the viewport.
  */
 function morphProgress(visible: number): number {
   return 1 - Math.min(1, Math.max(0, (visible - 0.5) / 0.5));
