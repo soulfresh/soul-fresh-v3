@@ -19,7 +19,7 @@ import {
   type Point,
   type Shape,
 } from "./stretch";
-import styles from "./logo.module.scss";
+import styles from "./stretch.module.scss";
 
 // Capital height of both words in viewBox units (the old hand-made L was
 // 200 tall).

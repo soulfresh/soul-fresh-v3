@@ -2,7 +2,10 @@ import styles from "./experiments.module.scss";
 
 // Add new experiments here. Each experiment lives in its own folder
 // with a `page.dev.tsx` so it is only available during development.
-const experiments = [{ slug: "logo", name: "Logo" }];
+const experiments = [
+  { slug: "logo", name: "Logo" },
+  { slug: "stretch", name: "Stretch" },
+];
 
 export default function Experiments() {
   return (

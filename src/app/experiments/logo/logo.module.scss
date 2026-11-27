@@ -1,91 +1,21 @@
 @use 'variables' as *;
 
-// Tall enough to scroll through the drawings and the gradient the way the
-// home page does. Positioned so the gradient covers the full height.
-.page {
-  position: relative;
-  min-height: 800vh;
-}
-
-.background {
-  position: fixed;
-  inset: 0;
-  cursor: pointer;
-}
-
 .logo {
-  // Paint above the fixed background, but let clicks through to it so the
-  // drawing can still be cycled. Interactive children opt back in.
-  position: relative;
-  pointer-events: none;
   padding: 2rem;
   font-family: $f-body;
-
-  a {
-    pointer-events: auto;
-  }
 }
 
-// Stretch animation prototype.
 .stage {
   position: fixed;
   inset: 0;
   display: grid;
   place-items: center;
+  pointer-events: none;
 }
 
-.stretchSvg {
-  width: min(90vw, 90vh);
-  height: min(90vw, 90vh);
-  fill: #111;
-
-  // Difference and exclusion with black change nothing, so blended letters
-  // are white to invert the background.
-  &[data-inverted] {
-    fill: #fff;
-  }
-}
-
-// Anchor and control point overlay.
-.points {
-  fill: #fff;
-  stroke: #e0245e;
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
-
-  * {
-    vector-effect: non-scaling-stroke;
-  }
-}
-
-.controls {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
+.wordmark {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  width: 16rem;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background: rgba(255, 255, 255, 0.85);
-  font-size: 0.875rem;
-  pointer-events: auto;
-
-  label {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .checkbox {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  span {
-    display: flex;
-    justify-content: space-between;
-  }
+  gap: 0.35em;
+  margin: 0;
+  font-size: 8rem;
 }
