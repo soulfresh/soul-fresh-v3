@@ -1,7 +1,27 @@
 @use 'variables' as *;
 
+// Tall enough to scroll through the drawings and the gradient the way the
+// home page does. Positioned so the gradient covers the full height.
+.page {
+  position: relative;
+  min-height: 800vh;
+}
+
+.background {
+  position: fixed;
+  inset: 0;
+  cursor: pointer;
+}
+
 .logo {
-  min-height: 100vh;
+  // Paint above the fixed background, but let clicks through to it so the
+  // drawing can still be cycled. Interactive children opt back in.
+  position: relative;
+  pointer-events: none;
   padding: 2rem;
   font-family: $f-body;
+
+  a {
+    pointer-events: auto;
+  }
 }
