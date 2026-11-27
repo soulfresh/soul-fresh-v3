@@ -11,6 +11,7 @@ import {
   scale,
   seededRandom,
   toPathData,
+  type Shape,
 } from "./morph/morph";
 import { PointsOverlay } from "./PointsOverlay";
 
@@ -38,23 +39,18 @@ interface Props {
 }
 
 /**
- * A rectangle drawn as an SVG path that shrinks to half size as `progress`
- * goes from 0 to 1, its points moving on the stretch experiment's staggered
- * timeline. Extra points beyond the corners sit at seeded random positions
- * around the outline. Style the shape with `className > path`.
+ * The shape of a `width` x `height` rectangle that shrinks to half size as
+ * `progress` goes from 0 to 1, its points moving on the stretch
+ * experiment's staggered timeline. Extra points beyond the corners sit at
+ * seeded random positions around the outline, offset by `seedOffset`.
  */
-export function MorphingRect({
-  width,
-  height,
-  progress,
-  settings,
+export function useMorphShape(
+  width: number,
+  height: number,
+  progress: number,
+  settings: MorphSettings,
   seedOffset = 0,
-  className,
-  style,
-  title,
-  onClick,
-  ref,
-}: Props) {
+): Shape {
   const { pointCount, spacing, seed } = settings;
 
   // The full-size rectangle and the shrunk one it morphs to.
@@ -70,11 +66,30 @@ export function MorphingRect({
     return [full, scale(full, SHRINK, [width / 2, height / 2])];
   }, [pointCount, spacing, seed, seedOffset, width, height]);
 
-  const shape = morphShape(large, small, progress, {
+  return morphShape(large, small, progress, {
     angle: settings.angle,
     pointDuration: settings.pointDuration,
     easing: easings[settings.easing],
   });
+}
+
+/**
+ * The morphing rectangle from `useMorphShape`, drawn as an SVG path. Style
+ * the shape with `className > path`.
+ */
+export function MorphingRect({
+  width,
+  height,
+  progress,
+  settings,
+  seedOffset = 0,
+  className,
+  style,
+  title,
+  onClick,
+  ref,
+}: Props) {
+  const shape = useMorphShape(width, height, progress, settings, seedOffset);
 
   return (
     <svg

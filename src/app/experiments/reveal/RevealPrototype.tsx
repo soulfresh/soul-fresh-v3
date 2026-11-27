@@ -10,8 +10,8 @@ import {
   type MorphSettings,
   type PointLayout,
 } from "../MorphControls";
-import { MorphingRect } from "../MorphingRect";
-
+import { RevealVideo } from "./RevealVideo";
+import type { VideoSource } from "./videoSources";
 import type { Size } from "./videoSize";
 import styles from "./reveal.module.scss";
 
@@ -21,6 +21,8 @@ type Variant = PointLayout & Pick<MorphSettings, "angle">;
 export interface RevealItem extends Size {
   id: string;
   name: string;
+  sources: VideoSource[];
+  poster?: string;
 }
 
 /** Fraction of the element's height currently inside the viewport, 0..1. */
@@ -40,9 +42,9 @@ function morphProgress(visible: number): number {
 }
 
 /**
- * Grey stand-ins for the project videos, each morphing from half size to
- * its full rectangle as it scrolls fully into view, with the morph
- * experiment's settings panel.
+ * The project videos at their natural sizes, each clipped to a rectangle
+ * that morphs from half size to the full video as it scrolls fully into
+ * view, with the morph experiment's settings panel.
  *
  * Each time a placeholder becomes fully visible it picks its own random
  * point count, layout and direction, so its next transition moves
@@ -61,7 +63,7 @@ export function RevealPrototype({ items }: { items: RevealItem[] }) {
   const [variants, setVariants] = React.useState<(Variant | undefined)[]>(
     [],
   );
-  const refs = React.useRef<(SVGSVGElement | null)[]>([]);
+  const refs = React.useRef<(HTMLDivElement | null)[]>([]);
   // Progress as of the last measurement, to spot arrivals at full size.
   const lastProgress = React.useRef(progress);
 
@@ -124,19 +126,19 @@ export function RevealPrototype({ items }: { items: RevealItem[] }) {
         {items.map((item, i) => {
           const [itemSettings, seedOffset] = settingsFor(i);
           return (
-            <MorphingRect
+            <RevealVideo
               key={item.id}
               ref={(el) => {
                 refs.current[i] = el;
               }}
-              className={styles.placeholder}
-              style={{ width: item.width }}
               width={item.width}
               height={item.height}
+              sources={item.sources}
+              poster={item.poster}
+              title={item.name}
               progress={progress[i] ?? 1}
               settings={itemSettings}
               seedOffset={seedOffset}
-              title={item.name}
             />
           );
         })}

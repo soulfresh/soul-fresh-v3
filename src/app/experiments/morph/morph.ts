@@ -175,6 +175,27 @@ function mapPoints(shape: Shape, fn: (points: Point[]) => Point[]): Shape {
   );
 }
 
+/**
+ * A CSS `polygon()` clip path for `shape`, drawn in a `width` x `height`
+ * box, with coordinates as percentages of the box so it scales with the
+ * element it clips. Polygons only have straight edges, so curves are
+ * reduced to their end points; it suits shapes made of lines.
+ */
+export function toClipPolygon(
+  shape: Shape,
+  width: number,
+  height: number,
+): string {
+  const points = shape.flatMap((segment) =>
+    segment[0] === "Z" ? [] : [segment[segment.length - 1] as Point],
+  );
+  const percent = (n: number, size: number) =>
+    `${Math.round((n / size) * 1e5) / 1e3}%`;
+  return `polygon(${points
+    .map(([x, y]) => `${percent(x, width)} ${percent(y, height)}`)
+    .join(", ")})`;
+}
+
 /** SVG path data for `shape`. */
 export function toPathData(shape: Shape): string {
   return shape
