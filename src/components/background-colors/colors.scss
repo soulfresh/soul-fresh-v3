@@ -1,3 +1,5 @@
+@use 'theme' as *;
+
 .colors {
   width: px($left-colors-width);
   height: calc(100vh * 2);

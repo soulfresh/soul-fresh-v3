@@ -1,4 +1,5 @@
-@import 'theme';
+@use 'sass:math';
+@use 'theme' as *;
 
 @keyframes spin {
   0% {
@@ -137,7 +138,7 @@ body {
   .mute-video {
     font-size: px(30);
     color: white;
-    opacity: $hover-state-opacity / 2;
+    opacity: math.div($hover-state-opacity, 2);
     transition: opacity $t-s linear, background-color $t-s linear;
     z-index: $z-video-overlay + 1;
 
