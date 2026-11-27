@@ -33,6 +33,24 @@
   border-radius: 0.5rem;
   background: white;
   font-size: 0.875rem;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.collapsed {
+  width: auto;
+  padding: 0.5rem 0.75rem;
+}
+
+.toggle {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 // The two words' pickers, side by side.

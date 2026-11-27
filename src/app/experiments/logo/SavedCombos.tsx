@@ -1,5 +1,7 @@
 "use client";
 
+import type React from "react";
+
 import styles from "./logo.module.scss";
 import { type SavedCombo, withDefaults } from "./useSavedCombos";
 
@@ -8,10 +10,12 @@ const CARD_SCALE = 1 / 3;
 
 /** Grid of saved combinations. Click a card to load it, × to remove it. */
 export function SavedCombos({
+  ref,
   combos,
   onLoad,
   onRemove,
 }: {
+  ref: React.Ref<HTMLElement>;
   combos: SavedCombo[];
   onLoad: (combo: SavedCombo) => void;
   onRemove: (id: string) => void;
@@ -19,7 +23,7 @@ export function SavedCombos({
   if (combos.length === 0) return null;
 
   return (
-    <section className={styles.saved}>
+    <section ref={ref} className={styles.saved}>
       <h2>Saved</h2>
       <ul>
         {combos.map((saved) => {

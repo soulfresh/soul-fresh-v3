@@ -8,6 +8,7 @@ import {
   googleFontsUrl,
   NO_FILTER,
 } from "./catalog";
+import { ControlsPanel } from "./ControlsPanel";
 import styles from "./logo.module.scss";
 import { SavedCombos } from "./SavedCombos";
 import { Slider } from "./Slider";
@@ -46,6 +47,7 @@ export function Wordmark() {
   const [offset, setOffset] = React.useState(0);
   const saved = useSavedCombos();
   const { favorites, toggle: toggleFavorite } = useFavorites();
+  const savedRef = React.useRef<HTMLElement>(null);
 
   // The saved cards render in their own fonts, so load those too.
   const families = [
@@ -105,7 +107,7 @@ export function Wordmark() {
           </span>
         </h1>
       </section>
-      <div className={styles.controls}>
+      <ControlsPanel avoid={savedRef}>
         <div className={styles.pickers}>
           <WordPicker
             word="Soul"
@@ -159,8 +161,9 @@ export function Wordmark() {
             + Save
           </button>
         </div>
-      </div>
+      </ControlsPanel>
       <SavedCombos
+        ref={savedRef}
         combos={saved.combos}
         onLoad={load}
         onRemove={saved.remove}

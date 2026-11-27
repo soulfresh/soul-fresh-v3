@@ -18,15 +18,6 @@
     "offset": 1
   },
   {
-    "id": "9423843d-20fd-42fe-9a2c-2acb874b0c9a",
-    "soul": "Alfa Slab One",
-    "fresh": "Galada",
-    "soulSize": 128,
-    "freshSize": 179,
-    "gap": 12,
-    "offset": 0
-  },
-  {
     "id": "a501fdc4-8e4d-42b1-8d6e-71e7bafe3f38",
     "soul": "Manufacturing Consent",
     "fresh": "Alfa Slab One",
@@ -72,15 +63,6 @@
     "offset": 0
   },
   {
-    "id": "e939073c-5a5d-40ac-9405-85744f8d52f6",
-    "soul": "Bebas Neue",
-    "fresh": "Alfa Slab One",
-    "soulSize": 142,
-    "freshSize": 128,
-    "gap": 11,
-    "offset": 0
-  },
-  {
     "id": "01f2090b-c39f-4565-88b1-25bd9afc13a3",
     "soul": "Bellota",
     "fresh": "Alfa Slab One",
@@ -96,24 +78,6 @@
     "soulSize": 128,
     "freshSize": 147,
     "gap": 0,
-    "offset": 0
-  },
-  {
-    "id": "1fafe230-3be2-46a2-85ec-58d6263945b4",
-    "soul": "Berkshire Swash",
-    "fresh": "Bungee Shade",
-    "soulSize": 138,
-    "freshSize": 99,
-    "gap": 0,
-    "offset": 4
-  },
-  {
-    "id": "67cc57c8-95cc-41c9-b571-7ca15e6d3828",
-    "soul": "Bevan",
-    "fresh": "Cal Sans",
-    "soulSize": 128,
-    "freshSize": 137,
-    "gap": -9,
     "offset": 0
   },
   {
@@ -222,6 +186,51 @@
     "soulSize": 111,
     "freshSize": 128,
     "gap": 13,
+    "offset": 0
+  },
+  {
+    "id": "c4780a72-7d43-4945-b62e-4ac524a86e24",
+    "soul": "Alfa Slab One",
+    "fresh": "Galada",
+    "soulSize": 128,
+    "freshSize": 179,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "35a38952-d6e7-407e-8c65-9c489a5b1ba7",
+    "soul": "Bevan",
+    "fresh": "Alumni Sans Pinstripe",
+    "soulSize": 128,
+    "freshSize": 164,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "801c1372-02b7-4480-b945-69f59cba4161",
+    "soul": "Bebas Neue",
+    "fresh": "Bungee Shade",
+    "soulSize": 138,
+    "freshSize": 99,
+    "gap": 0,
+    "offset": 4
+  },
+  {
+    "id": "ffd3a71f-0e32-44bd-b3e0-f445cc33079b",
+    "soul": "Bungee Shade",
+    "fresh": "Bebas Neue",
+    "soulSize": 99,
+    "freshSize": 138,
+    "gap": 0,
+    "offset": 4
+  },
+  {
+    "id": "13f1e860-cf47-446a-84be-574c5feaef81",
+    "soul": "Bebas Neue",
+    "fresh": "Alex Brush",
+    "soulSize": 142,
+    "freshSize": 128,
+    "gap": 11,
     "offset": 0
   }
 ]
