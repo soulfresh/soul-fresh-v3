@@ -15,12 +15,17 @@
   padding: 25vh 0;
 }
 
-// A video at its natural size, never scaled to fit the screen. The video is
-// clipped to the morphing shape inline; grey shows through the clip until
-// the video loads.
+// Holds a video at its natural size, never scaled to fit the screen.
 .placeholder {
   position: relative;
   flex: none;
+}
+
+// Clipped to the morphing shape inline. The video inside scales about its
+// centre; grey shows through until it loads.
+.clip {
+  width: 100%;
+  height: 100%;
 
   video {
     display: block;

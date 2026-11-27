@@ -25,8 +25,14 @@ interface Props {
 }
 
 /**
- * A project video at its natural size, clipped to the morphing rectangle.
- * It plays, muted, only while some of it is on screen.
+ * A project video, clipped to the morphing rectangle and scaled so the
+ * morph is always uncovering video: half size while the mask is shrunk,
+ * growing to its natural size in step with the point that has moved
+ * furthest. It plays, muted, only while some of it is on screen.
+ *
+ * The clip goes on a wrapper rather than the video, since a clip path
+ * scales along with the element it clips. The point overlay sits outside
+ * the clipped wrapper so its markers aren't cut off.
  */
 export function RevealVideo({
   width,
@@ -40,7 +46,13 @@ export function RevealVideo({
   ref,
 }: Props) {
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  const shape = useMorphShape(width, height, progress, settings, seedOffset);
+  const { shape, coverScale } = useMorphShape(
+    width,
+    height,
+    progress,
+    settings,
+    seedOffset,
+  );
 
   React.useEffect(() => {
     const video = videoRef.current;
@@ -62,22 +74,27 @@ export function RevealVideo({
 
   return (
     <div ref={ref} className={styles.placeholder} style={{ width, height }}>
-      <video
-        ref={videoRef}
-        width={width}
-        height={height}
-        poster={poster}
-        title={title}
-        muted
-        loop
-        playsInline
-        preload="metadata"
+      <div
+        className={styles.clip}
         style={{ clipPath: toClipPolygon(shape, width, height) }}
       >
-        {sources.map((source) => (
-          <source key={source.src} src={source.src} type={source.type} />
-        ))}
-      </video>
+        <video
+          ref={videoRef}
+          width={width}
+          height={height}
+          poster={poster}
+          title={title}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          style={{ transform: `scale(${coverScale})` }}
+        >
+          {sources.map((source) => (
+            <source key={source.src} src={source.src} type={source.type} />
+          ))}
+        </video>
+      </div>
       {settings.showPoints && (
         <svg
           className={styles.points}

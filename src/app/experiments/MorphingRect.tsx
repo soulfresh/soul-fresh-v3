@@ -5,6 +5,7 @@ import React from "react";
 import { MIN_POINTS, type MorphSettings } from "./MorphControls";
 import {
   easings,
+  furthestPointProgress,
   morphShape,
   placePoints,
   rectangle,
@@ -38,6 +39,16 @@ interface Props {
   ref?: React.Ref<SVGSVGElement>;
 }
 
+export interface MorphState {
+  shape: Shape;
+  /**
+   * The smallest scale, about the centre, at which the full rectangle still
+   * covers every point of `shape`: from 1 at full size down to the shrunk
+   * size. Scaling content by it keeps the morph always uncovering content.
+   */
+  coverScale: number;
+}
+
 /**
  * The shape of a `width` x `height` rectangle that shrinks to half size as
  * `progress` goes from 0 to 1, its points moving on the stretch
@@ -50,7 +61,7 @@ export function useMorphShape(
   progress: number,
   settings: MorphSettings,
   seedOffset = 0,
-): Shape {
+): MorphState {
   const { pointCount, spacing, seed } = settings;
 
   // The full-size rectangle and the shrunk one it morphs to.
@@ -66,11 +77,18 @@ export function useMorphShape(
     return [full, scale(full, SHRINK, [width / 2, height / 2])];
   }, [pointCount, spacing, seed, seedOffset, width, height]);
 
-  return morphShape(large, small, progress, {
+  const options = {
     angle: settings.angle,
     pointDuration: settings.pointDuration,
     easing: easings[settings.easing],
-  });
+  };
+  // Every point moves straight towards the centre, so the one that has
+  // moved furthest is the one that needs the largest scale to cover it.
+  const furthest = furthestPointProgress(large, progress, options);
+  return {
+    shape: morphShape(large, small, progress, options),
+    coverScale: 1 - (1 - SHRINK) * furthest,
+  };
 }
 
 /**
@@ -89,7 +107,13 @@ export function MorphingRect({
   onClick,
   ref,
 }: Props) {
-  const shape = useMorphShape(width, height, progress, settings, seedOffset);
+  const { shape } = useMorphShape(
+    width,
+    height,
+    progress,
+    settings,
+    seedOffset,
+  );
 
   return (
     <svg

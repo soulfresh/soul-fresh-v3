@@ -160,6 +160,20 @@ export function morphShape(
   });
 }
 
+/**
+ * How far the point of `shape` that has moved furthest is through its own
+ * move, 0–1, at `progress` on the same timeline as `morphShape`. All points
+ * share one easing and duration, so it is the point whose move started
+ * first: while growing back from the target, the first point to leave it.
+ */
+export function furthestPointProgress(
+  shape: Shape,
+  progress: number,
+  options: StaggerOptions,
+): number {
+  return Math.min(...staggeredProgress(shapePoints(shape), progress, options));
+}
+
 /** Every point in `shape`, in command order. */
 function shapePoints(shape: Shape): Point[] {
   return shape.flatMap(([, ...points]) => points);
