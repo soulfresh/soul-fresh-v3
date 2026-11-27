@@ -5,6 +5,7 @@ import React from "react";
 import { fontsForFeeling, googleFontsUrl } from "./catalog";
 import styles from "./logo.module.scss";
 import { SavedCombos } from "./SavedCombos";
+import { useFavorites } from "./useFavorites";
 import { type SavedCombo, useSavedCombos } from "./useSavedCombos";
 import { WordPicker } from "./WordPicker";
 
@@ -13,7 +14,10 @@ interface WordState {
   font: string;
 }
 
-const initialWord: WordState = { feeling: null, font: fontsForFeeling(null)[0] };
+const initialWord: WordState = {
+  feeling: null,
+  font: fontsForFeeling(null, [])[0],
+};
 
 /**
  * "Soul" and "Fresh" with a feeling and font picker for each word, plus the
@@ -23,6 +27,7 @@ export function Wordmark() {
   const [soul, setSoul] = React.useState(initialWord);
   const [fresh, setFresh] = React.useState(initialWord);
   const saved = useSavedCombos();
+  const { favorites, toggle: toggleFavorite } = useFavorites();
 
   // The saved cards render in their own fonts, so load those too.
   const families = [
@@ -61,15 +66,19 @@ export function Wordmark() {
           word="Soul"
           feeling={soul.feeling}
           font={soul.font}
+          favorites={favorites}
           onFeelingChange={(feeling) => setSoul((s) => ({ ...s, feeling }))}
           onFontChange={(font) => setSoul((s) => ({ ...s, font }))}
+          onToggleFavorite={toggleFavorite}
         />
         <WordPicker
           word="Fresh"
           feeling={fresh.feeling}
           font={fresh.font}
+          favorites={favorites}
           onFeelingChange={(feeling) => setFresh((s) => ({ ...s, feeling }))}
           onFontChange={(font) => setFresh((s) => ({ ...s, font }))}
+          onToggleFavorite={toggleFavorite}
         />
         <div className={styles.actions}>
           <button type="button" className={styles.action} onClick={swap}>

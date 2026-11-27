@@ -56,6 +56,33 @@
   }
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fontRow {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  select {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.heart {
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: #c33;
+  cursor: pointer;
+}
+
 .actions {
   display: flex;
   gap: 0.5rem;
