@@ -15,18 +15,16 @@
   padding: 25vh 0;
 }
 
-// Each placeholder's shape-to-rectangle morph is written as an inline
-// `clip-path: polygon()` from scroll position (see `shapes.ts`). This rule is
-// only the circle shown before that script runs. `--circle-radius` is set
-// inline from the same constant the script uses. Insetting each edge by 50%
-// minus the radius leaves a square of exactly 2r centred in the rendered box,
-// and an absolute corner radius of r makes it a true circle. A percentage
-// radius would resolve against the box, not the square.
+// Drawn at its video's size, shrinking to fit narrow screens. The SVG's
+// viewBox keeps the aspect ratio. Overflow is visible so point markers on
+// the edges aren't cut in half.
 .placeholder {
   flex: none;
   max-width: 100%;
-  background: #999;
-  clip-path: inset(
-    calc(50% - var(--circle-radius)) round var(--circle-radius)
-  );
+  height: auto;
+  overflow: visible;
+
+  > path {
+    fill: #999;
+  }
 }

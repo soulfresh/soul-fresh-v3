@@ -5,6 +5,21 @@ import { staggeredProgress, type StaggerOptions } from "../stagger";
 export type { Point, Segment, Shape };
 export { easings, type EasingName } from "../stagger";
 
+/**
+ * A repeatable random number generator (mulberry32): the same `seed` always
+ * gives the same sequence in [0, 1), so server and client renders agree.
+ */
+export function seededRandom(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 /*
  * Positions around a rectangle's outline are fractions of its perimeter,
  * 0 to 1, measured clockwise from the top-left corner.
@@ -40,6 +55,7 @@ export function spacedPosition(
   spacing: number,
   width: number,
   height: number,
+  random: () => number = Math.random,
 ): number {
   const fixed = [...cornerPositions(width, height), ...taken].sort(
     (a, b) => a - b,
@@ -63,12 +79,32 @@ export function spacedPosition(
 
   // Pick uniformly across all the free stretches together.
   const total = free.reduce((sum, [a, b]) => sum + (b - a), 0);
-  let r = Math.random() * total;
+  let r = random() * total;
   for (const [a, b] of free) {
     if (r < b - a) return (a + r) % 1;
     r -= b - a;
   }
   return free[free.length - 1][1] % 1;
+}
+
+/**
+ * `count` positions around a `width` x `height` rectangle's outline, placed
+ * one at a time with `spacedPosition`. Each point only depends on the ones
+ * before it, so with a seeded `random`, raising `count` keeps the existing
+ * points and lowering it drops the newest.
+ */
+export function placePoints(
+  count: number,
+  spacing: number,
+  width: number,
+  height: number,
+  random: () => number = Math.random,
+): number[] {
+  const placed: number[] = [];
+  for (let i = 0; i < count; i++) {
+    placed.push(spacedPosition(placed, spacing, width, height, random));
+  }
+  return placed;
 }
 
 /**

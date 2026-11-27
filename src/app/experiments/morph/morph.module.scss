@@ -29,35 +29,3 @@
     cursor: pointer;
   }
 }
-
-// Settings panel, styled like the stretch experiment's.
-.controls {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  width: 16rem;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background: rgba(255, 255, 255, 0.85);
-  font-size: 0.875rem;
-
-  label {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  span {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .checkbox {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-  }
-}
