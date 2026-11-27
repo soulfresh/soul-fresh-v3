@@ -51,7 +51,13 @@ function sameCombo(a: SavedCombo, b: SavedCombo) {
 
 /** Saved font combinations, persisted to saved.json. */
 export function useSavedCombos() {
-  const { value: combos, loaded, set } = useJsonFile<SavedCombo[]>(
+  const {
+    value: combos,
+    loaded,
+    error,
+    set,
+    retry,
+  } = useJsonFile<SavedCombo[]>(
     "/experiments/logo/saved",
     [],
   );
@@ -64,5 +70,5 @@ export function useSavedCombos() {
 
   const remove = (id: string) => set(combos.filter((c) => c.id !== id));
 
-  return { combos, loaded, add, remove };
+  return { combos, loaded, error, add, remove, retry };
 }

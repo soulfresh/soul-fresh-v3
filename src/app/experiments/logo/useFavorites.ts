@@ -4,7 +4,12 @@ import { useJsonFile } from "./useJsonFile";
 
 /** Favorited font families (for either word), persisted to favorites.json. */
 export function useFavorites() {
-  const { value: favorites, set } = useJsonFile<string[]>(
+  const {
+    value: favorites,
+    error,
+    set,
+    retry,
+  } = useJsonFile<string[]>(
     "/experiments/logo/favorites",
     [],
   );
@@ -16,5 +21,5 @@ export function useFavorites() {
         : [...favorites, font],
     );
 
-  return { favorites, toggle };
+  return { favorites, error, toggle, retry };
 }

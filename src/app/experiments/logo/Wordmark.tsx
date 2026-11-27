@@ -9,6 +9,7 @@ import {
   NO_FILTER,
 } from "./catalog";
 import { ControlsPanel } from "./ControlsPanel";
+import { ErrorToast } from "./ErrorToast";
 import styles from "./logo.module.scss";
 import { SavedCombos } from "./SavedCombos";
 import { Slider } from "./Slider";
@@ -46,7 +47,8 @@ export function Wordmark() {
   // Vertical shift of "Fresh" from its baseline position, in pixels.
   const [offset, setOffset] = React.useState(0);
   const saved = useSavedCombos();
-  const { favorites, toggle: toggleFavorite } = useFavorites();
+  const favs = useFavorites();
+  const { favorites, toggle: toggleFavorite } = favs;
   const savedRef = React.useRef<HTMLElement>(null);
 
   // The saved cards render in their own fonts, so load those too.
@@ -162,6 +164,10 @@ export function Wordmark() {
           </button>
         </div>
       </ControlsPanel>
+      <div className={styles.toasts}>
+        <ErrorToast message={saved.error} onRetry={saved.retry} />
+        <ErrorToast message={favs.error} onRetry={favs.retry} />
+      </div>
       <SavedCombos
         ref={savedRef}
         combos={saved.combos}
