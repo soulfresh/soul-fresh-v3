@@ -10,15 +10,20 @@ import {
   type FontFilter,
 } from "./catalog";
 import styles from "./logo.module.scss";
+import { Slider } from "./Slider";
+import { DEFAULT_SIZE } from "./useSavedCombos";
 
 export interface WordPickerProps {
   /** Label, e.g. "Soul". */
   word: string;
   filter: FontFilter;
   font: string;
+  /** Font size on the stage, in pixels. */
+  size: number;
   favorites: string[];
   onFilterChange: (filter: FontFilter) => void;
   onFontChange: (font: string) => void;
+  onSizeChange: (size: number) => void;
   onToggleFavorite: (font: string) => void;
 }
 
@@ -27,9 +32,11 @@ export function WordPicker({
   word,
   filter,
   font,
+  size,
   favorites,
   onFilterChange,
   onFontChange,
+  onSizeChange,
   onToggleFavorite,
 }: WordPickerProps) {
   const fonts = filterFonts(filter, favorites);
@@ -138,6 +145,14 @@ export function WordPicker({
           </button>
         </div>
       </div>
+      <Slider
+        label="Size"
+        min={24}
+        max={320}
+        value={size}
+        defaultValue={DEFAULT_SIZE}
+        onChange={onSizeChange}
+      />
     </fieldset>
   );
 }

@@ -10,18 +10,27 @@ import {
 } from "./catalog";
 import styles from "./logo.module.scss";
 import { SavedCombos } from "./SavedCombos";
+import { Slider } from "./Slider";
 import { useFavorites } from "./useFavorites";
-import { type SavedCombo, useSavedCombos } from "./useSavedCombos";
+import {
+  DEFAULT_SIZE,
+  type SavedCombo,
+  useSavedCombos,
+  withDefaults,
+} from "./useSavedCombos";
 import { WordPicker } from "./WordPicker";
 
 interface WordState {
   filter: FontFilter;
   font: string;
+  /** Font size on the stage, in pixels. */
+  size: number;
 }
 
 const initialWord: WordState = {
   filter: NO_FILTER,
   font: filterFonts(NO_FILTER, [])[0],
+  size: DEFAULT_SIZE,
 };
 
 /**
@@ -32,7 +41,9 @@ export function Wordmark() {
   const [soul, setSoul] = React.useState(initialWord);
   const [fresh, setFresh] = React.useState(initialWord);
   // Space between the words on the stage, in pixels.
-  const [gap, setGap] = React.useState(40);
+  const [gap, setGap] = React.useState(0);
+  // Vertical shift of "Fresh" from its baseline position, in pixels.
+  const [offset, setOffset] = React.useState(0);
   const saved = useSavedCombos();
   const { favorites, toggle: toggleFavorite } = useFavorites();
 
@@ -44,10 +55,23 @@ export function Wordmark() {
   ];
 
   // No filter, so each font is guaranteed to be in its list.
-  const load = (combo: SavedCombo) => {
-    setSoul({ filter: NO_FILTER, font: combo.soul });
-    setFresh({ filter: NO_FILTER, font: combo.fresh });
+  const load = (item: SavedCombo) => {
+    const combo = withDefaults(item);
+    setSoul({ filter: NO_FILTER, font: combo.soul, size: combo.soulSize });
+    setFresh({ filter: NO_FILTER, font: combo.fresh, size: combo.freshSize });
+    setGap(combo.gap);
+    setOffset(combo.offset);
   };
+
+  const save = () =>
+    saved.add({
+      soul: soul.font,
+      fresh: fresh.font,
+      soulSize: soul.size,
+      freshSize: fresh.size,
+      gap,
+      offset,
+    });
 
   // Swap filters along with fonts so each font stays in its word's list.
   const swap = () => {
@@ -63,9 +87,22 @@ export function Wordmark() {
         precedence="default"
       />
       <section className={styles.stage}>
-        <h1 className={styles.wordmark} style={{ gap }}>
-          <span style={{ fontFamily: `"${soul.font}"` }}>Soul</span>
-          <span style={{ fontFamily: `"${fresh.font}"` }}>Fresh</span>
+        <h1 className={styles.wordmark}>
+          <span style={{ fontFamily: `"${soul.font}"`, fontSize: soul.size }}>
+            Soul
+          </span>
+          {/* A margin rather than `gap` so the words can overlap. */}
+          <span
+            style={{
+              fontFamily: `"${fresh.font}"`,
+              fontSize: fresh.size,
+              marginLeft: gap,
+              position: "relative",
+              top: offset,
+            }}
+          >
+            Fresh
+          </span>
         </h1>
       </section>
       <div className={styles.controls}>
@@ -74,32 +111,41 @@ export function Wordmark() {
             word="Soul"
             filter={soul.filter}
             font={soul.font}
+            size={soul.size}
             favorites={favorites}
             onFilterChange={(filter) => setSoul((s) => ({ ...s, filter }))}
             onFontChange={(font) => setSoul((s) => ({ ...s, font }))}
+            onSizeChange={(size) => setSoul((s) => ({ ...s, size }))}
             onToggleFavorite={toggleFavorite}
           />
           <WordPicker
             word="Fresh"
             filter={fresh.filter}
             font={fresh.font}
+            size={fresh.size}
             favorites={favorites}
             onFilterChange={(filter) => setFresh((s) => ({ ...s, filter }))}
             onFontChange={(font) => setFresh((s) => ({ ...s, font }))}
+            onSizeChange={(size) => setFresh((s) => ({ ...s, size }))}
             onToggleFavorite={toggleFavorite}
           />
         </div>
-        <label className={styles.slider}>
-          <span>Gap</span>
-          <input
-            type="range"
-            min={-40}
-            max={200}
-            value={gap}
-            onChange={(e) => setGap(Number(e.target.value))}
-          />
-          <output>{gap}px</output>
-        </label>
+        <Slider
+          label="Gap"
+          min={-100}
+          max={200}
+          value={gap}
+          defaultValue={0}
+          onChange={setGap}
+        />
+        <Slider
+          label="Y offset"
+          min={-100}
+          max={100}
+          value={offset}
+          defaultValue={0}
+          onChange={setOffset}
+        />
         <div className={styles.actions}>
           <button type="button" className={styles.action} onClick={swap}>
             &#8645; Swap
@@ -108,7 +154,7 @@ export function Wordmark() {
             type="button"
             className={styles.action}
             disabled={!saved.loaded}
-            onClick={() => saved.add(soul.font, fresh.font)}
+            onClick={save}
           >
             + Save
           </button>

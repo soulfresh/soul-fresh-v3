@@ -1,122 +1,227 @@
 [
   {
-    "id": "625e20b5-7433-4bc8-8a33-aac3197cc555",
+    "id": "75e68ee6-4a5b-4910-82c0-d30095b70311",
+    "soul": "Anonymous Pro",
+    "fresh": "League Script",
+    "soulSize": 128,
+    "freshSize": 145,
+    "gap": -50,
+    "offset": 24
+  },
+  {
+    "id": "5ff7d971-8e45-449d-abc6-b485370486f7",
     "soul": "ADLaM Display",
-    "fresh": "Arizonia"
+    "fresh": "Arizonia",
+    "soulSize": 128,
+    "freshSize": 197,
+    "gap": -62,
+    "offset": 1
   },
   {
-    "id": "1297aef1-0a70-4e80-8784-ebe06ef293fc",
+    "id": "9423843d-20fd-42fe-9a2c-2acb874b0c9a",
     "soul": "Alfa Slab One",
-    "fresh": "Galada"
+    "fresh": "Galada",
+    "soulSize": 128,
+    "freshSize": 179,
+    "gap": 12,
+    "offset": 0
   },
   {
-    "id": "53e8dca4-d0d4-4663-82f5-d0a28969f2af",
-    "soul": "Anonymous Pro",
-    "fresh": "League Script"
+    "id": "a501fdc4-8e4d-42b1-8d6e-71e7bafe3f38",
+    "soul": "Manufacturing Consent",
+    "fresh": "Alfa Slab One",
+    "soulSize": 159,
+    "freshSize": 117,
+    "gap": 24,
+    "offset": -5
   },
   {
-    "id": "f223d847-1f34-4586-b83a-7dd2cbfcfe79",
-    "soul": "Anonymous Pro",
-    "fresh": "Manufacturing Consent"
+    "id": "d87cc7dc-c88d-4dce-877e-3e6ff1a21f72",
+    "soul": "Manufacturing Consent",
+    "fresh": "Alumni Sans Pinstripe",
+    "soulSize": 159,
+    "freshSize": 165,
+    "gap": 2,
+    "offset": -2
   },
   {
-    "id": "6de01e4c-a6f5-49b2-ac76-29814a75a75b",
+    "id": "4a7f625a-5ae1-40b2-a162-6112b2fd78ef",
     "soul": "Anta",
-    "fresh": "Meow Script"
+    "fresh": "Meow Script",
+    "soulSize": 128,
+    "freshSize": 159,
+    "gap": -5,
+    "offset": 0
   },
   {
-    "id": "bc140c5c-aff0-4ed1-baff-6cc17ea6ac0c",
+    "id": "d49fa998-54d0-4fa0-8ef4-7d170698f11a",
     "soul": "Archivo Black",
-    "fresh": "Norican"
+    "fresh": "Norican",
+    "soulSize": 128,
+    "freshSize": 175,
+    "gap": 3,
+    "offset": 0
   },
   {
-    "id": "d84ef602-5a77-432b-a826-0d011d4ad9c4",
+    "id": "3058fc8f-916c-46fa-b5bb-421dfe4ed37d",
+    "soul": "Alfa Slab One",
+    "fresh": "Bebas Neue",
+    "soulSize": 128,
+    "freshSize": 142,
+    "gap": -13,
+    "offset": 0
+  },
+  {
+    "id": "e939073c-5a5d-40ac-9405-85744f8d52f6",
     "soul": "Bebas Neue",
-    "fresh": "Alfa Slab One"
+    "fresh": "Alfa Slab One",
+    "soulSize": 142,
+    "freshSize": 128,
+    "gap": 11,
+    "offset": 0
   },
   {
-    "id": "d393b761-b932-43bd-9f8c-320ce482cd5d",
+    "id": "01f2090b-c39f-4565-88b1-25bd9afc13a3",
     "soul": "Bellota",
-    "fresh": "Alfa Slab One"
+    "fresh": "Alfa Slab One",
+    "soulSize": 138,
+    "freshSize": 128,
+    "gap": 7,
+    "offset": 0
   },
   {
-    "id": "52480384-7650-4724-919c-e878f370eae5",
+    "id": "b0c604ac-8b60-40fc-ac88-b115663499b2",
+    "soul": "Alien Block",
+    "fresh": "Berkshire Swash",
+    "soulSize": 128,
+    "freshSize": 147,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "1fafe230-3be2-46a2-85ec-58d6263945b4",
     "soul": "Berkshire Swash",
-    "fresh": "Alien Block"
+    "fresh": "Bungee Shade",
+    "soulSize": 138,
+    "freshSize": 99,
+    "gap": 0,
+    "offset": 4
   },
   {
-    "id": "fe62b106-4dfe-406e-85b7-cc075fc57b6e",
-    "soul": "Berkshire Swash",
-    "fresh": "Bungee Shade"
-  },
-  {
-    "id": "53dc95c8-48a2-4790-ace7-d335fb6e0628",
+    "id": "67cc57c8-95cc-41c9-b571-7ca15e6d3828",
     "soul": "Bevan",
-    "fresh": "Cal Sans"
+    "fresh": "Cal Sans",
+    "soulSize": 128,
+    "freshSize": 137,
+    "gap": -9,
+    "offset": 0
   },
   {
-    "id": "a9a9e3e4-750e-45b1-9e67-47fd282c2eee",
+    "id": "f0c76a1c-49ae-48c5-b53c-1f8828b2e897",
     "soul": "Carter One",
-    "fresh": "Cal Sans"
+    "fresh": "Cal Sans",
+    "soulSize": 128,
+    "freshSize": 146,
+    "gap": 5,
+    "offset": 7
   },
   {
-    "id": "4babbae2-421d-4a9e-8a31-3f8c6482451b",
+    "id": "140ae879-7feb-4df7-ad46-9e344b678108",
     "soul": "Cal Sans",
-    "fresh": "Chela One"
+    "fresh": "Chela One",
+    "soulSize": 128,
+    "freshSize": 145,
+    "gap": 10,
+    "offset": 7
   },
   {
-    "id": "37a1e3e3-44b0-4831-84e2-738a4176f1b3",
+    "id": "06405211-edaa-4e74-94d6-c3cd03484e1e",
     "soul": "Cal Sans",
-    "fresh": "Cherry Swash"
+    "fresh": "Cherry Swash",
+    "soulSize": 128,
+    "freshSize": 139,
+    "gap": 0,
+    "offset": 0
   },
   {
-    "id": "11f97c39-a63b-444b-a741-cc30d8bb2d8a",
+    "id": "621661db-8ab6-4a25-9c5c-252f1d5bac36",
+    "soul": "Climate Crisis",
+    "fresh": "Cal Sans",
+    "soulSize": 119,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "d5269dce-1c3d-4317-9c42-40976ac0368f",
+    "soul": "Kenia",
+    "fresh": "Codystar",
+    "soulSize": 158,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": -3
+  },
+  {
+    "id": "e584e8e3-5a9b-418d-8af1-925fccadb842",
     "soul": "Cal Sans",
-    "fresh": "Climate Crisis"
+    "fresh": "Copse",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
   },
   {
-    "id": "d8413474-d4a7-4d59-a497-c3ca374d60d5",
+    "id": "66f33410-805b-4b85-bf77-ad66e75f3fd9",
     "soul": "Cal Sans",
-    "fresh": "Codystar"
+    "fresh": "Danfo",
+    "soulSize": 125,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
   },
   {
-    "id": "d9955d82-24d1-4705-b337-35c7b73b32fa",
+    "id": "1c6b0399-7e68-45a7-9ca8-a875b62d7c8d",
     "soul": "Cal Sans",
-    "fresh": "Convergence"
+    "fresh": "Kumar One Outline",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 5
   },
   {
-    "id": "b68019ea-13e2-4f0a-9303-34e69281cff0",
+    "id": "8f4b2145-a486-4273-a457-b394b8d8dc3a",
     "soul": "Cal Sans",
-    "fresh": "Copse"
+    "fresh": "Offside",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": -8,
+    "offset": 0
   },
   {
-    "id": "9a1f4453-d080-4396-8009-af5f287483cf",
+    "id": "8dc01016-ca7c-4cb0-8c7f-a672eb406e12",
     "soul": "Cal Sans",
-    "fresh": "Danfo"
+    "fresh": "Vampiro One",
+    "soulSize": 128,
+    "freshSize": 149,
+    "gap": 0,
+    "offset": 31
   },
   {
-    "id": "752ba164-e450-4a63-ab81-2a302d6a759d",
+    "id": "33b4cc27-c23f-4b1e-bc6a-6e24f51a00fd",
     "soul": "Cal Sans",
-    "fresh": "Kumar One Outline"
+    "fresh": "Bagel Fat One",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
   },
   {
-    "id": "3dca7c3a-18bd-49a5-9a4f-a20eafa909fc",
-    "soul": "Cal Sans",
-    "fresh": "Offside"
-  },
-  {
-    "id": "ef0d9d44-1613-4ba4-8836-df059cb30c75",
-    "soul": "Cal Sans",
-    "fresh": "Vampiro One"
-  },
-  {
-    "id": "0cfc49e7-b9f2-49e1-a7d1-4333750db921",
-    "soul": "Cal Sans",
-    "fresh": "Bagel Fat One"
-  },
-  {
-    "id": "8c998391-bed0-472d-b157-10e2629f4aa8",
+    "id": "b8951f3f-e573-4aac-b4a1-eeae9e8ff808",
     "soul": "Bungee",
-    "fresh": "League Script"
+    "fresh": "League Script",
+    "soulSize": 111,
+    "freshSize": 128,
+    "gap": 13,
+    "offset": 0
   }
 ]
