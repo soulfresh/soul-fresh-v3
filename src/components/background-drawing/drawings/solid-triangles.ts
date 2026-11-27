@@ -43,11 +43,12 @@ function triangles(
   for (let i = 0; i < rows; i++) {
     const y = i * h;
 
-    // Percent for each row.
-    let rp = i / (rows - 1);
-    if (percent > 0.5) {
-      rp = (rows - 1 - i) / (rows - 1);
-    }
+    // Percent for each row: 0 for the first row up to 1 for the last,
+    // reversed past halfway. A lone row (short canvas) gets the full amount
+    // rather than 0 / 0.
+    const lastRow = rows - 1;
+    const row = percent > 0.5 ? lastRow - i : i;
+    const rp = lastRow > 0 ? row / lastRow : 1;
     const p = (top - bottom) * rp;
 
     const tW = maxW * p;
