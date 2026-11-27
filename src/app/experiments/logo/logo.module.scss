@@ -25,3 +25,43 @@
     pointer-events: auto;
   }
 }
+
+// Stretch animation prototype.
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.stretchSvg {
+  width: min(90vw, 90vh);
+  height: min(90vw, 90vh);
+  fill: #111;
+}
+
+.controls {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 16rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 0.875rem;
+  pointer-events: auto;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  span {
+    display: flex;
+    justify-content: space-between;
+  }
+}
