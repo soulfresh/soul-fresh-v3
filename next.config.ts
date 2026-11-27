@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   distDir: "dist",
   // Files named `*.dev.tsx` (ex. `page.dev.tsx`) are only routable during
   // development. This keeps `src/app/experiments` out of production builds.
-  pageExtensions: isProduction ? ["tsx", "ts"] : ["dev.tsx", "tsx", "ts"],
+  pageExtensions: isProduction ? ["tsx", "ts"] : ["dev.tsx", "dev.ts", "tsx", "ts"],
   sassOptions: {
     includePaths: ["./src/style"],
   },
