@@ -1,8 +1,22 @@
 @use 'variables' as *;
 
+// Positioned so the gradient covers the full scrolling height.
+.page {
+  position: relative;
+}
+
+// Paints above the gradient and the drawings, but lets clicks through to
+// the drawings so they can still be cycled. Interactive children opt back
+// in.
 .reveal {
+  position: relative;
+  pointer-events: none;
   padding: 2rem;
   font-family: $f-body;
+
+  a {
+    pointer-events: auto;
+  }
 }
 
 // One placeholder per project, stacked vertically with room around each so

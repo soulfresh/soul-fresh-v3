@@ -3,10 +3,14 @@
 import { DrawingSwitcher } from "@/components/background-drawing";
 import { useScrollPercent } from "@/components/dimensions";
 
-import styles from "./stretch.module.scss";
+import styles from "./full-window-drawing.module.scss";
 
-/** Full-window drawing driven by page scroll, like the home page. */
-export function StretchBackground() {
+/**
+ * The home page's scroll-driven background drawing, filling the whole
+ * window rather than the home page's right-hand panel. Clicking it cycles
+ * the drawing.
+ */
+export function FullWindowDrawing() {
   const percent = useScrollPercent();
   return (
     <div className={styles.background} aria-hidden="true">

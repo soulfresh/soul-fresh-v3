@@ -1,4 +1,7 @@
 import { visibleProjects } from "@/app/projects";
+import { BackgroundGradient } from "@/components/background-gradient";
+
+import { FullWindowDrawing } from "../FullWindowDrawing";
 
 import { RevealPrototype, type RevealItem } from "./RevealPrototype";
 import { posterFrame, videoSources } from "./videoSources";
@@ -19,9 +22,13 @@ const items: RevealItem[] = visibleProjects
 
 export default function RevealExperiment() {
   return (
-    <main className={styles.reveal}>
-      <a href="/experiments">&larr; Experiments</a>
-      <RevealPrototype items={items} />
-    </main>
+    <div className={styles.page}>
+      <BackgroundGradient count={visibleProjects.length} />
+      <FullWindowDrawing />
+      <main className={styles.reveal}>
+        <a href="/experiments">&larr; Experiments</a>
+        <RevealPrototype items={items} />
+      </main>
+    </div>
   );
 }

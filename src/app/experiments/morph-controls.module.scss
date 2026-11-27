@@ -12,6 +12,8 @@
   border-radius: 0.5rem;
   background: rgba(255, 255, 255, 0.85);
   font-size: 0.875rem;
+  // Takes clicks even on pages that let clicks through their content.
+  pointer-events: auto;
 
   label {
     display: flex;
