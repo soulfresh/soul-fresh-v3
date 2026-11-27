@@ -40,6 +40,18 @@
   fill: #111;
 }
 
+// Anchor and control point overlay.
+.points {
+  fill: #fff;
+  stroke: #e0245e;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+
+  * {
+    vector-effect: non-scaling-stroke;
+  }
+}
+
 .controls {
   position: fixed;
   top: 1rem;
@@ -58,6 +70,12 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+  }
+
+  .checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   span {

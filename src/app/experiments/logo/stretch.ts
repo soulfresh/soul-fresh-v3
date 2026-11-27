@@ -1,6 +1,19 @@
 export type Point = [number, number];
 export type Easing = (t: number) => number;
 
+/**
+ * One path command with absolute coordinates. Cubic curves carry their two
+ * control points before the end point, matching SVG's `C c1 c2 to`.
+ */
+export type Segment =
+  | ["M", Point]
+  | ["L", Point]
+  | ["C", Point, Point, Point]
+  | ["Z"];
+
+/** A path made of one or more closed subpaths. */
+export type Shape = Segment[];
+
 export const easings = {
   linear: (t: number) => t,
   easeOutCubic: (t: number) => 1 - Math.pow(1 - t, 3),
@@ -56,12 +69,81 @@ export function stretchPoints(
   });
 }
 
-/** A closed polygon path through `points`. */
-export function toPathData(points: Point[]): string {
-  return (
-    points
-      .map(([x, y], i) => `${i === 0 ? "M" : "L"}${round(x)} ${round(y)}`)
-      .join(" ") + " Z"
+/**
+ * Stretch every point in `shape`, control points included, on one shared
+ * timeline so the sweep runs across all of its subpaths.
+ */
+export function stretchShape(
+  shape: Shape,
+  progress: number,
+  options: StretchOptions,
+): Shape {
+  return mapPoints(shape, (points) => stretchPoints(points, progress, options));
+}
+
+/** Every point in `shape`, in command order. */
+export function shapePoints(shape: Shape): Point[] {
+  return shape.flatMap(([, ...points]) => points);
+}
+
+/** A closed polygon through `points`. */
+export function polygon(points: Point[]): Shape {
+  return [
+    ["M", points[0]],
+    ...points.slice(1).map((p): Segment => ["L", p]),
+    ["Z"],
+  ];
+}
+
+/**
+ * An ellipse drawn as four cubic curves, starting at the top. Clockwise and
+ * counterclockwise ellipses can be combined to cut holes (nonzero fill).
+ */
+export function ellipse(
+  cx: number,
+  cy: number,
+  rx: number,
+  ry: number,
+  clockwise = true,
+): Shape {
+  // Control point offset that best approximates a quarter circle.
+  const k = 0.5522847498;
+  // Mirroring horizontally reverses the winding.
+  const sx = clockwise ? rx : -rx;
+  return [
+    ["M", [cx, cy - ry]],
+    ["C", [cx + k * sx, cy - ry], [cx + sx, cy - k * ry], [cx + sx, cy]],
+    ["C", [cx + sx, cy + k * ry], [cx + k * sx, cy + ry], [cx, cy + ry]],
+    ["C", [cx - k * sx, cy + ry], [cx - sx, cy + k * ry], [cx - sx, cy]],
+    ["C", [cx - sx, cy - k * ry], [cx - k * sx, cy - ry], [cx, cy - ry]],
+    ["Z"],
+  ];
+}
+
+/** `shape` moved by `dx`, `dy`. */
+export function translate(shape: Shape, dx: number, dy: number): Shape {
+  return mapPoints(shape, (points) =>
+    points.map(([x, y]): Point => [x + dx, y + dy]),
+  );
+}
+
+/** SVG path data for `shape`. */
+export function toPathData(shape: Shape): string {
+  return shape
+    .map(
+      ([command, ...points]) =>
+        command + points.map(([x, y]) => `${round(x)} ${round(y)}`).join(" "),
+    )
+    .join(" ");
+}
+
+/** Replace every point in `shape` with the result of `fn`, in order. */
+function mapPoints(shape: Shape, fn: (points: Point[]) => Point[]): Shape {
+  const mapped = fn(shapePoints(shape));
+  let i = 0;
+  return shape.map(
+    ([command, ...points]) =>
+      [command, ...points.map(() => mapped[i++])] as Segment,
   );
 }
 

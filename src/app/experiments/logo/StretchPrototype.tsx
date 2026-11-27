@@ -4,28 +4,54 @@ import React from "react";
 
 import {
   easings,
-  stretchPoints,
+  ellipse,
+  polygon,
+  shapePoints,
+  stretchShape,
   toPathData,
+  translate,
   type EasingName,
   type Point,
+  type Shape,
 } from "./stretch";
 import styles from "./logo.module.scss";
 
-// A blocky uppercase L, centered on the origin.
-const L_SHAPE: Point[] = [
-  [-60, -100],
-  [-20, -100],
-  [-20, 60],
-  [60, 60],
-  [60, 100],
-  [-60, 100],
+// A blocky uppercase L with 40 unit strokes, 120 wide and 200 tall.
+const L_SHAPE = translate(
+  polygon([
+    [-60, -100],
+    [-20, -100],
+    [-20, 60],
+    [60, 60],
+    [60, 100],
+    [-60, 100],
+  ]),
+  -95,
+  0,
+);
+
+// An O with the same 40 unit side strokes and height as the L. The counter
+// winds the other way so it cuts a hole.
+const O_SHAPE: Shape = [
+  ...ellipse(80, 0, 75, 100),
+  ...ellipse(80, 0, 35, 60, false),
 ];
 
+// Both letters share one shape so the sweep runs across them together.
+const LETTERS: Shape = [...L_SHAPE, ...O_SHAPE];
+
 const MAX_DISTANCE = 400;
-// Room for the L plus its furthest possible destination in any direction.
-const VIEW_BOX = `${-60 - MAX_DISTANCE} ${-100 - MAX_DISTANCE} ${
-  2 * (60 + MAX_DISTANCE)
-} ${2 * (100 + MAX_DISTANCE)}`;
+// Room for the letters plus their furthest destination in any direction.
+const VIEW_BOX = (() => {
+  const points = shapePoints(LETTERS);
+  const xs = points.map(([x]) => x);
+  const ys = points.map(([, y]) => y);
+  const x = Math.min(...xs) - MAX_DISTANCE;
+  const y = Math.min(...ys) - MAX_DISTANCE;
+  const width = Math.max(...xs) + MAX_DISTANCE - x;
+  const height = Math.max(...ys) + MAX_DISTANCE - y;
+  return `${x} ${y} ${width} ${height}`;
+})();
 
 /** Prototype of the stretch animation with controls for each setting. */
 export function StretchPrototype() {
@@ -36,6 +62,7 @@ export function StretchPrototype() {
   const [easing, setEasing] = React.useState<EasingName>("easeInOutCubic");
   const [seconds, setSeconds] = React.useState(2);
   const [playing, setPlaying] = React.useState(false);
+  const [showPoints, setShowPoints] = React.useState(false);
   // Bumped on every Play click so a click mid-play restarts the animation.
   const [playKey, setPlayKey] = React.useState(0);
 
@@ -57,7 +84,7 @@ export function StretchPrototype() {
     return () => cancelAnimationFrame(frame);
   }, [playing, playKey, seconds]);
 
-  const points = stretchPoints(L_SHAPE, progress, {
+  const shape = stretchShape(LETTERS, progress, {
     angle,
     distance,
     pointDuration,
@@ -68,7 +95,8 @@ export function StretchPrototype() {
     <>
       <div className={styles.stage}>
         <svg className={styles.stretchSvg} viewBox={VIEW_BOX}>
-          <path d={toPathData(points)} />
+          <path d={toPathData(shape)} />
+          {showPoints && <PointsOverlay shape={shape} />}
         </svg>
       </div>
 
@@ -129,6 +157,14 @@ export function StretchPrototype() {
             ))}
           </select>
         </label>
+        <label className={styles.checkbox}>
+          <input
+            type="checkbox"
+            checked={showPoints}
+            onChange={(e) => setShowPoints(e.target.checked)}
+          />
+          Show points
+        </label>
         <button
           type="button"
           onClick={() => {
@@ -141,6 +177,43 @@ export function StretchPrototype() {
         </button>
       </form>
     </>
+  );
+}
+
+/**
+ * Anchors as squares and control points as circles, with handles joining
+ * each control point to the anchor it belongs to.
+ */
+function PointsOverlay({ shape }: { shape: Shape }) {
+  const anchors: Point[] = [];
+  const controls: Point[] = [];
+  const handles: [Point, Point][] = [];
+  let current: Point = [0, 0];
+  for (const segment of shape) {
+    if (segment[0] === "M" || segment[0] === "L") {
+      current = segment[1];
+      anchors.push(current);
+    } else if (segment[0] === "C") {
+      const [, c1, c2, to] = segment;
+      handles.push([current, c1], [c2, to]);
+      controls.push(c1, c2);
+      anchors.push(to);
+      current = to;
+    }
+  }
+
+  return (
+    <g className={styles.points}>
+      {handles.map(([[x1, y1], [x2, y2]], i) => (
+        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />
+      ))}
+      {anchors.map(([x, y], i) => (
+        <rect key={i} x={x - 4} y={y - 4} width={8} height={8} />
+      ))}
+      {controls.map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r={4} />
+      ))}
+    </g>
   );
 }
 
