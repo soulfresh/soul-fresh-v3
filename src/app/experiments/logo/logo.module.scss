@@ -38,6 +38,12 @@
   width: min(90vw, 90vh);
   height: min(90vw, 90vh);
   fill: #111;
+
+  // Difference and exclusion with black change nothing, so blended letters
+  // are white to invert the background.
+  &[data-inverted] {
+    fill: #fff;
+  }
 }
 
 // Anchor and control point overlay.

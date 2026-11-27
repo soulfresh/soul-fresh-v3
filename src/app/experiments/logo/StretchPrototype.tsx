@@ -40,6 +40,11 @@ const O_SHAPE: Shape = [
 // Both letters share one shape so the sweep runs across them together.
 const LETTERS: Shape = [...L_SHAPE, ...O_SHAPE];
 
+// How the letters blend with the background behind them. "normal" draws
+// them dark; the others draw them white so they invert what's behind.
+const BLEND_MODES = ["normal", "difference", "exclusion"] as const;
+type BlendMode = (typeof BLEND_MODES)[number];
+
 const MAX_DISTANCE = 400;
 // Room for the letters plus their furthest destination in any direction.
 const VIEW_BOX = (() => {
@@ -65,6 +70,7 @@ export function StretchPrototype() {
   const [showPoints, setShowPoints] = React.useState(false);
   const [controlsFollowAnchors, setControlsFollowAnchors] =
     React.useState(false);
+  const [blendMode, setBlendMode] = React.useState<BlendMode>("normal");
   // Bumped on every Play click so a click mid-play restarts the animation.
   const [playKey, setPlayKey] = React.useState(0);
 
@@ -96,8 +102,15 @@ export function StretchPrototype() {
 
   return (
     <>
-      <div className={styles.stage}>
-        <svg className={styles.stretchSvg} viewBox={VIEW_BOX}>
+      {/* The stage is fixed, which makes it a stacking context, so the blend
+          mode goes on it rather than the SVG or it would only blend with the
+          stage's own transparent backdrop. */}
+      <div className={styles.stage} style={{ mixBlendMode: blendMode }}>
+        <svg
+          className={styles.stretchSvg}
+          viewBox={VIEW_BOX}
+          data-inverted={blendMode !== "normal" || undefined}
+        >
           <path d={toPathData(shape)} />
           {showPoints && <PointsOverlay shape={shape} />}
         </svg>
@@ -156,6 +169,19 @@ export function StretchPrototype() {
             {Object.keys(easings).map((name) => (
               <option key={name} value={name}>
                 {name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Blend mode
+          <select
+            value={blendMode}
+            onChange={(e) => setBlendMode(e.target.value as BlendMode)}
+          >
+            {BLEND_MODES.map((mode) => (
+              <option key={mode} value={mode}>
+                {mode}
               </option>
             ))}
           </select>
