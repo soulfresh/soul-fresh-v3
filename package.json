@@ -19,6 +19,7 @@
     "serve": "next start",
     "lint": "yarn typecheck && next lint",
     "typecheck": "tsc --noEmit",
+    "cli": "tsx scripts/cli.ts",
     "release": "yarn firebase deploy"
   },
   "dependencies": {
@@ -36,11 +37,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "commander": "^15.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
     "firebase-tools": "^14.4.0",
     "sass": "^1.89.0",
     "serve": "^14.2.4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   },
   "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"
