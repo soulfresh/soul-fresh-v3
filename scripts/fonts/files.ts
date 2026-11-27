@@ -7,6 +7,17 @@ const ROOT = path.resolve(__dirname, "..", "..");
 const FONTS_DIR = path.join(ROOT, "assets", "fonts");
 const GENERATED_DIR = path.join(ROOT, "src", "fonts", "generated");
 
+/** Google Fonts family → feelings catalog used by the logo experiment. */
+export const catalogPath = path.join(
+  ROOT,
+  "src",
+  "app",
+  "experiments",
+  "logo",
+  "generated",
+  "catalog.json",
+);
+
 /** Folder name used by the google/fonts repo, e.g. "playfairdisplay". */
 export function familySlug(family: string) {
   return family.toLowerCase().replace(/\s+/g, "");
