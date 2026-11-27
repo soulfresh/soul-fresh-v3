@@ -94,6 +94,23 @@
   cursor: pointer;
 }
 
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  output {
+    min-width: 3.5em;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
 .actions {
   display: flex;
   gap: 0.5rem;

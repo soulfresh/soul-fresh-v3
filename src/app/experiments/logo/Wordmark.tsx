@@ -31,6 +31,8 @@ const initialWord: WordState = {
 export function Wordmark() {
   const [soul, setSoul] = React.useState(initialWord);
   const [fresh, setFresh] = React.useState(initialWord);
+  // Space between the words on the stage, in pixels.
+  const [gap, setGap] = React.useState(40);
   const saved = useSavedCombos();
   const { favorites, toggle: toggleFavorite } = useFavorites();
 
@@ -61,7 +63,7 @@ export function Wordmark() {
         precedence="default"
       />
       <section className={styles.stage}>
-        <h1 className={styles.wordmark}>
+        <h1 className={styles.wordmark} style={{ gap }}>
           <span style={{ fontFamily: `"${soul.font}"` }}>Soul</span>
           <span style={{ fontFamily: `"${fresh.font}"` }}>Fresh</span>
         </h1>
@@ -87,6 +89,17 @@ export function Wordmark() {
             onToggleFavorite={toggleFavorite}
           />
         </div>
+        <label className={styles.slider}>
+          <span>Gap</span>
+          <input
+            type="range"
+            min={-40}
+            max={200}
+            value={gap}
+            onChange={(e) => setGap(Number(e.target.value))}
+          />
+          <output>{gap}px</output>
+        </label>
         <div className={styles.actions}>
           <button type="button" className={styles.action} onClick={swap}>
             &#8645; Swap
