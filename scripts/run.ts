@@ -8,7 +8,12 @@ import { constants } from "node:os";
  */
 export function run(command: string, args: string[] = []): Promise<number> {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, { stdio: "inherit" });
+    // On Windows the binaries are .cmd shims, which Node will only spawn
+    // through a shell.
+    const child = spawn(command, args, {
+      stdio: "inherit",
+      shell: process.platform === "win32",
+    });
 
     // Ctrl-C already reaches the child (it shares our terminal), so just
     // stay alive until it exits. Signals sent only to us are passed on.
