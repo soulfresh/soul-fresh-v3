@@ -5,13 +5,89 @@ import { staggeredProgress, type StaggerOptions } from "../stagger";
 export type { Point, Segment, Shape };
 export { easings, type EasingName } from "../stagger";
 
-/** A closed `width` x `height` rectangle, clockwise from the top left. */
-export function rectangle(width: number, height: number): Shape {
+/*
+ * Positions around a rectangle's outline are fractions of its perimeter,
+ * 0 to 1, measured clockwise from the top-left corner.
+ */
+
+/** Where each corner sits around a `width` x `height` rectangle's outline. */
+function cornerPositions(width: number, height: number): number[] {
+  const perimeter = 2 * (width + height);
+  return [0, width, width + height, 2 * width + height].map(
+    (d) => d / perimeter,
+  );
+}
+
+/** The point at `position` around a `width` x `height` rectangle's outline. */
+function pointAround(position: number, width: number, height: number): Point {
+  const d = position * 2 * (width + height);
+  if (d < width) return [d, 0];
+  if (d < width + height) return [width, d - width];
+  if (d < 2 * width + height) return [2 * width + height - d, height];
+  return [0, 2 * (width + height) - d];
+}
+
+/**
+ * A random position around a `width` x `height` rectangle's outline at least
+ * `spacing` (a fraction of the perimeter) from every corner and every
+ * position in `taken`, measured along the outline.
+ *
+ * When no such position is left, it takes the middle of the largest gap,
+ * which is as far from its neighbours as any new point can be.
+ */
+export function spacedPosition(
+  taken: number[],
+  spacing: number,
+  width: number,
+  height: number,
+): number {
+  const fixed = [...cornerPositions(width, height), ...taken].sort(
+    (a, b) => a - b,
+  );
+  // Each gap between neighbours around the outline, the last wrapping back
+  // to the first.
+  const gaps = fixed.map((a, i): [number, number] => [
+    a,
+    i + 1 < fixed.length ? fixed[i + 1] : fixed[0] + 1,
+  ]);
+  const free = gaps
+    .map(([a, b]): [number, number] => [a + spacing, b - spacing])
+    .filter(([a, b]) => b > a);
+
+  if (free.length === 0) {
+    const [a, b] = gaps.reduce((widest, gap) =>
+      gap[1] - gap[0] > widest[1] - widest[0] ? gap : widest,
+    );
+    return ((a + b) / 2) % 1;
+  }
+
+  // Pick uniformly across all the free stretches together.
+  const total = free.reduce((sum, [a, b]) => sum + (b - a), 0);
+  let r = Math.random() * total;
+  for (const [a, b] of free) {
+    if (r < b - a) return (a + r) % 1;
+    r -= b - a;
+  }
+  return free[free.length - 1][1] % 1;
+}
+
+/**
+ * A closed `width` x `height` rectangle, clockwise from the top left, with
+ * an extra anchor at each of `extras` (positions around the outline). The
+ * extras sit on the edges, so the outline is still the plain rectangle, but
+ * they give the morph more points to move.
+ */
+export function rectangle(
+  width: number,
+  height: number,
+  extras: number[] = [],
+): Shape {
+  const [first, ...rest] = [...cornerPositions(width, height), ...extras]
+    .sort((a, b) => a - b)
+    .map((position) => pointAround(position, width, height));
   return [
-    ["M", [0, 0]],
-    ["L", [width, 0]],
-    ["L", [width, height]],
-    ["L", [0, height]],
+    ["M", first],
+    ...rest.map((point): Segment => ["L", point]),
     ["Z"],
   ];
 }
