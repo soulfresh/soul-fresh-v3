@@ -1,15 +1,13 @@
+import { fontsUrl } from "./fonts";
 import styles from "./logo.module.scss";
+import { Wordmark } from "./Wordmark";
 
 export default function LogoExperiment() {
   return (
     <main className={styles.logo}>
+      <link rel="stylesheet" href={fontsUrl} precedence="default" />
       <a href="/experiments">&larr; Experiments</a>
-      <div className={styles.stage}>
-        <h1 className={styles.wordmark}>
-          <span>Soul</span>
-          <span>Fresh</span>
-        </h1>
-      </div>
+      <Wordmark />
     </main>
   );
 }
