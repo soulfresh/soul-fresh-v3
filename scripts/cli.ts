@@ -1,8 +1,13 @@
+import { existsSync } from "node:fs";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
+
 import { Command } from "commander";
 
 import fonts from "../fonts.config";
+import { buildFont, formatFontData } from "./fonts/build";
 import { fetchFont } from "./fonts/fetch";
-import { fontLabel } from "./fonts/files";
+import { fontLabel, glyphDataPath, writeFileAtomic } from "./fonts/files";
 import type { FontConfig } from "./fonts/types";
 
 const program = new Command()
@@ -24,10 +29,23 @@ program
       options: { force?: boolean; refetch?: boolean },
     ) => {
       const refetch = options.refetch ?? false;
+      const force = (options.force ?? false) || refetch;
       for (const config of selectFonts(families)) {
         const fetched = await fetchFont(config, { refetch });
+        const output = glyphDataPath(config);
+        let built = "skipped";
+        if (force || !existsSync(output)) {
+          const data = await buildFont(config);
+          await mkdir(path.dirname(output), { recursive: true });
+          await writeFileAtomic(output, formatFontData(data));
+          built =
+            `built (${Object.keys(data.glyphs).length} glyphs, ` +
+            `${Object.keys(data.kerning).length} kerning pairs, ` +
+            `${data.missing.length} missing)`;
+        }
         console.log(
-          `${fontLabel(config)}: font ${fetched.font}, licence ${fetched.license}`,
+          `${fontLabel(config)}: font ${fetched.font}, ` +
+            `licence ${fetched.license}, glyphs ${built}`,
         );
         if (fetched.license === "missing") {
           console.warn(
