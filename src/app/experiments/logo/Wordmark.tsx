@@ -37,6 +37,12 @@ export function Wordmark() {
     setFresh({ feeling: null, font: combo.fresh });
   };
 
+  // Swap feelings along with fonts so each font stays in its word's list.
+  const swap = () => {
+    setSoul(fresh);
+    setFresh(soul);
+  };
+
   return (
     <>
       <link
@@ -65,14 +71,19 @@ export function Wordmark() {
           onFeelingChange={(feeling) => setFresh((s) => ({ ...s, feeling }))}
           onFontChange={(font) => setFresh((s) => ({ ...s, font }))}
         />
-        <button
-          type="button"
-          className={styles.save}
-          disabled={!saved.loaded}
-          onClick={() => saved.add(soul.font, fresh.font)}
-        >
-          + Save
-        </button>
+        <div className={styles.actions}>
+          <button type="button" className={styles.action} onClick={swap}>
+            &#8645; Swap
+          </button>
+          <button
+            type="button"
+            className={styles.action}
+            disabled={!saved.loaded}
+            onClick={() => saved.add(soul.font, fresh.font)}
+          >
+            + Save
+          </button>
+        </div>
       </div>
       <SavedCombos
         combos={saved.combos}

@@ -56,7 +56,13 @@
   }
 }
 
-.save {
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action {
+  flex: 1;
   padding: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.25rem;
@@ -64,8 +70,13 @@
   font: inherit;
   cursor: pointer;
 
-  &:hover {
+  &:hover:enabled {
     background: rgba(0, 0, 0, 0.05);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
   }
 }
 
