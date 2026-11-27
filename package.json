@@ -14,13 +14,7 @@
     "url": "https://github.com/soulfresh/soul-fresh-v3/issues"
   },
   "scripts": {
-    "start": "next dev --turbopack",
-    "build": "next build",
-    "serve": "next start",
-    "lint": "yarn typecheck && next lint",
-    "typecheck": "tsc --noEmit",
-    "cli": "tsx scripts/cli.ts",
-    "release": "yarn firebase deploy"
+    "cli": "tsx scripts/cli.ts"
   },
   "dependencies": {
     "eventemitter3": "^5.0.1",
