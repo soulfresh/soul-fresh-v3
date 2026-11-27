@@ -9,6 +9,11 @@
 @import 'variables';
 @import 'utils';
 
+// Matches the first color of the page gradient so overscroll blends in.
+html {
+  background-color: hsla(90, 50%, 50%, 1);
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -69,6 +74,11 @@ button {
   }
 }
 
+// Positioned so the background gradient covers the full page height.
+.page {
+  position: relative;
+}
+
 .app-container {
   position: relative;
   box-shadow: 0px 0 150px 0px rgba(0, 0, 0, 0.28);
@@ -109,4 +119,3 @@ button {
 @import "../components/experience/experience";
 @import "../components/contact/contact";
 @import "../components/background-colors/colors";
-@import "../components/background-drawing/background-drawing";

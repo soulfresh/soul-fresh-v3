@@ -1,5 +1,5 @@
 export * from "./audio-player";
-export * from "./background-colors";
+export * from "./background-gradient";
 export * from "./background-drawing";
 export * from "./browser-detect";
 export * from "./color-boxes";
