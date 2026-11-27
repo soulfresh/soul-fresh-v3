@@ -11,14 +11,59 @@ The app uses the following libraries:
 
 ```bash
 yarn install
-yarn start
+yarn cli start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## CLI
+
+Every project task runs through the project CLI (`scripts/cli.ts`), which is
+the only script in `package.json`:
+
+```bash
+yarn cli --help          # list commands
+yarn cli <command> --help
+```
+
+`./sf` in the repo root is a shortcut for `yarn cli`: `./sf start`,
+`./sf fonts --force`, and so on.
+
+| Command | What it does |
+|---|---|
+| `yarn cli start` | Start the dev server on http://localhost:3000 |
+| `yarn cli build` | Build the static site into `dist/` |
+| `yarn cli serve` | Serve the built site from `dist/` |
+| `yarn cli lint` | Type-check, then run ESLint |
+| `yarn cli typecheck` | Type-check only |
+| `yarn cli release` | Deploy to Firebase Hosting by hand |
+| `yarn cli fonts` | Fetch fonts and build glyph data (see below) |
+
+Extra arguments are passed through to the underlying tool, for example
+`yarn cli start --port 3001` or `yarn cli serve -l 4000`.
+
+The dev server and the build both write to `dist/`, so stop the dev server
+before running `yarn cli build`.
+
+### Fonts
+
+`yarn cli fonts` turns the Google Fonts listed in `fonts.config.ts` into glyph
+data for animating letters:
+
+1. Downloads each font (TTF) and its licence into `assets/fonts/<family>/`.
+2. Builds `src/fonts/generated/<family>-<weight>.json`: each character's
+   outline as SVG path segments, plus metrics and kerning.
+
+Steps whose output already exists are skipped. Use `--force` to rebuild the
+glyph data (for example after changing a font's `characters`) and `--refetch`
+to download the fonts again too. Pass family names to work on just those:
+`yarn cli fonts "Playfair Display"`.
+
+After adding a font to `fonts.config.ts`, add an export for its JSON in
+`src/fonts/index.ts`. The fonts, licences and generated JSON are all
+committed.
 
 ### Creating videos
 
@@ -63,6 +108,7 @@ inspector
 
 The site is released automatically by a GitHub action when you merge into
 `main`. Opening a PR will create a release branch you can use for testing.
+To deploy by hand, run `yarn cli release`.
 
 ## Learn More
 

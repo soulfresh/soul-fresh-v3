@@ -1,0 +1,1048 @@
+# Font Glyph Pipeline Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** A `yarn cli fonts` command that downloads Google Fonts listed in a config file, converts them into committed per-glyph JSON (outlines plus metrics and kerning), and a `layoutText` helper the logo experiment uses to render "Soul Fresh".
+
+**Architecture:** A Commander CLI (`scripts/cli.ts`, run with `tsx`) has one `fonts` command. For each entry in `fonts.config.ts` it fetches the TTF and licence into `assets/fonts/` (skipped if present), then builds `src/fonts/generated/<slug>-<variant>.json` with fontkit (skipped if present). `src/fonts/` holds the shared shape types, the typed exports of the generated fonts and `layoutText`. The stretch prototype then swaps its hand-made L and O for laid-out text.
+
+**Tech Stack:** Next.js 15, React 19, strict TypeScript, Yarn 4 (node-modules linker), Node 22.6, Commander, tsx, fontkit 2.
+
+**Spec:** `docs/superpowers/specs/2026-11-27-font-glyph-pipeline-design.md`
+
+## Global Constraints
+
+- Verification is `yarn lint` (runs `tsc --noEmit` then `next lint`) plus the commands in each task. There is no test framework; do not add one.
+- Do **not** run `yarn build`: it shares `dist/` with the user's running dev server (`yarn start` on :3000) and breaks it. Do not start another dev server either.
+- fontkit must be `fontkit@^2.0.4` (CommonJS build). fontkit 3 is ESM-only and fails under `tsx` in this CommonJS project. Do not use opentype.js: it cannot read the GPOS kerning these fonts use.
+- Source fonts and licences live in `assets/fonts/<family-slug>/`, never in `public/`.
+- `<family-slug>` = family lowercased with whitespace removed (`Playfair Display` → `playfairdisplay`). `<variant>` = `<weight>` plus `-italic` when italic (`700-italic`).
+- All glyph data is in font units, SVG orientation: y down, baseline at y = 0. Coordinates rounded to 2 decimals.
+- Default character set: printable ASCII, U+0020–U+007E (95 characters).
+- Commit at the end of each task with the exact commands given. Never push. Never amend or rebase earlier commits.
+- Commit messages: the subject as the first `-m`, then both trailers together as a second `-m` (one line each), exactly as shown in each task's commit step. The separate `-m` puts the required blank line between subject and trailers.
+
+---
+
+## File Structure
+
+| File | Responsibility |
+|---|---|
+| `src/fonts/types.ts` | `Point`, `Segment`, `Shape` (moved from `stretch.ts`), `Bounds`, `Glyph`, `FontData` |
+| `src/fonts/layout.ts` | `layoutText` |
+| `src/fonts/index.ts` | Typed exports of each generated font, re-exports layout and types |
+| `src/fonts/generated/*.json` | Generated glyph data (committed) |
+| `fonts.config.ts` | Which fonts to fetch and build |
+| `scripts/cli.ts` | Commander entry point, `fonts` command |
+| `scripts/fonts/types.ts` | `FontConfig`, `PRINTABLE_ASCII` |
+| `scripts/fonts/files.ts` | Paths, slugs, labels, atomic file writes |
+| `scripts/fonts/fetch.ts` | Google Fonts → `assets/fonts/` |
+| `scripts/fonts/build.ts` | TTF → `FontData` JSON |
+| `assets/fonts/<slug>/*` | Downloaded TTFs and licences (committed) |
+| `src/app/experiments/logo/stretch.ts` | Imports shape types from `@/fonts/types`; loses `polygon`/`ellipse` |
+| `src/app/experiments/logo/StretchPrototype.tsx` | Renders "Soul Fresh" instead of L and O |
+
+---
+
+### Task 1: Shared shape and font types
+
+**Files:**
+- Create: `src/fonts/types.ts`
+- Modify: `src/app/experiments/logo/stretch.ts` (lines 1–15: the `Point`, `Segment`, `Shape` definitions)
+
+**Interfaces:**
+- Produces: `Point`, `Segment`, `Shape`, `Bounds`, `Glyph`, `FontData` from `src/fonts/types.ts` (importable as `@/fonts/types` in app code, or by relative path from `scripts/`). `stretch.ts` keeps re-exporting `Point`, `Segment`, `Shape` so existing imports from `./stretch` keep working.
+
+- [ ] **Step 1: Create `src/fonts/types.ts`**
+
+```ts
+export type Point = [number, number];
+
+/**
+ * One path command with absolute coordinates. Cubic curves carry their two
+ * control points before the end point, matching SVG's `C c1 c2 to`.
+ */
+export type Segment =
+  | ["M", Point]
+  | ["L", Point]
+  | ["C", Point, Point, Point]
+  | ["Z"];
+
+/** A path made of one or more closed subpaths. */
+export type Shape = Segment[];
+
+export interface Bounds {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+}
+
+export interface Glyph {
+  /** Outline in font units, y down, baseline at 0. Empty for spaces. */
+  shape: Shape;
+  /** How far to move the pen after drawing this glyph. */
+  advanceWidth: number;
+  /** Extent of every point in `shape`, or null when `shape` is empty. */
+  bounds: Bounds | null;
+}
+
+/**
+ * A font's glyphs and metrics, generated by `yarn cli fonts`. All values are
+ * in font units, y down, baseline at 0.
+ */
+export interface FontData {
+  family: string;
+  weight: number;
+  italic: boolean;
+  unitsPerEm: number;
+  /** Top of the font's line box: negative, above the baseline. */
+  ascender: number;
+  /** Bottom of the font's line box: positive, below the baseline. */
+  descender: number;
+  /** Height of capital letters above the baseline (positive). */
+  capHeight: number;
+  /** Height of lowercase letters above the baseline (positive). */
+  xHeight: number;
+  /** Keyed by character. */
+  glyphs: Record<string, Glyph>;
+  /** Non-zero adjustments keyed by the two characters, e.g. "Fo". */
+  kerning: Record<string, number>;
+  /** Requested characters the font has no glyph for. */
+  missing: string[];
+}
+```
+
+- [ ] **Step 2: Import the shape types in `stretch.ts`**
+
+In `src/app/experiments/logo/stretch.ts`, replace the first 15 lines — from `export type Point = [number, number];` through `export type Shape = Segment[];`, but **keeping** the `export type Easing = (t: number) => number;` line — with:
+
+```ts
+import type { Point, Segment, Shape } from "@/fonts/types";
+
+export type { Point, Segment, Shape };
+export type Easing = (t: number) => number;
+```
+
+Nothing else in the file changes.
+
+- [ ] **Step 3: Verify**
+
+Run: `yarn lint`
+Expected: passes (`✔ No ESLint warnings or errors`, no tsc errors).
+
+Run: `grep -n "export type Point\|export type Segment\|export type Shape =" src/app/experiments/logo/stretch.ts`
+Expected: no output (the definitions now live only in `src/fonts/types.ts`).
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add src/fonts/types.ts src/app/experiments/logo/stretch.ts
+git commit -m "refactor: move shape types to src/fonts" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01AKm7rqRaHPkZLQZKK9bxD7"
+```
+
+---
+
+### Task 2: CLI and font fetching
+
+**Files:**
+- Modify: `package.json` (dev dependencies, `cli` script)
+- Create: `fonts.config.ts`, `scripts/cli.ts`, `scripts/fonts/types.ts`, `scripts/fonts/files.ts`, `scripts/fonts/fetch.ts`
+- Created by running the CLI: `assets/fonts/archivoblack/400.ttf`, `assets/fonts/archivoblack/OFL.txt`, `assets/fonts/playfairdisplay/700-italic.ttf`, `assets/fonts/playfairdisplay/OFL.txt`
+
+**Interfaces:**
+- Consumes: nothing from Task 1.
+- Produces (used by Task 3):
+  - `scripts/fonts/types.ts`: `interface FontConfig { family: string; weight: number; italic?: boolean; characters?: string }`, `PRINTABLE_ASCII: string`
+  - `scripts/fonts/files.ts`: `familySlug(family: string): string`, `fontLabel(config: FontConfig): string`, `fontPath(config: FontConfig): string`, `glyphDataPath(config: FontConfig): string`, `writeFileAtomic(file: string, data: string | Buffer): Promise<void>`
+  - `scripts/fonts/fetch.ts`: `fetchFont(config: FontConfig, options: { refetch: boolean }): Promise<{ font: "fetched" | "skipped"; license: "fetched" | "skipped" | "missing" }>`
+  - `scripts/cli.ts`: `fonts` command with `[families...]`, `--force`, `--refetch`
+
+- [ ] **Step 1: Install dependencies and add the script**
+
+Run: `yarn add -D commander tsx`
+
+Then add to `package.json` `"scripts"`, after `"typecheck"`:
+
+```json
+    "cli": "tsx scripts/cli.ts",
+```
+
+- [ ] **Step 2: Create `scripts/fonts/types.ts`**
+
+```ts
+export interface FontConfig {
+  /** Google Fonts family name, exactly as listed on fonts.google.com. */
+  family: string;
+  /** 100–900. */
+  weight: number;
+  italic?: boolean;
+  /** Characters to build glyphs for. Defaults to printable ASCII. */
+  characters?: string;
+}
+
+/** U+0020 (space) through U+007E (~). */
+export const PRINTABLE_ASCII = Array.from({ length: 95 }, (_, i) =>
+  String.fromCharCode(32 + i),
+).join("");
+```
+
+- [ ] **Step 3: Create `scripts/fonts/files.ts`**
+
+```ts
+import { rename, writeFile } from "node:fs/promises";
+import path from "node:path";
+
+import type { FontConfig } from "./types";
+
+const ROOT = path.resolve(__dirname, "..", "..");
+const FONTS_DIR = path.join(ROOT, "assets", "fonts");
+const GENERATED_DIR = path.join(ROOT, "src", "fonts", "generated");
+
+/** Folder name used by the google/fonts repo, e.g. "playfairdisplay". */
+export function familySlug(family: string) {
+  return family.toLowerCase().replace(/\s+/g, "");
+}
+
+/** e.g. "700-italic". */
+function variant({ weight, italic }: FontConfig) {
+  return `${weight}${italic ? "-italic" : ""}`;
+}
+
+/** e.g. "Playfair Display 700 italic". */
+export function fontLabel({ family, weight, italic }: FontConfig) {
+  return `${family} ${weight}${italic ? " italic" : ""}`;
+}
+
+/** Folder holding a family's fonts and licence. */
+export function fontDir(config: FontConfig) {
+  return path.join(FONTS_DIR, familySlug(config.family));
+}
+
+/** e.g. assets/fonts/playfairdisplay/700-italic.ttf */
+export function fontPath(config: FontConfig) {
+  return path.join(fontDir(config), `${variant(config)}.ttf`);
+}
+
+/** e.g. src/fonts/generated/playfairdisplay-700-italic.json */
+export function glyphDataPath(config: FontConfig) {
+  return path.join(
+    GENERATED_DIR,
+    `${familySlug(config.family)}-${variant(config)}.json`,
+  );
+}
+
+/**
+ * Write to a temporary file and rename it into place, so a failure never
+ * leaves a partial file that a later run would treat as done.
+ */
+export async function writeFileAtomic(file: string, data: string | Buffer) {
+  const temp = `${file}.tmp`;
+  await writeFile(temp, data);
+  await rename(temp, file);
+}
+```
+
+- [ ] **Step 4: Create `scripts/fonts/fetch.ts`**
+
+```ts
+import { existsSync } from "node:fs";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
+
+import {
+  familySlug,
+  fontDir,
+  fontLabel,
+  fontPath,
+  writeFileAtomic,
+} from "./files";
+import type { FontConfig } from "./types";
+
+// Where the google/fonts repo keeps each licence, in the order to try.
+const LICENSES = [
+  ["ofl", "OFL.txt"],
+  ["apache", "LICENSE.txt"],
+  ["ufl", "UFL.txt"],
+] as const;
+
+export interface FetchResult {
+  font: "fetched" | "skipped";
+  license: "fetched" | "skipped" | "missing";
+}
+
+/**
+ * Download a font's TTF and licence into assets/fonts/, skipping files that
+ * are already there unless `refetch` is set.
+ */
+export async function fetchFont(
+  config: FontConfig,
+  { refetch }: { refetch: boolean },
+): Promise<FetchResult> {
+  const file = fontPath(config);
+  await mkdir(fontDir(config), { recursive: true });
+
+  let font: FetchResult["font"] = "skipped";
+  if (refetch || !existsSync(file)) {
+    const url = await fontUrl(config);
+    await writeFileAtomic(file, await download(url, config));
+    font = "fetched";
+  }
+
+  return { font, license: await fetchLicense(config, refetch) };
+}
+
+/**
+ * The TTF URL from the Google Fonts CSS API. Without a browser User-Agent
+ * the API answers with a single, unsubset TrueType file.
+ */
+async function fontUrl(config: FontConfig) {
+  const family = config.family.trim().replace(/\s+/g, "+");
+  const url = `https://fonts.googleapis.com/css2?family=${family}:ital,wght@${
+    config.italic ? 1 : 0
+  },${config.weight}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(
+      `${fontLabel(config)}: Google Fonts returned ${response.status}. ` +
+        `Check the family name and that this weight/style exists.`,
+    );
+  }
+  const match = (await response.text()).match(/url\((https:[^)]+\.ttf)\)/);
+  if (!match) {
+    throw new Error(`${fontLabel(config)}: no .ttf URL in the Google Fonts CSS`);
+  }
+  return match[1];
+}
+
+async function download(url: string, config: FontConfig) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(
+      `${fontLabel(config)}: downloading ${url} returned ${response.status}`,
+    );
+  }
+  return Buffer.from(await response.arrayBuffer());
+}
+
+/** Download the family's licence from the google/fonts repo. */
+async function fetchLicense(
+  config: FontConfig,
+  refetch: boolean,
+): Promise<FetchResult["license"]> {
+  const dir = fontDir(config);
+  const existing = LICENSES.some(([, name]) =>
+    existsSync(path.join(dir, name)),
+  );
+  if (existing && !refetch) return "skipped";
+
+  const slug = familySlug(config.family);
+  for (const [folder, name] of LICENSES) {
+    const response = await fetch(
+      `https://raw.githubusercontent.com/google/fonts/main/${folder}/${slug}/${name}`,
+    );
+    if (response.ok) {
+      await writeFileAtomic(
+        path.join(dir, name),
+        Buffer.from(await response.arrayBuffer()),
+      );
+      return "fetched";
+    }
+  }
+  return "missing";
+}
+```
+
+- [ ] **Step 5: Create `fonts.config.ts`**
+
+```ts
+import type { FontConfig } from "./scripts/fonts/types";
+
+// Fonts for `yarn cli fonts`. Placeholders chosen to contrast: a heavy
+// grotesque for "Soul" and a high-contrast italic serif for "Fresh".
+export default [
+  { family: "Archivo Black", weight: 400 },
+  { family: "Playfair Display", weight: 700, italic: true },
+] satisfies FontConfig[];
+```
+
+- [ ] **Step 6: Create `scripts/cli.ts`**
+
+```ts
+import { Command } from "commander";
+
+import fonts from "../fonts.config";
+import { fetchFont } from "./fonts/fetch";
+import { fontLabel } from "./fonts/files";
+import type { FontConfig } from "./fonts/types";
+
+const program = new Command()
+  .name("cli")
+  .description("soul-fresh project tasks");
+
+program
+  .command("fonts")
+  .description("Fetch fonts from Google Fonts and build glyph data")
+  .argument(
+    "[families...]",
+    "only these families (default: every font in fonts.config.ts)",
+  )
+  .option("--force", "rebuild glyph data even if it exists")
+  .option("--refetch", "re-download fonts even if they exist (implies --force)")
+  .action(
+    async (
+      families: string[],
+      options: { force?: boolean; refetch?: boolean },
+    ) => {
+      const refetch = options.refetch ?? false;
+      for (const config of selectFonts(families)) {
+        const fetched = await fetchFont(config, { refetch });
+        console.log(
+          `${fontLabel(config)}: font ${fetched.font}, licence ${fetched.license}`,
+        );
+        if (fetched.license === "missing") {
+          console.warn(
+            `  warning: no licence found in google/fonts for ${config.family}`,
+          );
+        }
+      }
+    },
+  );
+
+/** Config entries for the named families, or all of them. */
+function selectFonts(families: string[]): FontConfig[] {
+  if (families.length === 0) return fonts;
+  return families.flatMap((name) => {
+    const matches = fonts.filter(
+      (font) => font.family.toLowerCase() === name.toLowerCase(),
+    );
+    if (matches.length === 0) {
+      const configured = [...new Set(fonts.map((font) => font.family))];
+      throw new Error(
+        `"${name}" is not in fonts.config.ts. Configured: ${configured.join(", ")}`,
+      );
+    }
+    return matches;
+  });
+}
+
+program.parseAsync().catch((error: unknown) => {
+  console.error(error instanceof Error ? error.message : error);
+  process.exit(1);
+});
+```
+
+- [ ] **Step 7: Verify**
+
+Run: `yarn lint`
+Expected: passes.
+
+Run: `yarn cli fonts`
+Expected:
+```
+Archivo Black 400: font fetched, licence fetched
+Playfair Display 700 italic: font fetched, licence fetched
+```
+
+Run: `ls assets/fonts/*`
+Expected: `archivoblack/` contains `400.ttf` and `OFL.txt`; `playfairdisplay/` contains `700-italic.ttf` and `OFL.txt`. No `.tmp` files.
+
+Run: `yarn cli fonts`
+Expected: both lines say `font skipped, licence skipped`.
+
+Run: `yarn cli fonts "playfair display"`
+Expected: only the Playfair Display line, skipped.
+
+Run: `yarn cli fonts Nope; echo "exit $?"`
+Expected: `"Nope" is not in fonts.config.ts. Configured: Archivo Black, Playfair Display` and `exit 1`.
+
+- [ ] **Step 8: Commit**
+
+```bash
+git add package.json yarn.lock fonts.config.ts scripts assets/fonts
+git commit -m "feat: add project CLI with Google Fonts fetching" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01AKm7rqRaHPkZLQZKK9bxD7"
+```
+
+---
+
+### Task 3: Build glyph data
+
+**Files:**
+- Modify: `package.json` (dev dependencies)
+- Create: `scripts/fonts/build.ts`
+- Modify: `scripts/cli.ts` (the `fonts` action)
+- Created by running the CLI: `src/fonts/generated/archivoblack-400.json`, `src/fonts/generated/playfairdisplay-700-italic.json`
+
+**Interfaces:**
+- Consumes: `FontData`, `Glyph`, `Bounds`, `Point`, `Segment`, `Shape` from `src/fonts/types.ts` (Task 1); `FontConfig`, `PRINTABLE_ASCII` from `scripts/fonts/types.ts`; `fontLabel`, `fontPath`, `glyphDataPath`, `writeFileAtomic` from `scripts/fonts/files.ts`; `fetchFont` (Task 2).
+- Produces: `buildFont(config: FontConfig): Promise<FontData>` and `formatFontData(data: FontData): string` in `scripts/fonts/build.ts`; the two generated JSON files (consumed by Task 4).
+
+- [ ] **Step 1: Install fontkit**
+
+Run: `yarn add -D fontkit@^2.0.4 @types/fontkit`
+
+- [ ] **Step 2: Create `scripts/fonts/build.ts`**
+
+```ts
+import * as fontkit from "fontkit";
+
+import type {
+  Bounds,
+  FontData,
+  Glyph,
+  Point,
+  Segment,
+  Shape,
+} from "../../src/fonts/types";
+import { fontLabel, fontPath } from "./files";
+import { PRINTABLE_ASCII, type FontConfig } from "./types";
+
+/** Read a fetched font and extract its glyphs, metrics and kerning. */
+export async function buildFont(config: FontConfig): Promise<FontData> {
+  const font = fontkit.openSync(fontPath(config));
+  if (!("layout" in font)) {
+    throw new Error(`${fontLabel(config)}: expected a font, got a collection`);
+  }
+
+  const characters = [...new Set(config.characters ?? PRINTABLE_ASCII)];
+  const glyphs: Record<string, Glyph> = {};
+  const missing: string[] = [];
+  for (const char of characters) {
+    const codePoint = char.codePointAt(0)!;
+    if (!font.hasGlyphForCodePoint(codePoint)) {
+      missing.push(char);
+      continue;
+    }
+    const glyph = font.glyphForCodePoint(codePoint);
+    const shape = toShape(glyph.path.commands);
+    glyphs[char] = {
+      shape,
+      advanceWidth: glyph.advanceWidth,
+      bounds: shapeBounds(shape),
+    };
+  }
+
+  // Kerning is whatever the font's layout adds to the first glyph's advance
+  // when the pair is set together. Ligatures are off so pairs like "fi"
+  // stay two glyphs.
+  const present = Object.keys(glyphs);
+  const kerning: Record<string, number> = {};
+  for (const left of present) {
+    for (const right of present) {
+      const run = font.layout(left + right, { liga: false });
+      if (run.glyphs.length !== 2) continue;
+      const value = run.positions[0].xAdvance - run.glyphs[0].advanceWidth;
+      if (value !== 0) kerning[left + right] = round(value);
+    }
+  }
+
+  return {
+    family: config.family,
+    weight: config.weight,
+    italic: config.italic ?? false,
+    unitsPerEm: font.unitsPerEm,
+    // fontkit measures up from the baseline; flip to y down.
+    ascender: -font.ascent,
+    descender: -font.descent,
+    capHeight: font.capHeight || inkHeight(glyphs["H"]),
+    xHeight: font.xHeight || inkHeight(glyphs["x"]),
+    glyphs,
+    kerning,
+    missing,
+  };
+}
+
+/**
+ * Convert fontkit path commands (font units, y up, quadratic or cubic
+ * curves) to a cubic-only Shape with y down.
+ */
+function toShape(commands: fontkit.PathCommand[]): Shape {
+  const shape: Shape = [];
+  const point = (x: number, y: number): Point => [x, -y];
+  let current: Point = [0, 0];
+
+  for (const { command, args } of commands) {
+    switch (command) {
+      case "moveTo":
+        current = point(args[0], args[1]);
+        shape.push(["M", current]);
+        break;
+      case "lineTo": {
+        const to = point(args[0], args[1]);
+        // Skip lines that go nowhere.
+        if (to[0] === current[0] && to[1] === current[1]) break;
+        shape.push(["L", to]);
+        current = to;
+        break;
+      }
+      case "quadraticCurveTo": {
+        // A quadratic curve is exactly the cubic whose control points sit
+        // two thirds of the way from each end toward the quadratic one.
+        const q = point(args[0], args[1]);
+        const to = point(args[2], args[3]);
+        shape.push(["C", lerp(current, q, 2 / 3), lerp(to, q, 2 / 3), to]);
+        current = to;
+        break;
+      }
+      case "bezierCurveTo": {
+        const to = point(args[4], args[5]);
+        shape.push([
+          "C",
+          point(args[0], args[1]),
+          point(args[2], args[3]),
+          to,
+        ]);
+        current = to;
+        break;
+      }
+      case "closePath":
+        shape.push(["Z"]);
+        break;
+    }
+  }
+
+  return shape.map(
+    ([command, ...points]) =>
+      [
+        command,
+        ...points.map(([x, y]): Point => [round(x), round(y)]),
+      ] as Segment,
+  );
+}
+
+function shapeBounds(shape: Shape): Bounds | null {
+  const points = shape.flatMap(([, ...points]) => points);
+  if (points.length === 0) return null;
+  const xs = points.map(([x]) => x);
+  const ys = points.map(([, y]) => y);
+  return {
+    x1: Math.min(...xs),
+    y1: Math.min(...ys),
+    x2: Math.max(...xs),
+    y2: Math.max(...ys),
+  };
+}
+
+/** Height of a glyph's ink above the baseline, or 0 without a glyph. */
+function inkHeight(glyph: Glyph | undefined) {
+  return glyph?.bounds ? -glyph.bounds.y1 : 0;
+}
+
+function lerp([x1, y1]: Point, [x2, y2]: Point, t: number): Point {
+  return [x1 + (x2 - x1) * t, y1 + (y2 - y1) * t];
+}
+
+function round(n: number) {
+  return Math.round(n * 100) / 100;
+}
+
+/**
+ * JSON with 2-space indentation, but each point and each segment on one
+ * line so the files stay readable and diffable.
+ */
+export function formatFontData(data: FontData): string {
+  return (
+    JSON.stringify(data, null, 2)
+      // [x, y]
+      .replace(
+        /\[\s+(-?\d+(?:\.\d+)?),\s+(-?\d+(?:\.\d+)?)\s+\]/g,
+        "[$1, $2]",
+      )
+      // ["C", [x, y], [x, y], [x, y]]
+      .replace(
+        /\[\s+("[MLCZ]")((?:,\s+\[[^[\]]+\])*)\s+\]/g,
+        (_, command: string, points: string) =>
+          `[${command}${points.replace(/,\s+\[/g, ", [")}]`,
+      ) + "\n"
+  );
+}
+```
+
+- [ ] **Step 3: Build in the CLI**
+
+In `scripts/cli.ts`:
+
+Replace the imports block with:
+
+```ts
+import { existsSync } from "node:fs";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
+
+import { Command } from "commander";
+
+import fonts from "../fonts.config";
+import { buildFont, formatFontData } from "./fonts/build";
+import { fetchFont } from "./fonts/fetch";
+import { fontLabel, glyphDataPath, writeFileAtomic } from "./fonts/files";
+import type { FontConfig } from "./fonts/types";
+```
+
+Replace the whole `.action(...)` call with:
+
+```ts
+  .action(
+    async (
+      families: string[],
+      options: { force?: boolean; refetch?: boolean },
+    ) => {
+      const refetch = options.refetch ?? false;
+      const force = (options.force ?? false) || refetch;
+      for (const config of selectFonts(families)) {
+        const fetched = await fetchFont(config, { refetch });
+        const output = glyphDataPath(config);
+        let built = "skipped";
+        if (force || !existsSync(output)) {
+          const data = await buildFont(config);
+          await mkdir(path.dirname(output), { recursive: true });
+          await writeFileAtomic(output, formatFontData(data));
+          built =
+            `built (${Object.keys(data.glyphs).length} glyphs, ` +
+            `${Object.keys(data.kerning).length} kerning pairs, ` +
+            `${data.missing.length} missing)`;
+        }
+        console.log(
+          `${fontLabel(config)}: font ${fetched.font}, ` +
+            `licence ${fetched.license}, glyphs ${built}`,
+        );
+        if (fetched.license === "missing") {
+          console.warn(
+            `  warning: no licence found in google/fonts for ${config.family}`,
+          );
+        }
+      }
+    },
+  );
+```
+
+- [ ] **Step 4: Verify**
+
+Run: `yarn lint`
+Expected: passes.
+
+Run: `yarn cli fonts`
+Expected:
+```
+Archivo Black 400: font skipped, licence skipped, glyphs built (95 glyphs, 271 kerning pairs, 0 missing)
+Playfair Display 700 italic: font skipped, licence skipped, glyphs built (95 glyphs, 696 kerning pairs, 0 missing)
+```
+(The kerning counts were measured with fontkit during planning. If they differ slightly, note it in your report, but they must be well above 0.)
+
+Run: `yarn cli fonts`
+Expected: both lines end `glyphs skipped`.
+
+Spot-check the data:
+
+```bash
+node -e '
+for (const file of ["archivoblack-400", "playfairdisplay-700-italic"]) {
+  const d = require(`./src/fonts/generated/${file}.json`);
+  const cmds = (c) => d.glyphs[c].shape.map((s) => s[0]).join("");
+  const all = Object.values(d.glyphs).flatMap((g) => g.shape.map((s) => s[0]));
+  console.log(file);
+  console.log("  metrics", d.unitsPerEm, d.ascender, d.descender, d.capHeight, d.xHeight);
+  console.log("  commands", [...new Set(all)].sort().join(""));
+  console.log("  H", cmds("H"));
+  console.log("  o subpaths", cmds("o").split("M").length - 1);
+  console.log("  space", d.glyphs[" "].shape.length, d.glyphs[" "].advanceWidth, d.glyphs[" "].bounds);
+  console.log("  o top below 0", d.glyphs.o.bounds.y1 < 0, "baseline near 0", Math.abs(d.glyphs.H.bounds.y2) < 20);
+}'
+```
+
+Expected:
+```
+archivoblack-400
+  metrics 1000 -878 210 688 528
+  commands CLMZ
+  H M followed only by L's, then Z
+  o subpaths 2
+  space 0 333 null
+  o top below 0 true baseline near 0 true
+playfairdisplay-700-italic
+  metrics 1000 -1082 251 708 514
+  commands CLMZ
+  H (contains C's — that's fine)
+  o subpaths 2
+  space 0 255 null
+  o top below 0 true baseline near 0 true
+```
+
+Check the formatting: `head -40 src/fonts/generated/archivoblack-400.json` shows each segment on one line, like `["L", [123, -456]]` and `["C", [1, 2], [3, 4], [5, 6]]`.
+
+Check rebuilds are byte-identical. Commit first (Step 5), then run:
+`yarn cli fonts --force && git status --short src/fonts/generated`
+Expected: both fonts say `glyphs built (...)`, and `git status` prints nothing.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add package.json yarn.lock scripts src/fonts/generated
+git commit -m "feat: build glyph data from fetched fonts" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01AKm7rqRaHPkZLQZKK9bxD7"
+```
+
+Then run the byte-identical check from Step 4.
+
+---
+
+### Task 4: `layoutText` and font exports
+
+**Files:**
+- Create: `src/fonts/layout.ts`, `src/fonts/index.ts`
+
+**Interfaces:**
+- Consumes: `FontData`, `Point`, `Segment`, `Shape` (Task 1); `src/fonts/generated/archivoblack-400.json` and `src/fonts/generated/playfairdisplay-700-italic.json` (Task 3).
+- Produces (used by Task 5), all from `@/fonts`:
+  - `archivoBlack400: FontData`, `playfairDisplay700Italic: FontData`
+  - `layoutText(font: FontData, text: string, options: { size: number; letterSpacing?: number }): LaidOutText`
+  - `interface LaidOutGlyph { char: string; shape: Shape; x: number }`
+  - `interface LaidOutText { glyphs: LaidOutGlyph[]; width: number }`
+  - every type from `src/fonts/types.ts`
+
+- [ ] **Step 1: Create `src/fonts/layout.ts`**
+
+```ts
+import type { FontData, Point, Segment, Shape } from "./types";
+
+export interface LaidOutGlyph {
+  char: string;
+  /** Outline scaled to the layout size and moved to its place on the line. */
+  shape: Shape;
+  /** Pen position where this glyph starts. */
+  x: number;
+}
+
+export interface LaidOutText {
+  /** Glyphs with ink. Spaces and characters the font lacks are left out. */
+  glyphs: LaidOutGlyph[];
+  /** Pen position after the last character. */
+  width: number;
+}
+
+export interface LayoutOptions {
+  /** Em size in output units. */
+  size: number;
+  /** Extra space between characters, in output units. */
+  letterSpacing?: number;
+}
+
+/**
+ * Set `text` on a single line starting at x = 0 with the baseline at y = 0,
+ * applying the font's advance widths and kerning.
+ */
+export function layoutText(
+  font: FontData,
+  text: string,
+  { size, letterSpacing = 0 }: LayoutOptions,
+): LaidOutText {
+  const scale = size / font.unitsPerEm;
+  const glyphs: LaidOutGlyph[] = [];
+  let pen = 0;
+  let previous: string | undefined;
+
+  for (const char of Array.from(text)) {
+    const glyph = font.glyphs[char];
+    if (!glyph) continue;
+
+    if (previous !== undefined) {
+      pen += letterSpacing + (font.kerning[previous + char] ?? 0) * scale;
+    }
+    if (glyph.shape.length > 0) {
+      glyphs.push({ char, x: pen, shape: place(glyph.shape, scale, pen) });
+    }
+    pen += glyph.advanceWidth * scale;
+    previous = char;
+  }
+
+  return { glyphs, width: pen };
+}
+
+/** `shape` scaled by `scale` and moved right by `dx`. */
+function place(shape: Shape, scale: number, dx: number): Shape {
+  return shape.map(
+    ([command, ...points]) =>
+      [
+        command,
+        ...points.map(([x, y]): Point => [x * scale + dx, y * scale]),
+      ] as Segment,
+  );
+}
+```
+
+- [ ] **Step 2: Create `src/fonts/index.ts`**
+
+```ts
+import archivoBlack400Data from "./generated/archivoblack-400.json";
+import playfairDisplay700ItalicData from "./generated/playfairdisplay-700-italic.json";
+import type { FontData } from "./types";
+
+// JSON imports are typed from their contents; fonts are FontData.
+const font = (data: unknown) => data as FontData;
+
+export const archivoBlack400 = font(archivoBlack400Data);
+export const playfairDisplay700Italic = font(playfairDisplay700ItalicData);
+
+export { layoutText } from "./layout";
+export type { LaidOutGlyph, LaidOutText, LayoutOptions } from "./layout";
+export type * from "./types";
+```
+
+- [ ] **Step 3: Verify**
+
+Run: `yarn lint`
+Expected: passes.
+
+Run:
+
+```bash
+yarn tsx -e '
+import { archivoBlack400 as f, layoutText } from "./src/fonts";
+const em = f.unitsPerEm;
+const av = layoutText(f, "AV", { size: em });
+const sum = f.glyphs.A.advanceWidth + f.glyphs.V.advanceWidth;
+console.log("AV kerned", av.width, "unkerned", sum, "kerning", f.kerning.AV ?? 0);
+const spaced = layoutText(f, "AV", { size: em, letterSpacing: 10 });
+console.log("letterSpacing adds 10", spaced.width - av.width);
+const half = layoutText(f, "Soul", { size: em / 2 });
+const full = layoutText(f, "Soul", { size: em });
+console.log("half size halves width", Math.abs(half.width * 2 - full.width) < 1e-9);
+const sp = layoutText(f, "a b", { size: em });
+console.log("space emits no glyph", sp.glyphs.map((g) => g.char).join(""));
+console.log("second glyph x", sp.glyphs[1].x, "≈", f.glyphs.a.advanceWidth + f.glyphs[" "].advanceWidth + (f.kerning["a "] ?? 0) + (f.kerning[" b"] ?? 0));
+'
+```
+
+Expected:
+- `AV kerned` equals `unkerned + kerning`, and the kerning is negative.
+- `letterSpacing adds 10` prints `10`.
+- `half size halves width true`.
+- `space emits no glyph ab`.
+- The two `second glyph x` numbers are equal.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add src/fonts/layout.ts src/fonts/index.ts
+git commit -m "feat: add layoutText and typed font exports" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01AKm7rqRaHPkZLQZKK9bxD7"
+```
+
+---
+
+### Task 5: "Soul Fresh" in the logo experiment
+
+**Files:**
+- Modify: `src/app/experiments/logo/StretchPrototype.tsx` (imports and the `L_SHAPE` / `O_SHAPE` / `LETTERS` constants at the top)
+- Modify: `src/app/experiments/logo/stretch.ts` (delete `polygon` and `ellipse`)
+
+**Interfaces:**
+- Consumes: `archivoBlack400`, `playfairDisplay700Italic`, `layoutText`, `FontData` from `@/fonts` (Task 4); `translate`, `shapePoints`, `stretchShape`, `toPathData`, `easings`, `EasingName`, `Point`, `Shape` from `./stretch`.
+- Produces: nothing used by later tasks.
+
+- [ ] **Step 1: Replace the hand-made letters**
+
+In `src/app/experiments/logo/StretchPrototype.tsx`, replace the `./stretch` import block:
+
+```ts
+import {
+  easings,
+  ellipse,
+  polygon,
+  shapePoints,
+  stretchShape,
+  toPathData,
+  translate,
+  type EasingName,
+  type Point,
+  type Shape,
+} from "./stretch";
+```
+
+with:
+
+```ts
+import {
+  archivoBlack400,
+  layoutText,
+  playfairDisplay700Italic,
+  type FontData,
+} from "@/fonts";
+
+import {
+  easings,
+  shapePoints,
+  stretchShape,
+  toPathData,
+  translate,
+  type EasingName,
+  type Point,
+  type Shape,
+} from "./stretch";
+```
+
+Then replace everything from the `// A blocky uppercase L` comment through the line `const LETTERS: Shape = [...L_SHAPE, ...O_SHAPE];` with:
+
+```ts
+// Capital height of both words in viewBox units (the old hand-made L was
+// 200 tall).
+const CAP_HEIGHT = 200;
+// Space between "Soul" and "Fresh", as a fraction of the capital height.
+const WORD_GAP = 0.35;
+
+/** Lay out `text` with its capitals CAP_HEIGHT tall. */
+function word(font: FontData, text: string) {
+  return layoutText(font, text, {
+    size: (CAP_HEIGHT * font.unitsPerEm) / font.capHeight,
+  });
+}
+
+// Every letter in one shape so the sweep runs across both words. Centered
+// on the origin: horizontally by width, vertically by capital height.
+const LETTERS: Shape = (() => {
+  const soul = word(archivoBlack400, "Soul");
+  const fresh = word(playfairDisplay700Italic, "Fresh");
+  const gap = CAP_HEIGHT * WORD_GAP;
+  const left = -(soul.width + gap + fresh.width) / 2;
+  const top = CAP_HEIGHT / 2;
+  return [
+    ...soul.glyphs.flatMap((glyph) => translate(glyph.shape, left, top)),
+    ...fresh.glyphs.flatMap((glyph) =>
+      translate(glyph.shape, left + soul.width + gap, top),
+    ),
+  ];
+})();
+```
+
+Leave the rest of the file unchanged (`MAX_DISTANCE`, `VIEW_BOX`, the component, `PointsOverlay`, `Range`).
+
+- [ ] **Step 2: Delete the unused helpers**
+
+In `src/app/experiments/logo/stretch.ts`, delete the `polygon` function and the `ellipse` function, including their doc comments. Keep `translate`, `shapePoints`, `toPathData` and everything else.
+
+Run: `grep -rn "polygon\|ellipse" src/app/experiments/logo`
+Expected: no output.
+
+- [ ] **Step 3: Verify**
+
+Run: `yarn lint`
+Expected: passes.
+
+The user's dev server is already running on :3000 (do not start another, do not run `yarn build`):
+
+Run: `curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/experiments/logo`
+Expected: `200`.
+
+Run: `curl -s http://localhost:3000/experiments/logo | grep -o '<path d="M[^"]\{0,60\}' | head -1`
+Expected: a path starting with `M` and numbers (the "S" of "Soul"), not the old `M-155 -100`.
+
+If the dev server isn't reachable, report that instead of starting one; the user will check visually.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add src/app/experiments/logo/StretchPrototype.tsx src/app/experiments/logo/stretch.ts
+git commit -m "feat: render Soul Fresh from glyph data in the logo experiment" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01AKm7rqRaHPkZLQZKK9bxD7"
+```

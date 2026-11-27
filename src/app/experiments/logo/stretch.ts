@@ -1,18 +1,7 @@
-export type Point = [number, number];
+import type { Point, Segment, Shape } from "@/fonts/types";
+
+export type { Point, Segment, Shape };
 export type Easing = (t: number) => number;
-
-/**
- * One path command with absolute coordinates. Cubic curves carry their two
- * control points before the end point, matching SVG's `C c1 c2 to`.
- */
-export type Segment =
-  | ["M", Point]
-  | ["L", Point]
-  | ["C", Point, Point, Point]
-  | ["Z"];
-
-/** A path made of one or more closed subpaths. */
-export type Shape = Segment[];
 
 export const easings = {
   linear: (t: number) => t,
@@ -118,40 +107,6 @@ function anchorTiming(shape: Shape): Point[] {
 /** Every point in `shape`, in command order. */
 export function shapePoints(shape: Shape): Point[] {
   return shape.flatMap(([, ...points]) => points);
-}
-
-/** A closed polygon through `points`. */
-export function polygon(points: Point[]): Shape {
-  return [
-    ["M", points[0]],
-    ...points.slice(1).map((p): Segment => ["L", p]),
-    ["Z"],
-  ];
-}
-
-/**
- * An ellipse drawn as four cubic curves, starting at the top. Clockwise and
- * counterclockwise ellipses can be combined to cut holes (nonzero fill).
- */
-export function ellipse(
-  cx: number,
-  cy: number,
-  rx: number,
-  ry: number,
-  clockwise = true,
-): Shape {
-  // Control point offset that best approximates a quarter circle.
-  const k = 0.5522847498;
-  // Mirroring horizontally reverses the winding.
-  const sx = clockwise ? rx : -rx;
-  return [
-    ["M", [cx, cy - ry]],
-    ["C", [cx + k * sx, cy - ry], [cx + sx, cy - k * ry], [cx + sx, cy]],
-    ["C", [cx + sx, cy + k * ry], [cx + k * sx, cy + ry], [cx, cy + ry]],
-    ["C", [cx - k * sx, cy + ry], [cx - sx, cy + k * ry], [cx - sx, cy]],
-    ["C", [cx - sx, cy - k * ry], [cx - k * sx, cy - ry], [cx, cy - ry]],
-    ["Z"],
-  ];
 }
 
 /** `shape` moved by `dx`, `dy`. */
