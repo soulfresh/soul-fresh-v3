@@ -10,6 +10,12 @@ import { PointsOverlay } from "../PointsOverlay";
 import type { VideoSource } from "./videoSources";
 import styles from "./reveal.module.scss";
 
+/** The video's opacity at its shrunk ("out") size. */
+const OUT_OPACITY = 0.5;
+
+/** Corner radius of the video on screen, in px, whatever its scale. */
+const CORNER_RADIUS = 5;
+
 interface Props {
   /** The video's natural size, in px. */
   width: number;
@@ -28,7 +34,9 @@ interface Props {
  * A project video, clipped to the morphing rectangle and scaled so the
  * morph is always uncovering video: half size while the mask is shrunk,
  * growing to its natural size in step with the point that has moved
- * furthest. It plays, muted, only while some of it is on screen.
+ * furthest. Its opacity follows the same timing, from `OUT_OPACITY` when
+ * shrunk to fully opaque. It plays, muted, only while some of it is on
+ * screen.
  *
  * The clip goes on a wrapper rather than the video, since a clip path
  * scales along with the element it clips. The point overlay sits outside
@@ -46,7 +54,7 @@ export function RevealVideo({
   ref,
 }: Props) {
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  const { shape, coverScale } = useMorphShape(
+  const { shape, coverScale, furthest } = useMorphShape(
     width,
     height,
     progress,
@@ -88,7 +96,12 @@ export function RevealVideo({
           loop
           playsInline
           preload="metadata"
-          style={{ transform: `scale(${coverScale})` }}
+          style={{
+            transform: `scale(${coverScale})`,
+            opacity: 1 - (1 - OUT_OPACITY) * furthest,
+            // The transform scales the radius too, so undo it.
+            borderRadius: CORNER_RADIUS / coverScale,
+          }}
         >
           {sources.map((source) => (
             <source key={source.src} src={source.src} type={source.type} />

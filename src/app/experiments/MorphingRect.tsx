@@ -47,6 +47,12 @@ export interface MorphState {
    * size. Scaling content by it keeps the morph always uncovering content.
    */
   coverScale: number;
+  /**
+   * How far the point that has moved furthest is through its own move: 0 at
+   * full size, 1 when shrunk. `coverScale` follows it, so anything else
+   * keyed to it moves in step with the scale.
+   */
+  furthest: number;
 }
 
 /**
@@ -88,6 +94,7 @@ export function useMorphShape(
   return {
     shape: morphShape(large, small, progress, options),
     coverScale: 1 - (1 - SHRINK) * furthest,
+    furthest,
   };
 }
 
