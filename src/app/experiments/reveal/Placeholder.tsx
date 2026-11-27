@@ -1,7 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 
+import {
+  morphClipPath,
+  randomRotation,
+  randomShapePair,
+  type ShapeName,
+} from "./shapes";
 import type { Size } from "./videoSize";
 import styles from "./reveal.module.scss";
 
@@ -17,15 +23,30 @@ function visibleFraction(el: HTMLElement): number {
   return Math.min(1, Math.max(0, visible / height));
 }
 
-/** Maps visibility to morph progress: circle below 50%, rectangle at 100%. */
+/**
+ * Whether the element is cut off more at the top of the viewport (leaving as
+ * you scroll down) than at the bottom (arriving).
+ */
+function isLeaving(el: HTMLElement): boolean {
+  const { top, bottom } = el.getBoundingClientRect();
+  return -top > bottom - window.innerHeight;
+}
+
+/** Radius of the circle every shape is inscribed in before it grows. */
+const SHAPE_RADIUS = 180;
+
+/** Maps visibility to morph progress: shape below 50%, rectangle at 100%. */
 function revealProgress(visible: number): number {
   return Math.min(1, Math.max(0, (visible - 0.5) / 0.5));
 }
 
 /**
- * A grey stand-in for a project video. It is clipped to a circle while less
- * than half of it is on screen and morphs into the full rectangle as it
- * becomes fully visible, driven directly by scroll position.
+ * A grey stand-in for a project video. It is clipped to a shape (circle,
+ * diamond, triangle or hexagon) while less than half of it is on screen and
+ * morphs into the full rectangle as it becomes fully visible, driven directly
+ * by scroll position. It arrives from the bottom as one random shape and
+ * leaves through the top as a different one, each with its own random twist.
+ * Until it mounts, the CSS fallback clips it to a circle.
  */
 export function Placeholder({ name, width, height }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,11 +55,32 @@ export function Placeholder({ name, width, height }: Props) {
     const el = ref.current;
     if (!el) return;
 
+    // Chosen on the client only, so server and client markup match.
+    const [inShape, outShape] = randomShapePair();
+    const twists: Record<"in" | "out", { shape: ShapeName; rotation: number }> =
+      {
+        in: { shape: inShape, rotation: randomRotation() },
+        out: { shape: outShape, rotation: randomRotation() },
+      };
     let frame = 0;
+    let last = "";
     const update = () => {
       frame = 0;
       const progress = revealProgress(visibleFraction(el));
-      el.style.setProperty("--reveal", progress.toFixed(4));
+      const { shape, rotation } = twists[isLeaving(el) ? "out" : "in"];
+      const { offsetWidth: w, offsetHeight: h } = el;
+      // Skip rebuilding the polygon when nothing it depends on has changed.
+      const key = `${shape} ${progress.toFixed(4)} ${w} ${h}`;
+      if (key === last) return;
+      last = key;
+      el.style.clipPath = morphClipPath(
+        shape,
+        rotation,
+        SHAPE_RADIUS,
+        w,
+        h,
+        progress,
+      );
     };
     // Coalesce scroll and resize events into one measurement per frame.
     const schedule = () => {
@@ -59,7 +101,9 @@ export function Placeholder({ name, width, height }: Props) {
     <div
       ref={ref}
       className={styles.placeholder}
-      style={{ width, height }}
+      style={
+        { width, height, "--circle-radius": `${SHAPE_RADIUS}px` } as CSSProperties
+      }
       title={name}
     />
   );

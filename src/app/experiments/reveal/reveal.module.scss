@@ -15,24 +15,18 @@
   padding: 25vh 0;
 }
 
-// Morphs between a circle and the full rectangle as it scrolls into view.
-// Every placeholder starts as the same fixed-size circle and grows to its own
-// video dimensions. Insetting each edge by 50% minus the radius leaves a
-// square of exactly 2r centred in the rendered box, and an absolute corner
-// radius of r makes it a true circle. A percentage radius would resolve
-// against the box, not the square.
-// `--reveal` (0 = circle, 1 = rectangle) is written from scroll position and
-// scales both the inset and the corner radius towards zero.
+// Each placeholder's shape-to-rectangle morph is written as an inline
+// `clip-path: polygon()` from scroll position (see `shapes.ts`). This rule is
+// only the circle shown before that script runs. `--circle-radius` is set
+// inline from the same constant the script uses. Insetting each edge by 50%
+// minus the radius leaves a square of exactly 2r centred in the rendered box,
+// and an absolute corner radius of r makes it a true circle. A percentage
+// radius would resolve against the box, not the square.
 .placeholder {
-  --circle-radius: 180px;
-  --reveal: 0;
-  --remaining: calc(1 - var(--reveal));
-
   flex: none;
   max-width: 100%;
   background: #999;
   clip-path: inset(
-    calc((50% - var(--circle-radius)) * var(--remaining))
-      round calc(var(--circle-radius) * var(--remaining))
+    calc(50% - var(--circle-radius)) round var(--circle-radius)
   );
 }
