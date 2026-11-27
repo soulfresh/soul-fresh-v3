@@ -52,11 +52,12 @@ export const typecheck = toolCommand(
 export const lint = toolCommand(
   "lint",
   "Type-check, then run ESLint",
-  "next lint",
+  "eslint",
   (args) =>
     runAll([
       ["tsc", ["--noEmit"]],
-      ["next", ["lint", ...args]],
+      // Next 16 removed `next lint`; `src` matches the directories it linted.
+      ["eslint", ["src", ...args]],
     ]),
 );
 
