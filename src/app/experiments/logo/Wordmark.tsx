@@ -62,24 +62,26 @@ export function Wordmark() {
         </h1>
       </section>
       <div className={styles.controls}>
-        <WordPicker
-          word="Soul"
-          feeling={soul.feeling}
-          font={soul.font}
-          favorites={favorites}
-          onFeelingChange={(feeling) => setSoul((s) => ({ ...s, feeling }))}
-          onFontChange={(font) => setSoul((s) => ({ ...s, font }))}
-          onToggleFavorite={toggleFavorite}
-        />
-        <WordPicker
-          word="Fresh"
-          feeling={fresh.feeling}
-          font={fresh.font}
-          favorites={favorites}
-          onFeelingChange={(feeling) => setFresh((s) => ({ ...s, feeling }))}
-          onFontChange={(font) => setFresh((s) => ({ ...s, font }))}
-          onToggleFavorite={toggleFavorite}
-        />
+        <div className={styles.pickers}>
+          <WordPicker
+            word="Soul"
+            feeling={soul.feeling}
+            font={soul.font}
+            favorites={favorites}
+            onFeelingChange={(feeling) => setSoul((s) => ({ ...s, feeling }))}
+            onFontChange={(font) => setSoul((s) => ({ ...s, font }))}
+            onToggleFavorite={toggleFavorite}
+          />
+          <WordPicker
+            word="Fresh"
+            feeling={fresh.feeling}
+            font={fresh.font}
+            favorites={favorites}
+            onFeelingChange={(feeling) => setFresh((s) => ({ ...s, feeling }))}
+            onFontChange={(font) => setFresh((s) => ({ ...s, font }))}
+            onToggleFavorite={toggleFavorite}
+          />
+        </div>
         <div className={styles.actions}>
           <button type="button" className={styles.action} onClick={swap}>
             &#8645; Swap

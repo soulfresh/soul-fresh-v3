@@ -5,11 +5,11 @@
   font-family: $f-body;
 }
 
-// Fills the first screen; the saved grid scrolls in below it.
+// Half a screen, so the first saved combos sit above the fold.
 .stage {
   display: grid;
   place-items: center;
-  min-height: calc(100vh - 4rem);
+  min-height: 50vh;
 }
 
 .wordmark {
@@ -29,11 +29,22 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 16rem;
+  width: 30rem;
   padding: 1rem;
   border-radius: 0.5rem;
   background: rgba(255, 255, 255, 0.85);
   font-size: 0.875rem;
+}
+
+// The two words' pickers, side by side.
+.pickers {
+  display: flex;
+  gap: 1rem;
+
+  > * {
+    flex: 1;
+    min-width: 0;
+  }
 }
 
 .picker {
