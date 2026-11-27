@@ -5,6 +5,7 @@ import styles from "./experiments.module.scss";
 const experiments = [
   { slug: "logo", name: "Logo" },
   { slug: "stretch", name: "Stretch" },
+  { slug: "reveal", name: "Reveal" },
 ];
 
 export default function Experiments() {
