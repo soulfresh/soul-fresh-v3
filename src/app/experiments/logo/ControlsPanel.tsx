@@ -40,10 +40,13 @@ export function ControlsPanel({
     };
     check();
     window.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("resize", check);
+    // Any layout change — the saved grid mounting after its fetch, cards
+    // being added — shows up as the body changing size.
+    const observer = new ResizeObserver(check);
+    observer.observe(document.body);
     return () => {
       window.removeEventListener("scroll", check);
-      window.removeEventListener("resize", check);
+      observer.disconnect();
     };
   }, [avoid, collapsed]);
 

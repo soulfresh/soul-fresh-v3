@@ -10,6 +10,9 @@ import React from "react";
 export function useJsonFile<T>(endpoint: string, initial: T) {
   const [value, setValue] = React.useState(initial);
   const [loaded, setLoaded] = React.useState(false);
+  // Writes replace the whole file, so they must land in order: each one
+  // waits for the previous to finish.
+  const writes = React.useRef(Promise.resolve());
 
   React.useEffect(() => {
     fetch(endpoint)
@@ -29,11 +32,15 @@ export function useJsonFile<T>(endpoint: string, initial: T) {
     // would overwrite the file with it.
     if (!loaded) return;
     setValue(next);
-    fetch(endpoint, {
-      method: "PUT",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(next),
-    })
+    const body = JSON.stringify(next);
+    writes.current = writes.current
+      .then(() =>
+        fetch(endpoint, {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body,
+        }),
+      )
       .then((response) => {
         if (!response.ok) throw new Error(`PUT ${endpoint}: ${response.status}`);
       })

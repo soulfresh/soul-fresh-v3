@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -37,7 +38,9 @@ export function jsonFileHandlers(name: string) {
         return new Response("Expected a JSON array", { status: 400 });
       }
       // Write then rename so a failure never leaves a half-written file.
-      const temp = `${file}.tmp`;
+      // Each write gets its own temp file so overlapping requests can't
+      // publish each other's payload.
+      const temp = `${file}.${crypto.randomUUID()}.tmp`;
       await writeFile(temp, JSON.stringify(list, null, 2) + "\n");
       await rename(temp, file);
       return new Response(null, { status: 204 });

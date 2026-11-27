@@ -62,15 +62,14 @@ export function WordPicker({
     }
   };
 
-  // Up and down step straight to the previous or next font, wrapping
+  // Up and down step straight to the previous or next option, wrapping
   // around, instead of opening the native picker (as macOS does).
   const onKeyDown = (e: React.KeyboardEvent<HTMLSelectElement>) => {
     const step = { ArrowUp: -1, ArrowDown: 1 }[e.key];
     if (!step || e.altKey || e.metaKey) return;
     e.preventDefault();
-    if (fonts.length === 0) return;
-    const index = fonts.indexOf(font);
-    onFontChange(fonts[(index + step + fonts.length) % fonts.length]);
+    const index = options.indexOf(font);
+    onFontChange(options[(index + step + options.length) % options.length]);
   };
 
   return (
