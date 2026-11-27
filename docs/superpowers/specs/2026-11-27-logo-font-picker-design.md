@@ -66,11 +66,11 @@ feeling" shows the whole library.
 
 Why this rule: fonts.google.com's filter logic is closed source, so the rule
 was calibrated against the site's own counts on 2026-11-27 (Playful 716 of
-1,961, Cute 363). This rule gives Playful 718 and Cute 379; the common
+1,961, Cute 363). This rule gives Playful 718 and Cute 378; the common
 third-party convention of "any variant ≥ 50" gives 219 and 85, which is
 clearly not what the site does. The remaining gap is most likely the site
 serving a different revision of the CSV than `main`, and is not worth
-chasing. Record the calibration counts in a comment next to the constant.
+chasing. Known limitation: multi-axis variants such as `wdth,wght@100,400` never match the `wght@400` test, so about 63 families fall back to their first variant; the calibration depends on this, so it stays. Record the calibration counts in a comment next to the constant.
 
 ### Command changes
 
@@ -194,7 +194,7 @@ There is no test framework; the check after changes is `yarn cli lint`.
 
 1. `yarn cli lint` passes (covers `scripts/` and `src/`).
 2. `yarn cli fonts --refetch` logs the catalog step; `catalog.json` has
-   ~1,950 fonts and 20 feelings; roughly 718 fonts carry Playful and 379
+   ~1,950 fonts and 20 feelings; roughly 718 fonts carry Playful and 378
    Cute (the calibration counts); a known font has sensible feelings (e.g.
    "Lobster" includes Fancy and Playful). A second run without flags
    reports `skipped (exists)`.

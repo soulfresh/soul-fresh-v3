@@ -68,6 +68,7 @@ export function Wordmark() {
         <button
           type="button"
           className={styles.save}
+          disabled={!saved.loaded}
           onClick={() => saved.add(soul.font, fresh.font)}
         >
           + Save

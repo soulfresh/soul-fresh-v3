@@ -13,13 +13,16 @@ import { catalogPath, fontLabel, glyphDataPath, writeFileAtomic } from "../fonts
 import type { FontConfig } from "../fonts/types";
 
 export const fonts = new Command("fonts")
-  .description("Fetch fonts from Google Fonts and build glyph data")
+  .description("Fetch fonts from Google Fonts, build glyph data and the font catalog")
   .argument(
     "[families...]",
     "only these families (default: every font in fonts.config.ts)",
   )
   .option("--force", "rebuild glyph data even if it exists")
-  .option("--refetch", "re-download fonts even if they exist (implies --force)")
+  .option(
+    "--refetch",
+    "re-download fonts and the font catalog even if they exist (implies --force)",
+  )
   .action(
     async (
       families: string[],

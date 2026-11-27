@@ -27,8 +27,10 @@ the commands in `scripts/commands/`.
 - **Never run `yarn cli build` while the dev server is running.** Both use
   `dist/` (`distDir` in `next.config.ts`), and the build breaks the dev
   server.
-- `*.dev.tsx` pages exist only in development (`pageExtensions`). Experiments
-  live under `src/app/experiments/`.
+- `*.dev.tsx` pages and `*.dev.ts` route handlers (e.g. `saved/route.dev.ts`)
+  exist only in development (`pageExtensions`). Under `output: "export"` a
+  route handler needs `export const dynamic = "force-static"` even in dev.
+  Experiments live under `src/app/experiments/`.
 - Components using randomness or browser APIs render `null` until mounted, to
   avoid hydration mismatches.
 
@@ -39,7 +41,9 @@ the commands in `scripts/commands/`.
 units, y down, baseline at 0, cubic curves only). Adding a font also needs an
 export line in `src/fonts/index.ts`. `layoutText` in `src/fonts/layout.ts`
 positions glyphs on a line. Fonts, licences and generated JSON are committed;
-use `--force` to rebuild after changing a font's config.
+use `--force` to rebuild after changing a font's config. A full
+`yarn cli fonts` run also builds `src/app/experiments/logo/generated/catalog.json`
+(Google Fonts families + Feeling tags) for the logo experiment.
 
 ## Working here
 

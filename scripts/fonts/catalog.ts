@@ -6,7 +6,7 @@ export const FAMILIES_CSV_URL =
  * Minimum score for a family's representative row to count as having a
  * feeling. fonts.google.com's filter is closed source, so this was
  * calibrated against the site on 2026-11-27: it listed Playful 716 of
- * 1,961 families and Cute 363; this rule gives 718 and 379. (The common
+ * 1,961 families and Cute 363; this rule gives 718 and 378. (The common
  * third-party guess of 50 gives 219 and 85.)
  */
 export const FEELING_THRESHOLD = 5;
@@ -94,6 +94,9 @@ export function parseCsv(text: string): string[][] {
  */
 function representativeVariant(variants: string[]): string {
   if (variants.includes("")) return "";
+  // Known limitation: multi-axis variants ("wdth,wght@100,400") never match,
+  // so those families fall through to their first variant. Calibration
+  // depends on this; see the design spec.
   return variants.find((v) => v.includes("wght@400")) ?? variants[0];
 }
 
@@ -131,7 +134,7 @@ export function buildCatalog(csv: string): Catalog {
     for (const feeling of fontFeelings) feelings.add(feeling);
     fonts.push({ family, feelings: [...fontFeelings].sort() });
   }
-  fonts.sort((a, b) => a.family.localeCompare(b.family));
+  fonts.sort((a, b) => a.family.localeCompare(b.family, "en"));
 
   return { feelings: [...feelings].sort(), fonts };
 }

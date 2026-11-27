@@ -19,6 +19,7 @@ const ENDPOINT = "/experiments/logo/saved";
  */
 export function useSavedCombos() {
   const [combos, setCombos] = React.useState<SavedCombo[]>([]);
+  const [loaded, setLoaded] = React.useState(false);
 
   React.useEffect(() => {
     fetch(ENDPOINT)
@@ -26,11 +27,17 @@ export function useSavedCombos() {
         if (!response.ok) throw new Error(`GET ${ENDPOINT}: ${response.status}`);
         return response.json() as Promise<SavedCombo[]>;
       })
-      .then(setCombos)
+      .then((list) => {
+        setCombos(list);
+        setLoaded(true);
+      })
       .catch(console.error);
   }, []);
 
   const update = (next: SavedCombo[]) => {
+    // Before the first load `next` is built from [], and the PUT would
+    // overwrite the file with it.
+    if (!loaded) return;
     setCombos(next);
     fetch(ENDPOINT, {
       method: "PUT",
@@ -50,5 +57,5 @@ export function useSavedCombos() {
 
   const remove = (id: string) => update(combos.filter((c) => c.id !== id));
 
-  return { combos, add, remove };
+  return { combos, loaded, add, remove };
 }
