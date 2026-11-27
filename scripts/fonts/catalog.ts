@@ -4,34 +4,49 @@ export const FAMILIES_CSV_URL =
 
 /**
  * Minimum score for a family's representative row to count as having a
- * feeling. fonts.google.com's filter is closed source, so this was
- * calibrated against the site on 2026-11-27: it listed Playful 716 of
- * 1,961 families and Cute 363; this rule gives 718 and 378. (The common
- * third-party guess of 50 gives 219 and 85.)
+ * tag. fonts.google.com's filter is closed source, so this was calibrated
+ * against the site on 2026-11-27: it listed Playful 716 of 1,961 families
+ * and Cute 363; this rule gives 708 and 364. (The common third-party guess
+ * of 50 gives 219 and 85.) The same cut is used for the appearance tags.
  */
-export const FEELING_THRESHOLD = 5;
+export const TAG_THRESHOLD = 5;
 
-const FEELING_PREFIX = "/Expressive/";
+const FEELING_GROUP = "Expressive";
+
+/**
+ * CSV tag groups shown as appearance filters, mapped to the group the site
+ * files them under: "Slab" tags appear inside the site's Serif filter as
+ * "Slab Clarendon" and so on, and "Script" is the site's Calligraphy.
+ */
+const APPEARANCE_GROUPS: Record<string, string> = {
+  Sans: "Sans",
+  Serif: "Serif",
+  Slab: "Serif",
+  Script: "Script",
+};
 
 export interface CatalogFont {
   family: string;
   /** Sorted feeling names, e.g. ["Calm", "Playful"]. */
   feelings: string[];
+  /** Sorted "Group/Style" tags, e.g. ["Serif/Slab Clarendon"]. */
+  appearances: string[];
 }
 
 export interface Catalog {
   /** Every feeling that at least one font has, sorted. */
   feelings: string[];
+  /** Each appearance group's styles that at least one font has, sorted. */
+  appearances: Record<string, string[]>;
   /** Every family in the CSV, sorted by name. */
   fonts: CatalogFont[];
 }
 
 interface TagRow {
-  family: string;
   /** "" for static fonts, else an axis string such as "wght@700". */
   variant: string;
-  /** Feeling name without the /Expressive/ prefix. */
-  feeling: string;
+  /** e.g. "/Expressive/Calm" or "/Slab/Clarendon". */
+  tag: string;
   score: number;
 }
 
@@ -100,50 +115,82 @@ function representativeVariant(variants: string[]): string {
   return variants.find((v) => v.includes("wght@400")) ?? variants[0];
 }
 
-export function buildCatalog(csv: string): Catalog {
-  const families = new Set<string>();
-  const rowsByFamily = new Map<string, TagRow[]>();
+/** "/Slab/Clarendon" → "Serif/Slab Clarendon"; `undefined` for other groups. */
+function appearanceOf(tag: string): string | undefined {
+  const [, group, style] = tag.split("/");
+  const shown = APPEARANCE_GROUPS[group];
+  if (!shown) return undefined;
+  return `${shown}/${group === shown ? style : `${group} ${style}`}`;
+}
 
+export function buildCatalog(csv: string): Catalog {
+  const rowsByFamily = new Map<string, TagRow[]>();
   for (const fields of parseCsv(csv)) {
     if (fields.length < 4) continue;
     const [family, variant, tag, score] = fields;
-    families.add(family);
-    if (!tag.startsWith(FEELING_PREFIX)) continue;
     const rows = rowsByFamily.get(family) ?? [];
-    rows.push({
-      family,
-      variant,
-      feeling: tag.slice(FEELING_PREFIX.length),
-      score: Number(score),
-    });
+    rows.push({ variant, tag, score: Number(score) });
     rowsByFamily.set(family, rows);
   }
 
   const feelings = new Set<string>();
+  const appearances = new Map<string, Set<string>>();
   const fonts: CatalogFont[] = [];
-  for (const family of families) {
-    const rows = rowsByFamily.get(family) ?? [];
+  for (const [family, rows] of rowsByFamily) {
     const variant = representativeVariant([
       ...new Set(rows.map((r) => r.variant)),
     ]);
-    const fontFeelings = new Set(
-      rows
-        .filter((r) => r.variant === variant && r.score >= FEELING_THRESHOLD)
-        .map((r) => r.feeling),
-    );
-    for (const feeling of fontFeelings) feelings.add(feeling);
-    fonts.push({ family, feelings: [...fontFeelings].sort() });
+    const tags = rows
+      .filter((r) => r.variant === variant && r.score >= TAG_THRESHOLD)
+      .map((r) => r.tag);
+
+    const fontFeelings = new Set<string>();
+    const fontAppearances = new Set<string>();
+    for (const tag of tags) {
+      const [, group, name] = tag.split("/");
+      if (group === FEELING_GROUP) {
+        fontFeelings.add(name);
+        feelings.add(name);
+        continue;
+      }
+      const appearance = appearanceOf(tag);
+      if (!appearance) continue;
+      fontAppearances.add(appearance);
+      const [shownGroup, style] = appearance.split("/");
+      const styles = appearances.get(shownGroup) ?? new Set();
+      styles.add(style);
+      appearances.set(shownGroup, styles);
+    }
+
+    fonts.push({
+      family,
+      feelings: [...fontFeelings].sort(),
+      appearances: [...fontAppearances].sort(),
+    });
   }
   fonts.sort((a, b) => a.family.localeCompare(b.family, "en"));
 
-  return { feelings: [...feelings].sort(), fonts };
+  return {
+    feelings: [...feelings].sort(),
+    appearances: Object.fromEntries(
+      [...appearances]
+        .sort(([a], [b]) => a.localeCompare(b, "en"))
+        .map(([group, styles]) => [group, [...styles].sort()]),
+    ),
+    fonts,
+  };
 }
 
 /** JSON with one font per line, so diffs stay readable. */
-export function formatCatalog({ feelings, fonts }: Catalog): string {
+export function formatCatalog({
+  feelings,
+  appearances,
+  fonts,
+}: Catalog): string {
   const lines = fonts.map((font) => `    ${JSON.stringify(font)}`);
   return (
     `{\n  "feelings": ${JSON.stringify(feelings)},\n` +
+    `  "appearances": ${JSON.stringify(appearances)},\n` +
     `  "fonts": [\n${lines.join(",\n")}\n  ]\n}\n`
   );
 }

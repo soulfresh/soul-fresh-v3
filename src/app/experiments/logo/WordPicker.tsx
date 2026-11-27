@@ -2,32 +2,37 @@
 
 import React from "react";
 
-import { catalog, FAVORITES, fontsForFeeling } from "./catalog";
+import {
+  APPEARANCE_GROUPS,
+  catalog,
+  FAVORITES,
+  filterFonts,
+  type FontFilter,
+} from "./catalog";
 import styles from "./logo.module.scss";
 
 export interface WordPickerProps {
   /** Label, e.g. "Soul". */
   word: string;
-  /** `null` is "Any"; `FAVORITES` filters to the favorited fonts. */
-  feeling: string | null;
+  filter: FontFilter;
   font: string;
   favorites: string[];
-  onFeelingChange: (feeling: string | null) => void;
+  onFilterChange: (filter: FontFilter) => void;
   onFontChange: (font: string) => void;
   onToggleFavorite: (font: string) => void;
 }
 
-/** Feeling and font selects for one word of the logo. */
+/** Filter and font selects for one word of the logo. */
 export function WordPicker({
   word,
-  feeling,
+  filter,
   font,
   favorites,
-  onFeelingChange,
+  onFilterChange,
   onFontChange,
   onToggleFavorite,
 }: WordPickerProps) {
-  const fonts = fontsForFeeling(feeling, favorites);
+  const fonts = filterFonts(filter, favorites);
   // The list can stop containing the font (un-hearting the last favorite,
   // say); keep it selectable rather than yanking the word to another font.
   const options = fonts.includes(font) ? fonts : [font, ...fonts];
@@ -41,10 +46,10 @@ export function WordPicker({
     selectRef.current?.focus();
   };
 
-  // Keep the font valid for the new feeling.
-  const changeFeeling = (next: string | null) => {
-    onFeelingChange(next);
-    const nextFonts = fontsForFeeling(next, favorites);
+  // Keep the font valid for the new filter.
+  const changeFilter = (next: FontFilter) => {
+    onFilterChange(next);
+    const nextFonts = filterFonts(next, favorites);
     if (nextFonts.length > 0 && !nextFonts.includes(font)) {
       onFontChange(nextFonts[0]);
     }
@@ -64,11 +69,38 @@ export function WordPicker({
   return (
     <fieldset className={styles.picker}>
       <legend>{word}</legend>
+      {/* One appearance select per group. They share a single filter
+          value, so choosing in one resets the others to All. */}
+      {APPEARANCE_GROUPS.map((group) => (
+        <label key={group}>
+          {group}
+          <select
+            value={
+              filter.appearance?.split("/")[0] === group
+                ? filter.appearance
+                : ""
+            }
+            onChange={(e) =>
+              changeFilter({ ...filter, appearance: e.target.value || null })
+            }
+          >
+            <option value="">All</option>
+            <option value={group}>Any {group.toLowerCase()}</option>
+            {catalog.appearances[group]?.map((style) => (
+              <option key={style} value={`${group}/${style}`}>
+                {style}
+              </option>
+            ))}
+          </select>
+        </label>
+      ))}
       <label>
         Feeling
         <select
-          value={feeling ?? ""}
-          onChange={(e) => changeFeeling(e.target.value || null)}
+          value={filter.feeling ?? ""}
+          onChange={(e) =>
+            changeFilter({ ...filter, feeling: e.target.value || null })
+          }
         >
           <option value="">Any</option>
           <option value={FAVORITES}>Favorites</option>
@@ -102,7 +134,7 @@ export function WordPicker({
             aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
             onClick={toggleFavorite}
           >
-            {favorited ? "\u2665" : "\u2661"}
+            {favorited ? "♥" : "♡"}
           </button>
         </div>
       </div>

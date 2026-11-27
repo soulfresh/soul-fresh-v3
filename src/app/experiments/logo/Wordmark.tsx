@@ -2,7 +2,12 @@
 
 import React from "react";
 
-import { fontsForFeeling, googleFontsUrl } from "./catalog";
+import {
+  filterFonts,
+  type FontFilter,
+  googleFontsUrl,
+  NO_FILTER,
+} from "./catalog";
 import styles from "./logo.module.scss";
 import { SavedCombos } from "./SavedCombos";
 import { useFavorites } from "./useFavorites";
@@ -10,13 +15,13 @@ import { type SavedCombo, useSavedCombos } from "./useSavedCombos";
 import { WordPicker } from "./WordPicker";
 
 interface WordState {
-  feeling: string | null;
+  filter: FontFilter;
   font: string;
 }
 
 const initialWord: WordState = {
-  feeling: null,
-  font: fontsForFeeling(null, [])[0],
+  filter: NO_FILTER,
+  font: filterFonts(NO_FILTER, [])[0],
 };
 
 /**
@@ -36,13 +41,13 @@ export function Wordmark() {
     ...saved.combos.flatMap((c) => [c.soul, c.fresh]),
   ];
 
-  // "Any" feeling, so each font is guaranteed to be in its list.
+  // No filter, so each font is guaranteed to be in its list.
   const load = (combo: SavedCombo) => {
-    setSoul({ feeling: null, font: combo.soul });
-    setFresh({ feeling: null, font: combo.fresh });
+    setSoul({ filter: NO_FILTER, font: combo.soul });
+    setFresh({ filter: NO_FILTER, font: combo.fresh });
   };
 
-  // Swap feelings along with fonts so each font stays in its word's list.
+  // Swap filters along with fonts so each font stays in its word's list.
   const swap = () => {
     setSoul(fresh);
     setFresh(soul);
@@ -65,19 +70,19 @@ export function Wordmark() {
         <div className={styles.pickers}>
           <WordPicker
             word="Soul"
-            feeling={soul.feeling}
+            filter={soul.filter}
             font={soul.font}
             favorites={favorites}
-            onFeelingChange={(feeling) => setSoul((s) => ({ ...s, feeling }))}
+            onFilterChange={(filter) => setSoul((s) => ({ ...s, filter }))}
             onFontChange={(font) => setSoul((s) => ({ ...s, font }))}
             onToggleFavorite={toggleFavorite}
           />
           <WordPicker
             word="Fresh"
-            feeling={fresh.feeling}
+            filter={fresh.filter}
             font={fresh.font}
             favorites={favorites}
-            onFeelingChange={(feeling) => setFresh((s) => ({ ...s, feeling }))}
+            onFilterChange={(filter) => setFresh((s) => ({ ...s, filter }))}
             onFontChange={(font) => setFresh((s) => ({ ...s, font }))}
             onToggleFavorite={toggleFavorite}
           />

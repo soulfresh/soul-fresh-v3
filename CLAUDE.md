@@ -43,7 +43,7 @@ export line in `src/fonts/index.ts`. `layoutText` in `src/fonts/layout.ts`
 positions glyphs on a line. Fonts, licences and generated JSON are committed;
 use `--force` to rebuild after changing a font's config. A full
 `yarn cli fonts` run also builds `src/app/experiments/logo/generated/catalog.json`
-(Google Fonts families + Feeling tags) for the logo experiment.
+(Google Fonts families + Feeling and appearance tags) for the logo experiment.
 
 ## Working here
 

@@ -63,7 +63,7 @@ to download the fonts again too. Pass family names to work on just those:
 
 On a full run (no family names), the command also builds
 `src/app/experiments/logo/generated/catalog.json` for the logo experiment:
-every Google Fonts family with its "Feeling" tags, derived from the
+every Google Fonts family with its "Feeling" and appearance tags, from the
 [google/fonts](https://github.com/google/fonts) repo's `tags/all/families.csv`.
 It is skipped when the file exists; use `--refetch` to rebuild it.
 
