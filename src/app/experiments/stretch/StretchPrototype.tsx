@@ -19,7 +19,7 @@ import {
   type Point,
   type Shape,
 } from "./stretch";
-import styles from "./logo.module.scss";
+import styles from "./stretch.module.scss";
 
 // Capital height of both words in viewBox units (the old hand-made L was
 // 200 tall).
@@ -55,7 +55,7 @@ const LETTERS: Shape = (() => {
 const BLEND_MODES = ["normal", "difference", "exclusion"] as const;
 type BlendMode = (typeof BLEND_MODES)[number];
 
-const MAX_DISTANCE = 400;
+const MAX_DISTANCE = 800;
 // Room for the letters plus their furthest destination in any direction.
 const VIEW_BOX = (() => {
   const points = shapePoints(LETTERS);

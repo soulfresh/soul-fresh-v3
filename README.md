@@ -39,7 +39,7 @@ yarn cli <command> --help
 | `yarn cli lint` | Type-check, then run ESLint |
 | `yarn cli typecheck` | Type-check only |
 | `yarn cli release` | Deploy to Firebase Hosting by hand |
-| `yarn cli fonts` | Fetch fonts and build glyph data (see below) |
+| `yarn cli fonts` | Fetch fonts, build glyph data and the font catalog (see below) |
 
 Extra arguments are passed through to the underlying tool, for example
 `yarn cli start --port 3001` or `yarn cli serve -l 4000`.
@@ -60,6 +60,12 @@ Steps whose output already exists are skipped. Use `--force` to rebuild the
 glyph data (for example after changing a font's `characters`) and `--refetch`
 to download the fonts again too. Pass family names to work on just those:
 `yarn cli fonts "Playfair Display"`.
+
+On a full run (no family names), the command also builds
+`src/app/experiments/logo/generated/catalog.json` for the logo experiment:
+every Google Fonts family with its "Feeling" and appearance tags, from the
+[google/fonts](https://github.com/google/fonts) repo's `tags/all/families.csv`.
+It is skipped when the file exists; use `--refetch` to rebuild it.
 
 After adding a font to `fonts.config.ts`, add an export for its JSON in
 `src/fonts/index.ts`. The fonts, licences and generated JSON are all

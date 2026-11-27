@@ -1,0 +1,290 @@
+[
+  {
+    "id": "75e68ee6-4a5b-4910-82c0-d30095b70311",
+    "soul": "Anonymous Pro",
+    "fresh": "League Script",
+    "soulSize": 128,
+    "freshSize": 145,
+    "gap": -50,
+    "offset": 24
+  },
+  {
+    "id": "5ff7d971-8e45-449d-abc6-b485370486f7",
+    "soul": "ADLaM Display",
+    "fresh": "Arizonia",
+    "soulSize": 128,
+    "freshSize": 197,
+    "gap": -62,
+    "offset": 1
+  },
+  {
+    "id": "4a7f625a-5ae1-40b2-a162-6112b2fd78ef",
+    "soul": "Anta",
+    "fresh": "Meow Script",
+    "soulSize": 128,
+    "freshSize": 159,
+    "gap": -5,
+    "offset": 0
+  },
+  {
+    "id": "d49fa998-54d0-4fa0-8ef4-7d170698f11a",
+    "soul": "Archivo Black",
+    "fresh": "Norican",
+    "soulSize": 128,
+    "freshSize": 175,
+    "gap": 3,
+    "offset": 0
+  },
+  {
+    "id": "3058fc8f-916c-46fa-b5bb-421dfe4ed37d",
+    "soul": "Alfa Slab One",
+    "fresh": "Bebas Neue",
+    "soulSize": 128,
+    "freshSize": 142,
+    "gap": -13,
+    "offset": 0
+  },
+  {
+    "id": "01f2090b-c39f-4565-88b1-25bd9afc13a3",
+    "soul": "Bellota",
+    "fresh": "Alfa Slab One",
+    "soulSize": 138,
+    "freshSize": 128,
+    "gap": 7,
+    "offset": 0
+  },
+  {
+    "id": "f0c76a1c-49ae-48c5-b53c-1f8828b2e897",
+    "soul": "Carter One",
+    "fresh": "Cal Sans",
+    "soulSize": 128,
+    "freshSize": 146,
+    "gap": 5,
+    "offset": 7
+  },
+  {
+    "id": "06405211-edaa-4e74-94d6-c3cd03484e1e",
+    "soul": "Cal Sans",
+    "fresh": "Cherry Swash",
+    "soulSize": 128,
+    "freshSize": 139,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "621661db-8ab6-4a25-9c5c-252f1d5bac36",
+    "soul": "Climate Crisis",
+    "fresh": "Cal Sans",
+    "soulSize": 119,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "d5269dce-1c3d-4317-9c42-40976ac0368f",
+    "soul": "Kenia",
+    "fresh": "Codystar",
+    "soulSize": 158,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": -3
+  },
+  {
+    "id": "e584e8e3-5a9b-418d-8af1-925fccadb842",
+    "soul": "Cal Sans",
+    "fresh": "Copse",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "66f33410-805b-4b85-bf77-ad66e75f3fd9",
+    "soul": "Cal Sans",
+    "fresh": "Danfo",
+    "soulSize": 125,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "1c6b0399-7e68-45a7-9ca8-a875b62d7c8d",
+    "soul": "Cal Sans",
+    "fresh": "Kumar One Outline",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 5
+  },
+  {
+    "id": "8f4b2145-a486-4273-a457-b394b8d8dc3a",
+    "soul": "Cal Sans",
+    "fresh": "Offside",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": -8,
+    "offset": 0
+  },
+  {
+    "id": "33b4cc27-c23f-4b1e-bc6a-6e24f51a00fd",
+    "soul": "Cal Sans",
+    "fresh": "Bagel Fat One",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "b8951f3f-e573-4aac-b4a1-eeae9e8ff808",
+    "soul": "Bungee",
+    "fresh": "League Script",
+    "soulSize": 111,
+    "freshSize": 128,
+    "gap": 13,
+    "offset": 0
+  },
+  {
+    "id": "c4780a72-7d43-4945-b62e-4ac524a86e24",
+    "soul": "Alfa Slab One",
+    "fresh": "Galada",
+    "soulSize": 128,
+    "freshSize": 179,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "35a38952-d6e7-407e-8c65-9c489a5b1ba7",
+    "soul": "Bevan",
+    "fresh": "Alumni Sans Pinstripe",
+    "soulSize": 128,
+    "freshSize": 164,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "ffd3a71f-0e32-44bd-b3e0-f445cc33079b",
+    "soul": "Bungee Shade",
+    "fresh": "Bebas Neue",
+    "soulSize": 99,
+    "freshSize": 138,
+    "gap": 0,
+    "offset": 4
+  },
+  {
+    "id": "8713f6d5-65a8-4d42-a917-a45e4bad1eff",
+    "soul": "Manufacturing Consent",
+    "fresh": "Alfa Slab One",
+    "soulSize": 159,
+    "freshSize": 117,
+    "gap": 6,
+    "offset": -5
+  },
+  {
+    "id": "e3be20d8-4c65-444b-b96e-43ce5d4c25c8",
+    "soul": "Bebas Neue",
+    "fresh": "Alex Brush",
+    "soulSize": 142,
+    "freshSize": 128,
+    "gap": -8,
+    "offset": -7
+  },
+  {
+    "id": "100fa931-dddb-4f7d-9808-dff9fee0f1a0",
+    "soul": "Alien Block",
+    "fresh": "Codystar",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "5a6b6ba0-a899-4caa-825a-879ec178a99d",
+    "soul": "Alien Block",
+    "fresh": "Arizonia",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "c9e78675-0b87-45bb-bf4e-8cebbc24c015",
+    "soul": "Cal Sans",
+    "fresh": "Vampiro One",
+    "soulSize": 106,
+    "freshSize": 149,
+    "gap": 0,
+    "offset": 31
+  },
+  {
+    "id": "0cf40aa0-3c11-4169-a596-f34a61b98ed1",
+    "soul": "Cal Sans",
+    "fresh": "Chela One",
+    "soulSize": 128,
+    "freshSize": 145,
+    "gap": -1,
+    "offset": 7
+  },
+  {
+    "id": "4a0297ae-e344-4ce8-9437-64b4741e672d",
+    "soul": "Bagel Fat One",
+    "fresh": "Alumni Sans Pinstripe",
+    "soulSize": 128,
+    "freshSize": 153,
+    "gap": -6,
+    "offset": -3
+  },
+  {
+    "id": "12b9e563-571e-4e80-858e-a1fef8d2a8e9",
+    "soul": "Bagel Fat One",
+    "fresh": "Arizonia",
+    "soulSize": 128,
+    "freshSize": 153,
+    "gap": -45,
+    "offset": -31
+  },
+  {
+    "id": "b867e1b7-67b4-489b-8603-f497b8c26f89",
+    "soul": "Bai Jamjuree",
+    "fresh": "Arizonia",
+    "soulSize": 128,
+    "freshSize": 153,
+    "gap": -45,
+    "offset": -31
+  },
+  {
+    "id": "a4990a59-458e-4e06-8ef6-044ce32c8360",
+    "soul": "Bebas Neue",
+    "fresh": "Arizonia",
+    "soulSize": 128,
+    "freshSize": 153,
+    "gap": -59,
+    "offset": -38
+  },
+  {
+    "id": "f993c589-6cac-4313-9140-efcdeb04d8da",
+    "soul": "Moirai One",
+    "fresh": "Bagel Fat One",
+    "soulSize": 128,
+    "freshSize": 141,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "5ba1df16-e5ca-4e19-bdf5-1840b1a3df88",
+    "soul": "Rubik Glitch",
+    "fresh": "Archivo Black",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
+  },
+  {
+    "id": "fcd9486a-9fce-4a32-92b1-e31aa2c2ea5b",
+    "soul": "Rubik Glitch",
+    "fresh": "Codystar",
+    "soulSize": 128,
+    "freshSize": 128,
+    "gap": 0,
+    "offset": 0
+  }
+]

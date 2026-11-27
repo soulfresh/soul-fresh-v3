@@ -1,61 +1,24 @@
 @use 'variables' as *;
 
-// Tall enough to scroll through the drawings and the gradient the way the
-// home page does. Positioned so the gradient covers the full height.
-.page {
-  position: relative;
-  min-height: 800vh;
-}
-
-.background {
-  position: fixed;
-  inset: 0;
-  cursor: pointer;
-}
-
 .logo {
-  // Paint above the fixed background, but let clicks through to it so the
-  // drawing can still be cycled. Interactive children opt back in.
-  position: relative;
-  pointer-events: none;
   padding: 2rem;
   font-family: $f-body;
-
-  a {
-    pointer-events: auto;
-  }
 }
 
-// Stretch animation prototype.
+// Half a screen, so the first saved combos sit above the fold.
 .stage {
-  position: fixed;
-  inset: 0;
   display: grid;
   place-items: center;
+  min-height: 50vh;
 }
 
-.stretchSvg {
-  width: min(90vw, 90vh);
-  height: min(90vw, 90vh);
-  fill: #111;
-
-  // Difference and exclusion with black change nothing, so blended letters
-  // are white to invert the background.
-  &[data-inverted] {
-    fill: #fff;
-  }
-}
-
-// Anchor and control point overlay.
-.points {
-  fill: #fff;
-  stroke: #e0245e;
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
-
-  * {
-    vector-effect: non-scaling-stroke;
-  }
+.wordmark {
+  display: flex;
+  // Fonts have different ascents, so line the words up on their baselines.
+  align-items: baseline;
+  margin: 0;
+  font-size: 8rem;
+  font-weight: normal;
 }
 
 .controls {
@@ -64,28 +27,216 @@
   right: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  width: 16rem;
+  gap: 1rem;
+  width: 30rem;
   padding: 1rem;
   border-radius: 0.5rem;
-  background: rgba(255, 255, 255, 0.85);
+  background: white;
   font-size: 0.875rem;
-  pointer-events: auto;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.collapsed {
+  width: auto;
+  padding: 0.5rem 0.75rem;
+}
+
+.toggle {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+// The two words' pickers, side by side.
+.pickers {
+  display: flex;
+  gap: 1rem;
+
+  > * {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    padding: 0;
+    font-weight: bold;
+  }
 
   label {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
   }
+}
 
-  .checkbox {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fontRow {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  select {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.heart {
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: #c33;
+  cursor: pointer;
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  input {
+    flex: 1;
+    min-width: 0;
   }
 
-  span {
-    display: flex;
-    justify-content: space-between;
+  output {
+    min-width: 3.5em;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
+  background: white;
+  font: inherit;
+  cursor: pointer;
+
+  &:hover:enabled {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+}
+
+// Top center, above everything else on the page.
+.toasts {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 28rem;
+  transform: translateX(-50%);
+  font-size: 0.875rem;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: #b3261e;
+  color: white;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.2);
+
+  .action {
+    flex: none;
+  }
+}
+
+.saved {
+  h2 {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.card {
+  position: relative;
+  padding: 1.5rem 1rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  background: white;
+}
+
+.load {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.names {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.remove {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.5rem;
+  border: 0;
+  background: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #666;
+  cursor: pointer;
+
+  &:hover {
+    color: black;
   }
 }

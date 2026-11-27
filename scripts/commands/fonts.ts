@@ -7,18 +7,22 @@ import { Command } from "commander";
 import fontConfigs from "../../fonts.config";
 import { color } from "../color";
 import { buildFont, formatFontData } from "../fonts/build";
+import { buildCatalog, fetchFamiliesCsv, formatCatalog } from "../fonts/catalog";
 import { fetchFont } from "../fonts/fetch";
-import { fontLabel, glyphDataPath, writeFileAtomic } from "../fonts/files";
+import { catalogPath, fontLabel, glyphDataPath, writeFileAtomic } from "../fonts/files";
 import type { FontConfig } from "../fonts/types";
 
 export const fonts = new Command("fonts")
-  .description("Fetch fonts from Google Fonts and build glyph data")
+  .description("Fetch fonts from Google Fonts, build glyph data and the font catalog")
   .argument(
     "[families...]",
     "only these families (default: every font in fonts.config.ts)",
   )
   .option("--force", "rebuild glyph data even if it exists")
-  .option("--refetch", "re-download fonts even if they exist (implies --force)")
+  .option(
+    "--refetch",
+    "re-download fonts and the font catalog even if they exist (implies --force)",
+  )
   .action(
     async (
       families: string[],
@@ -57,6 +61,28 @@ export const fonts = new Command("fonts")
           );
         } else {
           step("glyphs", skipped());
+        }
+      }
+
+      // The catalog is family-independent, so only build it on a full run.
+      // Rebuilding means re-downloading the CSV, hence --refetch not --force.
+      if (families.length === 0) {
+        console.log(color("bold", "Font catalog"));
+        if (refetch || !existsSync(catalogPath)) {
+          const catalog = buildCatalog(await fetchFamiliesCsv());
+          await mkdir(path.dirname(catalogPath), { recursive: true });
+          await writeFileAtomic(catalogPath, formatCatalog(catalog));
+          step(
+            "catalog",
+            done("built") +
+              color(
+                "dim",
+                ` (${catalog.fonts.length} fonts, ` +
+                  `${catalog.feelings.length} feelings)`,
+              ),
+          );
+        } else {
+          step("catalog", skipped());
         }
       }
     },
