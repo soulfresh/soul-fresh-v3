@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# Shortcut for `yarn cli`, e.g. `./sf start` or `./sf fonts --force`.
+# Runs from the repo root so it also works as `../sf` from a subfolder.
+cd "$(dirname "$0")" && exec yarn cli "$@"

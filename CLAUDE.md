@@ -7,7 +7,8 @@ Actions on merge to `main`.
 ## Commands
 
 Every task runs through the project CLI; `package.json` has only the `cli`
-script. See the README's CLI section for details.
+script, and `./sf <command>` is a shortcut for `yarn cli <command>`. See the
+README's CLI section for details.
 
 - `yarn cli start` — dev server on :3000
 - `yarn cli build` — static build into `dist/`

@@ -28,6 +28,9 @@ yarn cli --help          # list commands
 yarn cli <command> --help
 ```
 
+`./sf` in the repo root is a shortcut for `yarn cli`: `./sf start`,
+`./sf fonts --force`, and so on.
+
 | Command | What it does |
 |---|---|
 | `yarn cli start` | Start the dev server on http://localhost:3000 |
