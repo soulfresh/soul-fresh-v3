@@ -109,40 +109,6 @@ export function shapePoints(shape: Shape): Point[] {
   return shape.flatMap(([, ...points]) => points);
 }
 
-/** A closed polygon through `points`. */
-export function polygon(points: Point[]): Shape {
-  return [
-    ["M", points[0]],
-    ...points.slice(1).map((p): Segment => ["L", p]),
-    ["Z"],
-  ];
-}
-
-/**
- * An ellipse drawn as four cubic curves, starting at the top. Clockwise and
- * counterclockwise ellipses can be combined to cut holes (nonzero fill).
- */
-export function ellipse(
-  cx: number,
-  cy: number,
-  rx: number,
-  ry: number,
-  clockwise = true,
-): Shape {
-  // Control point offset that best approximates a quarter circle.
-  const k = 0.5522847498;
-  // Mirroring horizontally reverses the winding.
-  const sx = clockwise ? rx : -rx;
-  return [
-    ["M", [cx, cy - ry]],
-    ["C", [cx + k * sx, cy - ry], [cx + sx, cy - k * ry], [cx + sx, cy]],
-    ["C", [cx + sx, cy + k * ry], [cx + k * sx, cy + ry], [cx, cy + ry]],
-    ["C", [cx - k * sx, cy + ry], [cx - sx, cy + k * ry], [cx - sx, cy]],
-    ["C", [cx - sx, cy - k * ry], [cx - k * sx, cy - ry], [cx, cy - ry]],
-    ["Z"],
-  ];
-}
-
 /** `shape` moved by `dx`, `dy`. */
 export function translate(shape: Shape, dx: number, dy: number): Shape {
   return mapPoints(shape, (points) =>

@@ -3,9 +3,14 @@
 import React from "react";
 
 import {
+  archivoBlack400,
+  layoutText,
+  playfairDisplay700Italic,
+  type FontData,
+} from "@/fonts";
+
+import {
   easings,
-  ellipse,
-  polygon,
   shapePoints,
   stretchShape,
   toPathData,
@@ -16,29 +21,34 @@ import {
 } from "./stretch";
 import styles from "./logo.module.scss";
 
-// A blocky uppercase L with 40 unit strokes, 120 wide and 200 tall.
-const L_SHAPE = translate(
-  polygon([
-    [-60, -100],
-    [-20, -100],
-    [-20, 60],
-    [60, 60],
-    [60, 100],
-    [-60, 100],
-  ]),
-  -95,
-  0,
-);
+// Capital height of both words in viewBox units (the old hand-made L was
+// 200 tall).
+const CAP_HEIGHT = 200;
+// Space between "Soul" and "Fresh", as a fraction of the capital height.
+const WORD_GAP = 0.35;
 
-// An O with the same 40 unit side strokes and height as the L. The counter
-// winds the other way so it cuts a hole.
-const O_SHAPE: Shape = [
-  ...ellipse(80, 0, 75, 100),
-  ...ellipse(80, 0, 35, 60, false),
-];
+/** Lay out `text` with its capitals CAP_HEIGHT tall. */
+function word(font: FontData, text: string) {
+  return layoutText(font, text, {
+    size: (CAP_HEIGHT * font.unitsPerEm) / font.capHeight,
+  });
+}
 
-// Both letters share one shape so the sweep runs across them together.
-const LETTERS: Shape = [...L_SHAPE, ...O_SHAPE];
+// Every letter in one shape so the sweep runs across both words. Centered
+// on the origin: horizontally by width, vertically by capital height.
+const LETTERS: Shape = (() => {
+  const soul = word(archivoBlack400, "Soul");
+  const fresh = word(playfairDisplay700Italic, "Fresh");
+  const gap = CAP_HEIGHT * WORD_GAP;
+  const left = -(soul.width + gap + fresh.width) / 2;
+  const top = CAP_HEIGHT / 2;
+  return [
+    ...soul.glyphs.flatMap((glyph) => translate(glyph.shape, left, top)),
+    ...fresh.glyphs.flatMap((glyph) =>
+      translate(glyph.shape, left + soul.width + gap, top),
+    ),
+  ];
+})();
 
 // How the letters blend with the background behind them. "normal" draws
 // them dark; the others draw them white so they invert what's behind.
