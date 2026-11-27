@@ -1,0 +1,59 @@
+@use 'variables' as *;
+
+// Positioned so the gradient covers the full scrolling height.
+.page {
+  position: relative;
+}
+
+// Paints above the gradient and the drawings, but lets clicks through to
+// the drawings so they can still be cycled. Interactive children opt back
+// in.
+.reveal {
+  position: relative;
+  pointer-events: none;
+  padding: 2rem;
+  font-family: $f-body;
+
+  a {
+    pointer-events: auto;
+  }
+}
+
+// One placeholder per project, stacked vertically with room around each so
+// there is space to scroll through and animate them.
+.projects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50vh;
+  padding: 25vh 0;
+}
+
+// Holds a video at its natural size, never scaled to fit the screen.
+.placeholder {
+  position: relative;
+  flex: none;
+}
+
+// Clipped to the morphing shape inline. The video inside scales about its
+// centre; grey shows through until it loads.
+.clip {
+  width: 100%;
+  height: 100%;
+
+  video {
+    display: block;
+    background: #999;
+  }
+}
+
+// Point overlay drawn over the video, in the video's own px. Overflow is
+// visible so markers on the edges aren't cut in half.
+.points {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}

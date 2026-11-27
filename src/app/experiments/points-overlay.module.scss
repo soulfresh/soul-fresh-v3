@@ -1,0 +1,11 @@
+// Anchor and control point overlay shared by the experiments. Strokes don't
+// scale with the SVG, matching the markers, which are sized in screen px.
+.points {
+  fill: #fff;
+  stroke: #e0245e;
+  stroke-width: 1.5;
+
+  * {
+    vector-effect: non-scaling-stroke;
+  }
+}

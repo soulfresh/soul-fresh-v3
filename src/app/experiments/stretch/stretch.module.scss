@@ -7,12 +7,6 @@
   min-height: 800vh;
 }
 
-.background {
-  position: fixed;
-  inset: 0;
-  cursor: pointer;
-}
-
 .stretch {
   // Paint above the fixed background, but let clicks through to it so the
   // drawing can still be cycled. Interactive children opt back in.
@@ -43,18 +37,6 @@
   // are white to invert the background.
   &[data-inverted] {
     fill: #fff;
-  }
-}
-
-// Anchor and control point overlay.
-.points {
-  fill: #fff;
-  stroke: #e0245e;
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
-
-  * {
-    vector-effect: non-scaling-stroke;
   }
 }
 

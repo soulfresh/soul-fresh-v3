@@ -16,9 +16,11 @@ import {
   toPathData,
   translate,
   type EasingName,
-  type Point,
   type Shape,
 } from "./stretch";
+import { PointsOverlay } from "../PointsOverlay";
+import { Range } from "../Range";
+
 import styles from "./stretch.module.scss";
 
 // Capital height of both words in viewBox units (the old hand-made L was
@@ -224,69 +226,5 @@ export function StretchPrototype() {
         </button>
       </form>
     </>
-  );
-}
-
-/**
- * Anchors as squares and control points as circles, with handles joining
- * each control point to the anchor it belongs to.
- */
-function PointsOverlay({ shape }: { shape: Shape }) {
-  const anchors: Point[] = [];
-  const controls: Point[] = [];
-  const handles: [Point, Point][] = [];
-  let current: Point = [0, 0];
-  for (const segment of shape) {
-    if (segment[0] === "M" || segment[0] === "L") {
-      current = segment[1];
-      anchors.push(current);
-    } else if (segment[0] === "C") {
-      const [, c1, c2, to] = segment;
-      handles.push([current, c1], [c2, to]);
-      controls.push(c1, c2);
-      anchors.push(to);
-      current = to;
-    }
-  }
-
-  return (
-    <g className={styles.points}>
-      {handles.map(([[x1, y1], [x2, y2]], i) => (
-        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />
-      ))}
-      {anchors.map(([x, y], i) => (
-        <rect key={i} x={x - 4} y={y - 4} width={8} height={8} />
-      ))}
-      {controls.map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r={4} />
-      ))}
-    </g>
-  );
-}
-
-interface RangeProps {
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  step: number;
-  onChange: (value: number) => void;
-}
-
-function Range({ label, value, min, max, step, onChange }: RangeProps) {
-  return (
-    <label>
-      <span>
-        {label} <output>{Number(value.toFixed(3))}</output>
-      </span>
-      <input
-        type="range"
-        value={value}
-        min={min}
-        max={max}
-        step={step}
-        onChange={(e) => onChange(Number(e.target.value))}
-      />
-    </label>
   );
 }

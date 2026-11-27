@@ -1,0 +1,34 @@
+// Settings panel, styled like the stretch experiment's.
+.controls {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 16rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 0.875rem;
+  // Takes clicks even on pages that let clicks through their content.
+  pointer-events: auto;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  span {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

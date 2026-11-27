@@ -1,0 +1,39 @@
+@use 'variables' as *;
+
+// Pinned to the viewport, so the default body margin can't add a scrollbar,
+// with the shape centred in it.
+.morph {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: $f-body;
+}
+
+// Sits in the corner so it doesn't push the shape off centre.
+.back {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+// As large as fits within 40% of the viewport either way, keeping 16:9.
+// Overflow is visible so point markers on the edges aren't cut in half.
+.shape {
+  width: min(40vw, 40vh * 16 / 9);
+  aspect-ratio: 16 / 9;
+  overflow: visible;
+
+  > path {
+    fill: #999;
+    cursor: pointer;
+
+    // SVG shapes don't reliably draw outlines, so mark focus with a stroke.
+    &:focus-visible {
+      outline: none;
+      stroke: #e0245e;
+      stroke-width: 3;
+      vector-effect: non-scaling-stroke;
+    }
+  }
+}
