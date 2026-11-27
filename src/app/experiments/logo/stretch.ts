@@ -1,18 +1,7 @@
-export type Point = [number, number];
+import type { Point, Segment, Shape } from "@/fonts/types";
+
+export type { Point, Segment, Shape };
 export type Easing = (t: number) => number;
-
-/**
- * One path command with absolute coordinates. Cubic curves carry their two
- * control points before the end point, matching SVG's `C c1 c2 to`.
- */
-export type Segment =
-  | ["M", Point]
-  | ["L", Point]
-  | ["C", Point, Point, Point]
-  | ["Z"];
-
-/** A path made of one or more closed subpaths. */
-export type Shape = Segment[];
 
 export const easings = {
   linear: (t: number) => t,
