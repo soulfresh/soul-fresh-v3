@@ -42,18 +42,22 @@ export interface StretchOptions {
  * shape stretches toward its destination.
  *
  * `progress` runs from 0 (all points at home) to 1 (all points arrived).
+ *
+ * Each point is timed by its own position unless `timing` gives another
+ * point (same index) to time it by.
  */
 export function stretchPoints(
   points: Point[],
   progress: number,
   { angle, distance, pointDuration, easing }: StretchOptions,
+  timing: Point[] = points,
 ): Point[] {
   const radians = (angle * Math.PI) / 180;
   const ux = Math.cos(radians);
   const uy = Math.sin(radians);
 
   // How far along the direction of travel each point sits.
-  const leads = points.map(([x, y]) => x * ux + y * uy);
+  const leads = timing.map(([x, y]) => x * ux + y * uy);
   const max = Math.max(...leads);
   const min = Math.min(...leads);
   const span = max - min || 1;
@@ -72,13 +76,43 @@ export function stretchPoints(
 /**
  * Stretch every point in `shape`, control points included, on one shared
  * timeline so the sweep runs across all of its subpaths.
+ *
+ * With `controlsFollowAnchors`, each control point moves in step with the
+ * anchor it belongs to rather than by its own position, which keeps curves
+ * from bulging out as they stretch.
  */
 export function stretchShape(
   shape: Shape,
   progress: number,
-  options: StretchOptions,
+  options: StretchOptions & { controlsFollowAnchors?: boolean },
 ): Shape {
-  return mapPoints(shape, (points) => stretchPoints(points, progress, options));
+  const timing = options.controlsFollowAnchors
+    ? anchorTiming(shape)
+    : undefined;
+  return mapPoints(shape, (points) =>
+    stretchPoints(points, progress, options, timing),
+  );
+}
+
+/**
+ * The anchor that owns each point in `shape`, in the same order as
+ * `shapePoints`. A curve's first control point belongs to the anchor it
+ * leaves and its second to the anchor it arrives at.
+ */
+function anchorTiming(shape: Shape): Point[] {
+  const timing: Point[] = [];
+  let current: Point = [0, 0];
+  for (const segment of shape) {
+    if (segment[0] === "M" || segment[0] === "L") {
+      current = segment[1];
+      timing.push(current);
+    } else if (segment[0] === "C") {
+      const to = segment[3];
+      timing.push(current, to, to);
+      current = to;
+    }
+  }
+  return timing;
 }
 
 /** Every point in `shape`, in command order. */

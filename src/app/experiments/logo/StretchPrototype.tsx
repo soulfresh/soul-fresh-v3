@@ -63,6 +63,8 @@ export function StretchPrototype() {
   const [seconds, setSeconds] = React.useState(2);
   const [playing, setPlaying] = React.useState(false);
   const [showPoints, setShowPoints] = React.useState(false);
+  const [controlsFollowAnchors, setControlsFollowAnchors] =
+    React.useState(false);
   // Bumped on every Play click so a click mid-play restarts the animation.
   const [playKey, setPlayKey] = React.useState(0);
 
@@ -89,6 +91,7 @@ export function StretchPrototype() {
     distance,
     pointDuration,
     easing: easings[easing],
+    controlsFollowAnchors,
   });
 
   return (
@@ -156,6 +159,14 @@ export function StretchPrototype() {
               </option>
             ))}
           </select>
+        </label>
+        <label className={styles.checkbox}>
+          <input
+            type="checkbox"
+            checked={controlsFollowAnchors}
+            onChange={(e) => setControlsFollowAnchors(e.target.checked)}
+          />
+          Control points follow anchors
         </label>
         <label className={styles.checkbox}>
           <input
