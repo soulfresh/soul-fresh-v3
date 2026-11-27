@@ -55,7 +55,7 @@ const LETTERS: Shape = (() => {
 const BLEND_MODES = ["normal", "difference", "exclusion"] as const;
 type BlendMode = (typeof BLEND_MODES)[number];
 
-const MAX_DISTANCE = 400;
+const MAX_DISTANCE = 800;
 // Room for the letters plus their furthest destination in any direction.
 const VIEW_BOX = (() => {
   const points = shapePoints(LETTERS);
