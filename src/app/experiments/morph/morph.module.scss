@@ -1,0 +1,63 @@
+@use 'variables' as *;
+
+// Pinned to the viewport, so the default body margin can't add a scrollbar,
+// with the shape centred in it.
+.morph {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: $f-body;
+}
+
+// Sits in the corner so it doesn't push the shape off centre.
+.back {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+// As large as fits within 40% of the viewport either way, keeping 16:9.
+// Overflow is visible so point markers on the edges aren't cut in half.
+.shape {
+  width: min(40vw, 40vh * 16 / 9);
+  aspect-ratio: 16 / 9;
+  overflow: visible;
+
+  > path {
+    fill: #999;
+    cursor: pointer;
+  }
+}
+
+// Settings panel, styled like the stretch experiment's.
+.controls {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 16rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 0.875rem;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  span {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

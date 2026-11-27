@@ -1,28 +1,17 @@
 import type { Point, Segment, Shape } from "@/fonts/types";
 
+import { staggeredProgress, type StaggerOptions } from "../stagger";
+
 export type { Point, Segment, Shape };
-export type Easing = (t: number) => number;
+export { easings, type Easing, type EasingName } from "../stagger";
 
-export const easings = {
-  linear: (t: number) => t,
-  easeOutCubic: (t: number) => 1 - Math.pow(1 - t, 3),
-  easeInOutCubic: (t: number) =>
-    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
-} satisfies Record<string, Easing>;
-
-export type EasingName = keyof typeof easings;
-
-export interface StretchOptions {
-  /** Direction of travel in degrees. 0 is right, 90 is down, 180 is left. */
-  angle: number;
+/**
+ * `angle` is the direction of travel. A small `pointDuration` stretches the
+ * shape a lot; 1 moves every point together with no stretch.
+ */
+export interface StretchOptions extends StaggerOptions {
   /** How far every point travels, in path units. */
   distance: number;
-  /**
-   * How much of the timeline (0–1] each point spends moving. Small values
-   * stretch the shape a lot; 1 moves every point together with no stretch.
-   */
-  pointDuration: number;
-  easing: Easing;
 }
 
 /**
@@ -38,28 +27,14 @@ export interface StretchOptions {
 export function stretchPoints(
   points: Point[],
   progress: number,
-  { angle, distance, pointDuration, easing }: StretchOptions,
+  options: StretchOptions,
   timing: Point[] = points,
 ): Point[] {
-  const radians = (angle * Math.PI) / 180;
-  const ux = Math.cos(radians);
-  const uy = Math.sin(radians);
-
-  // How far along the direction of travel each point sits.
-  const leads = timing.map(([x, y]) => x * ux + y * uy);
-  const max = Math.max(...leads);
-  const min = Math.min(...leads);
-  const span = max - min || 1;
-
-  // The leading point starts at 0 and the trailing point starts just in time
-  // to finish at 1.
-  const startWindow = 1 - pointDuration;
-
-  return points.map(([x, y], i) => {
-    const start = (startWindow * (max - leads[i])) / span;
-    const t = easing(clamp((progress - start) / pointDuration));
-    return [x + ux * distance * t, y + uy * distance * t];
-  });
+  const radians = (options.angle * Math.PI) / 180;
+  const dx = Math.cos(radians) * options.distance;
+  const dy = Math.sin(radians) * options.distance;
+  const ts = staggeredProgress(timing, progress, options);
+  return points.map(([x, y], i) => [x + dx * ts[i], y + dy * ts[i]]);
 }
 
 /**
@@ -134,10 +109,6 @@ function mapPoints(shape: Shape, fn: (points: Point[]) => Point[]): Shape {
     ([command, ...points]) =>
       [command, ...points.map(() => mapped[i++])] as Segment,
   );
-}
-
-function clamp(n: number) {
-  return Math.min(1, Math.max(0, n));
 }
 
 function round(n: number) {
