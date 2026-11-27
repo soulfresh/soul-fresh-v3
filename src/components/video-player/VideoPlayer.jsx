@@ -1,6 +1,6 @@
 import React from "react";
 
-export function VideoPlayer({ project, meta, src }) {
+export function VideoPlayer({ project }) {
   var root = "https://storage.googleapis.com/soul-fresh-com-videos";
   var image = encodeURIComponent(project.preview.meta.img);
   var poster = `/poster-frames/${image}`;
@@ -50,12 +50,13 @@ export function VideoPlayer({ project, meta, src }) {
       <div className="mute-video" name="muteVideo">
         <i className="fas fa-volume-mute color-text"></i>
       </div>
+      {/* eslint-disable-next-line @next/next/no-img-element -- the player script swaps this placeholder for a <video> */}
       <img
         className="video-placeholder"
         name="videoPlaceholder"
         src={poster}
         data-poster={poster}
-        // alt="Video Poster"
+        alt={`${project.name} video preview`}
         data-id={project.id}
         data-root={root}
         data-large={sources.large.join("||")}
