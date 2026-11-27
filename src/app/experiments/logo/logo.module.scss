@@ -5,12 +5,11 @@
   font-family: $f-body;
 }
 
+// Fills the first screen; the saved grid scrolls in below it.
 .stage {
-  position: fixed;
-  inset: 0;
   display: grid;
   place-items: center;
-  pointer-events: none;
+  min-height: calc(100vh - 4rem);
 }
 
 .wordmark {
@@ -29,12 +28,26 @@
   right: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   width: 16rem;
   padding: 1rem;
   border-radius: 0.5rem;
   background: rgba(255, 255, 255, 0.85);
   font-size: 0.875rem;
+}
+
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    padding: 0;
+    font-weight: bold;
+  }
 
   label {
     display: flex;
