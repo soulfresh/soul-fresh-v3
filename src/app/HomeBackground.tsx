@@ -11,6 +11,7 @@ import styles from "./home-background.module.scss";
 export function HomeBackground() {
   const percent = useScrollPercent();
   const [mounted, setMounted] = React.useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount gate
   React.useEffect(() => setMounted(true), []);
 
   // Wait for mount so the CSS fade-in starts when the drawing appears, not at first HTML paint.

@@ -24,9 +24,9 @@ the commands in `scripts/commands/`.
 
 ## Gotchas
 
-- **Never run `yarn cli build` while the dev server is running.** Both use
-  `dist/` (`distDir` in `next.config.ts`), and the build breaks the dev
-  server.
+- **Avoid running `yarn cli build` while the dev server is running.** The
+  dev server works in `dist/dev`, and the static export clears all of `dist/`
+  (`distDir` in `next.config.ts`) first, which can take the dev server down.
 - `*.dev.tsx` pages and `*.dev.ts` route handlers (e.g. `saved/route.dev.ts`)
   exist only in development (`pageExtensions`). Under `output: "export"` a
   route handler needs `export const dynamic = "force-static"` even in dev.

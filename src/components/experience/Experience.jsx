@@ -7,7 +7,7 @@ export function Experience({ meta }) {
       <div className="bio">
         <p className="hello color-text">Hello,</p>
         <p className="name">
-          I'm Marc. I'm a Front-End and Full-Stack developer with{" "}
+          I&apos;m Marc. I&apos;m a Front-End and Full-Stack developer with{" "}
           {new Date().getFullYear() - 2002}+ years of development, team
           leadership and product management experience.
         </p>

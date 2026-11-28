@@ -25,6 +25,7 @@ export function DrawingSwitcher({
   const [index, setIndex] = React.useState(0);
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- see comment on `order`
     setOrder(shuffle(drawingNames));
   }, []);
 

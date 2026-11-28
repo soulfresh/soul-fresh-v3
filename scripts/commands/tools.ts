@@ -30,7 +30,7 @@ export const start = toolCommand(
 
 export const build = toolCommand(
   "build",
-  "Build the static site into dist/ (stop the dev server first: both use dist/)",
+  "Build the static site into dist/ (stop the dev server first: the build clears dist/dev)",
   "next build",
   (args) => run("next", ["build", ...args]),
 );
@@ -52,11 +52,12 @@ export const typecheck = toolCommand(
 export const lint = toolCommand(
   "lint",
   "Type-check, then run ESLint",
-  "next lint",
+  "eslint",
   (args) =>
     runAll([
       ["tsc", ["--noEmit"]],
-      ["next", ["lint", ...args]],
+      // Next 16 removed `next lint`; `src` matches the directories it linted.
+      ["eslint", ["src", ...args]],
     ]),
 );
 

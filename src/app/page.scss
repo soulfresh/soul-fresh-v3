@@ -6,8 +6,8 @@
 /* --button-secondary-hover: #f2f2f2; */
 
 /* @import url(https://fonts.googleapis.com/css?family=Raleway:400,900|Quicksand:300); */
-@import 'variables';
-@import 'utils';
+@use 'sass:meta';
+@use 'theme' as *;
 
 // Matches the first color of the page gradient so overscroll blends in.
 html {
@@ -110,12 +110,12 @@ button {
   }
 }
 
-@import "../components/header/header";
-@import "../components/menu/menu";
-@import "../components/video-player/video-player";
-@import "../components/audio-player/audio-player";
-@import "../components/years/years";
-@import "../components/projects/project";
-@import "../components/experience/experience";
-@import "../components/contact/contact";
-@import "../components/background-colors/colors";
+@include meta.load-css("../components/header/header");
+@include meta.load-css("../components/menu/menu");
+@include meta.load-css("../components/video-player/video-player");
+@include meta.load-css("../components/audio-player/audio-player");
+@include meta.load-css("../components/years/years");
+@include meta.load-css("../components/projects/project");
+@include meta.load-css("../components/experience/experience");
+@include meta.load-css("../components/contact/contact");
+@include meta.load-css("../components/background-colors/colors");
