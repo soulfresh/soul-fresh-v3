@@ -44,8 +44,8 @@ yarn cli <command> --help
 Extra arguments are passed through to the underlying tool, for example
 `yarn cli start --port 3001` or `yarn cli serve -l 4000`.
 
-The dev server and the build both write to `dist/`, so stop the dev server
-before running `yarn cli build`.
+The build clears `dist/` before exporting, including the dev server's files in
+`dist/dev`, so stop the dev server before running `yarn cli build`.
 
 ### Fonts
 

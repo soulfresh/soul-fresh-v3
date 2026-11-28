@@ -30,7 +30,7 @@ export const start = toolCommand(
 
 export const build = toolCommand(
   "build",
-  "Build the static site into dist/ (stop the dev server first: both use dist/)",
+  "Build the static site into dist/ (stop the dev server first: the build clears dist/dev)",
   "next build",
   (args) => run("next", ["build", ...args]),
 );
